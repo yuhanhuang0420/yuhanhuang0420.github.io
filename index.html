@@ -15,10 +15,14 @@
 <body style='margin: 0; overflow: hidden;'>
     <a-scene
         vr-mode-ui="enabled: false"
-		embedded
+	embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
         
         <a-camera gps-camera rotation-reader></a-camera>
-		<a-entity gltf-model="./assets/magnemite/scene.gltf" rotation="180 0 0" scale="0.1 0.1 0.1" gps-entity-place="longitude: 120.227144; latitude: 23.015780;" animation-mixer/>
-	</a-scene>
+	<a-entity gltf-model="./assets/magnemite/scene.gltf" 
+		  rotation="180 0 0" 
+		  scale="0.1 0.1 0.1" 
+		  gps-entity-place="longitude: 120.228344; latitude: 23.016638;" 
+		  animation-mixer/>
+    </a-scene>
 </body>
