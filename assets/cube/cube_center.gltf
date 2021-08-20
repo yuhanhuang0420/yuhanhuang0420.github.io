@@ -21,7 +21,7 @@
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "Material",
+            "name" : "Material.003",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
                     0.800000011920929,
@@ -36,7 +36,7 @@
     ],
     "meshes" : [
         {
-            "name" : "Cube",
+            "name" : "Cube.003",
             "primitives" : [
                 {
                     "attributes" : {
