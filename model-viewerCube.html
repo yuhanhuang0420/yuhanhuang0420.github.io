@@ -32,14 +32,14 @@
   <body style="margin: 0; overflow: hidden;">
 	<div style="width:100%">
 	
-		<model-viewer onclick="alert('Here!!');"
+		<model-viewer
 		src="./assets/ARcube/axis_diagonal.gltf"
 		ar
 		ar-modes="webxr scene-viewer quick-look fallback"
 		camera-controls
 		alt="3D model of an AR cube"
 		>
-			<button slot="hotspot-visor" data-position="0 -0.6 -0.1" data-normal="0 0 1">
+			<button slot="hotspot-visor" data-position="-0.1 0.6 0" data-normal="0 0 1">
 				<div id="annotation">No-tracker</div>
 			</button>
 		</model-viewer>
