@@ -463,7 +463,7 @@
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "\u6750\u8cea",
+            "name" : "\u6750\u8cea.008",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
                     0,
@@ -477,7 +477,7 @@
         },
         {
             "doubleSided" : true,
-            "name" : "Material.001",
+            "name" : "Material.003",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
                     1,
@@ -491,7 +491,7 @@
         },
         {
             "doubleSided" : true,
-            "name" : "\u6750\u8cea.001",
+            "name" : "\u6750\u8cea.009",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
                     0,
@@ -505,7 +505,7 @@
         },
         {
             "doubleSided" : true,
-            "name" : "\u6750\u8cea.002",
+            "name" : "\u6750\u8cea.010",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
                     1,
@@ -518,8 +518,9 @@
             }
         },
         {
+            "alphaMode" : "BLEND",
             "doubleSided" : true,
-            "name" : "\u6750\u8cea.003",
+            "name" : "\u6750\u8cea.011",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
                     0.800000011920929,
@@ -534,7 +535,7 @@
     ],
     "meshes" : [
         {
-            "name" : "\u7acb\u65b9\u9ad4.009",
+            "name" : "\u7acb\u65b9\u9ad4.004",
             "primitives" : [
                 {
                     "attributes" : {
@@ -548,7 +549,7 @@
             ]
         },
         {
-            "name" : "\u7acb\u65b9\u9ad4.010",
+            "name" : "\u7acb\u65b9\u9ad4.005",
             "primitives" : [
                 {
                     "attributes" : {
@@ -562,7 +563,7 @@
             ]
         },
         {
-            "name" : "\u7acb\u65b9\u9ad4.014",
+            "name" : "\u7acb\u65b9\u9ad4.006",
             "primitives" : [
                 {
                     "attributes" : {
@@ -576,7 +577,7 @@
             ]
         },
         {
-            "name" : "Cube.006",
+            "name" : "Cube.055",
             "primitives" : [
                 {
                     "attributes" : {
@@ -590,7 +591,7 @@
             ]
         },
         {
-            "name" : "Cube.013",
+            "name" : "Cube.056",
             "primitives" : [
                 {
                     "attributes" : {
@@ -604,7 +605,7 @@
             ]
         },
         {
-            "name" : "Cube.020",
+            "name" : "Cube.057",
             "primitives" : [
                 {
                     "attributes" : {
@@ -618,7 +619,7 @@
             ]
         },
         {
-            "name" : "Cube.001",
+            "name" : "Cube.058",
             "primitives" : [
                 {
                     "attributes" : {
@@ -632,7 +633,7 @@
             ]
         },
         {
-            "name" : "Cube.002",
+            "name" : "Cube.059",
             "primitives" : [
                 {
                     "attributes" : {
@@ -646,7 +647,7 @@
             ]
         },
         {
-            "name" : "Cube.003",
+            "name" : "Cube.060",
             "primitives" : [
                 {
                     "attributes" : {
@@ -660,7 +661,7 @@
             ]
         },
         {
-            "name" : "Cube.004",
+            "name" : "Cube.061",
             "primitives" : [
                 {
                     "attributes" : {
@@ -674,7 +675,7 @@
             ]
         },
         {
-            "name" : "Cube.005",
+            "name" : "Cube.062",
             "primitives" : [
                 {
                     "attributes" : {
@@ -688,7 +689,7 @@
             ]
         },
         {
-            "name" : "Cube.007",
+            "name" : "Cube.063",
             "primitives" : [
                 {
                     "attributes" : {
@@ -702,7 +703,7 @@
             ]
         },
         {
-            "name" : "Cube.008",
+            "name" : "Cube.064",
             "primitives" : [
                 {
                     "attributes" : {
@@ -716,7 +717,7 @@
             ]
         },
         {
-            "name" : "Cube.009",
+            "name" : "Cube.065",
             "primitives" : [
                 {
                     "attributes" : {
@@ -730,7 +731,7 @@
             ]
         },
         {
-            "name" : "Cube.010",
+            "name" : "Cube.066",
             "primitives" : [
                 {
                     "attributes" : {
@@ -744,7 +745,7 @@
             ]
         },
         {
-            "name" : "Cube.011",
+            "name" : "Cube.067",
             "primitives" : [
                 {
                     "attributes" : {
@@ -758,7 +759,7 @@
             ]
         },
         {
-            "name" : "Cube.012",
+            "name" : "Cube.068",
             "primitives" : [
                 {
                     "attributes" : {
@@ -772,7 +773,7 @@
             ]
         },
         {
-            "name" : "Cube.014",
+            "name" : "Cube.069",
             "primitives" : [
                 {
                     "attributes" : {
@@ -786,7 +787,7 @@
             ]
         },
         {
-            "name" : "Cube.015",
+            "name" : "Cube.070",
             "primitives" : [
                 {
                     "attributes" : {
@@ -800,7 +801,7 @@
             ]
         },
         {
-            "name" : "Cube.016",
+            "name" : "Cube.071",
             "primitives" : [
                 {
                     "attributes" : {
@@ -814,7 +815,7 @@
             ]
         },
         {
-            "name" : "Cube.017",
+            "name" : "Cube.072",
             "primitives" : [
                 {
                     "attributes" : {
@@ -828,7 +829,7 @@
             ]
         },
         {
-            "name" : "Cube.018",
+            "name" : "Cube.073",
             "primitives" : [
                 {
                     "attributes" : {
@@ -842,7 +843,7 @@
             ]
         },
         {
-            "name" : "Cube.019",
+            "name" : "Cube.074",
             "primitives" : [
                 {
                     "attributes" : {
@@ -856,7 +857,7 @@
             ]
         },
         {
-            "name" : "Cube.021",
+            "name" : "Cube.075",
             "primitives" : [
                 {
                     "attributes" : {
@@ -870,7 +871,7 @@
             ]
         },
         {
-            "name" : "Cube.022",
+            "name" : "Cube.076",
             "primitives" : [
                 {
                     "attributes" : {
@@ -884,7 +885,7 @@
             ]
         },
         {
-            "name" : "Cube.023",
+            "name" : "Cube.077",
             "primitives" : [
                 {
                     "attributes" : {
@@ -898,7 +899,7 @@
             ]
         },
         {
-            "name" : "Cube.024",
+            "name" : "Cube.078",
             "primitives" : [
                 {
                     "attributes" : {
@@ -912,7 +913,7 @@
             ]
         },
         {
-            "name" : "Cube.025",
+            "name" : "Cube.079",
             "primitives" : [
                 {
                     "attributes" : {
@@ -926,7 +927,7 @@
             ]
         },
         {
-            "name" : "Cube.026",
+            "name" : "Cube.080",
             "primitives" : [
                 {
                     "attributes" : {
@@ -940,7 +941,7 @@
             ]
         },
         {
-            "name" : "Cube.028",
+            "name" : "Cube.081",
             "primitives" : [
                 {
                     "attributes" : {
