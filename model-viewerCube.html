@@ -5,19 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>model-viewer demo: AR Cube</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+	<style>
+	button{
+		display: block;
+		width: 20px;
+		height: 20px;
+		border-radius: 10px;
+		border: none;
+		background-color: red;
+		box-sizing: border-box;
+	}
+	#annotation{
+		background-color: #888888;
+		position: absolute;
+		transform: translate(10px, 10px);
+		border-radius: 10px;
+		padding: 10px;
+	}
+	/* This keeps child nodes hidden while the element loads */
+	:not(:defined) > * {
+		display: none;
+	}
+	</style>
   </head>
 <!---->
   <body style="margin: 0; overflow: hidden;">
 	<div style="width:100%">
 	
 		<model-viewer onclick="alert('Here!!');"
-		src="./assets/ARcube/Axis.gltf"
+		src="./assets/ARcube/all.gltf"
 		ar
 		ar-modes="webxr scene-viewer quick-look fallback"
 		camera-controls
 		alt="3D model of an AR cube"
 		>
-		
+			<button slot="hotspot-visor" data-position="0 0.1 0.6" data-normal="0 0 1">
+				<div id="annotation">No-tracker</div>
+			</button>
+		</model-viewer>
 	</div>
   </body>
 </html>
