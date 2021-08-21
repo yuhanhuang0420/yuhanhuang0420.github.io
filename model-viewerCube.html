@@ -3,13 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>model-viewer demo</title>
+    <title>model-viewer demo: AR Cube</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   </head>
 <!---->
   <body style="margin: 0; overflow: hidden;">
 	<div style="width:100%">
-		<model-viewer
+	
+		<model-viewer onclick="alert('Here!!');"
 		src="./assets/ARcube/Axis.gltf"
 		ar
 		ar-modes="webxr scene-viewer quick-look fallback"
