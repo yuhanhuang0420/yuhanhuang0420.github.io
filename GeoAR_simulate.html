@@ -26,7 +26,7 @@
 	
 	<script>
 		//document.getElementById(camera).gps-camera ="simulateLatitude: 41.890890; simulateLongitude: 12.489357;";
-		var lat = 23.011495;//23.0159071;
+		var lat = 23.0166;//1495;//23.0159071;
 		var lon = 120.220214;//120.2268489;
 		function AddGpsCamera(){
 			test = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+';';
@@ -41,7 +41,7 @@
 				clearInterval(clock);
 			}
 			
-			lat += 0.0001;
+			//lat += 0.0001;
 			lon += 0.0001;
 			
 			AddGpsCamera();
