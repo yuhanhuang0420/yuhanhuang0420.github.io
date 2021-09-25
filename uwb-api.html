@@ -12,7 +12,7 @@
     
 	<script>
 		const GIPSenseSigninURL = 'http://140.116.47.123:8686/gipsense/rest/auth/1.0.0/signin';
-		$.ajax({
+		/*$.ajax({
 			type: "POST",
 			url: GIPSenseSigninURL,
 			data: JSON.stringify({
@@ -26,6 +26,7 @@
 			error: function (thrownError) {
 			  console.log(thrownError);
 			}
-		});
+		});*/
+		$.post( GIPSenseSigninURL, { l: null, p: "!p@ssw0rd", u: "admin" } );
 	</script>
 </body>
