@@ -15,11 +15,11 @@
 		$.ajax({
 			type: "POST",
 			url: GIPSenseSigninURL,
-			data: JSON.stringify{
+			data: JSON.stringify({
 			  "l": null,
 			  "p": "!p@ssw0rd",
 			  "u": "admin"
-			},
+			}),
 			success: function (result) {
 			  console.log(result);
 			},
