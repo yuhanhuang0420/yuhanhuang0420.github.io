@@ -37,14 +37,14 @@
 		};
 		xhr.send(JSON.stringify({"l": null,"p": "!p@ssw0rd","u": "admin"}));
 		
-		
-		xhr.open('POST', "http://140.116.47.123:8686/gipsense/rest/1.0.0/tagTrack/positions/byTagId/B217", true);
-		xhr.setRequestHeader('Content-type', 'application/json');
-		xhr.onload = function () {
+		var xhr2 = new XMLHttpRequest();
+		xhr2.open('POST', "http://140.116.47.123:8686/gipsense/rest/1.0.0/tagTrack/positions/byTagId/B217", true);
+		xhr2.setRequestHeader('Content-type', 'application/json');
+		xhr2.onload = function () {
 			// do something to response
 			console.log(this.responseText);
 		};
-		xhr.send(JSON.stringify({
+		xhr2.send(JSON.stringify({
 		  "asc": true,
 		  "destEpsg": "epsg:4326",
 		  "limit": 1000,
