@@ -33,6 +33,8 @@
 		xhr.onload = function () {
 			// do something to response
 			console.log(this.responseText);
+			var member = JSON.parse(responseText);
+			document.cookie = "username="+member.data.username;
 			console.log(document.cookie);
 		};
 		xhr.send(JSON.stringify({"l": null,"p": "!p@ssw0rd","u": "admin"}));
