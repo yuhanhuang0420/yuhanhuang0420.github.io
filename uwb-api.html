@@ -30,38 +30,41 @@
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST', "http://140.116.47.123:8686/gipsense/rest/auth/1.0.0/signin", true);
 		xhr.setRequestHeader('Content-type', 'application/json');
+		xhr.send(JSON.stringify({"l": null,"p": "!p@ssw0rd","u": "admin"}));
 		xhr.onload = function () {
 			// do something to response
 			console.log(this.responseText);
-			console.log(this.session);
+			console.log(this.getSession());
 			var member = JSON.parse(this.responseText);
 			document.cookie = "username="+member.data.username;
 			console.log(document.cookie);
+			Tag();
 		};
-		xhr.send(JSON.stringify({"l": null,"p": "!p@ssw0rd","u": "admin"}));
 		
-		var xhr2 = new XMLHttpRequest();
-		xhr2.open('POST', "http://140.116.47.123:8686/gipsense/rest/1.0.0/tagTrack/positions/byTagId/B217", true);
-		xhr2.setRequestHeader('Content-type', 'application/json');
-		xhr2.onload = function () {
-			// do something to response
-			console.log(this.responseText);
+		function Tag(){
+			var xhr2 = new XMLHttpRequest();
+			xhr2.open('POST', "http://140.116.47.123:8686/gipsense/rest/1.0.0/tagTrack/positions/byTagId/B217", true);
+			xhr2.setRequestHeader('Content-type', 'application/json');
+			xhr2.onload = function () {
+				// do something to response
+				console.log(this.responseText);
+			};
+			xhr2.send(JSON.stringify({
+			  "asc": true,
+			  "destEpsg": "epsg:4326",
+			  "limit": 1000,
+			  "polygonString": null,
+			  "queryPeriodDTO": {
+				"endTime": "2021-06-15T06:45:30.000Z",
+				"excludeEndTime": true,
+				"excludeStartTime": true,
+				"startTime": "2021-06-15T06:41:00.000Z"
+			  },
+			  "spaceNames": [
+				"NCKU_Geo_1F"
+			  ],
+			  "start": 0
+			}));
 		};
-		xhr2.send(JSON.stringify({
-		  "asc": true,
-		  "destEpsg": "epsg:4326",
-		  "limit": 1000,
-		  "polygonString": null,
-		  "queryPeriodDTO": {
-			"endTime": "2021-06-15T06:45:30.000Z",
-			"excludeEndTime": true,
-			"excludeStartTime": true,
-			"startTime": "2021-06-15T06:41:00.000Z"
-		  },
-		  "spaceNames": [
-			"NCKU_Geo_1F"
-		  ],
-		  "start": 0
-		}));
 	</script>
 </body>
