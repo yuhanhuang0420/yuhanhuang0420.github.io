@@ -44,6 +44,7 @@
 			var xhr2 = new XMLHttpRequest();
 			xhr2.open('POST', "http://140.116.47.123:8686/gipsense/rest/1.0.0/tagTrack/positions/byTagId/B217", true);
 			xhr2.setRequestHeader('Content-type', 'application/json');
+			xhr.setRequestHeader('Set-Cookie', 'SESSION=MWU4NDcyMTAtYjhhNi00MzFiLWE3MjYtMTQ0MGRiNzEyNjBh');
 			xhr2.onload = function () {
 				// do something to response
 				console.log(this.responseText);
