@@ -33,8 +33,10 @@
 		xhr.onload = function () {
 			// do something to response
 			console.log(this.responseText);
+			console.log(document.cookie);
 		};
 		xhr.send(JSON.stringify({"l": null,"p": "!p@ssw0rd","u": "admin"}));
+		
 		
 		xhr.open('POST', "http://140.116.47.123:8686/gipsense/rest/1.0.0/tagTrack/positions/byTagId/B217", true);
 		xhr.setRequestHeader('Content-type', 'application/json');
