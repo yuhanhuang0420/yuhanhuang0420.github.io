@@ -35,5 +35,28 @@
 			console.log(this.responseText);
 		};
 		xhr.send(JSON.stringify({"l": null,"p": "!p@ssw0rd","u": "admin"}));
+		
+		xhr.open('POST', "http://140.116.47.123:8686/gipsense/rest/1.0.0/tagTrack/positions/byTagId/B217", true);
+		xhr.setRequestHeader('Content-type', 'application/json');
+		xhr.onload = function () {
+			// do something to response
+			console.log(this.responseText);
+		};
+		xhr.send(JSON.stringify({
+		  "asc": true,
+		  "destEpsg": "epsg:4326",
+		  "limit": 1000,
+		  "polygonString": null,
+		  "queryPeriodDTO": {
+			"endTime": "2021-06-15T06:45:30.000Z",
+			"excludeEndTime": true,
+			"excludeStartTime": true,
+			"startTime": "2021-06-15T06:41:00.000Z"
+		  },
+		  "spaceNames": [
+			"NCKU_Geo_1F"
+		  ],
+		  "start": 0
+		}));
 	</script>
 </body>
