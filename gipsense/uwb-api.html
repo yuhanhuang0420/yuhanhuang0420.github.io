@@ -54,6 +54,7 @@
 			var xhr2 = new XMLHttpRequest();
 			xhr2.open('POST', "http://140.116.47.123:8686/gipsense/rest/1.0.0/tagTrack/positions/byTagId/B217", true);
 			xhr2.setRequestHeader('Content-type', 'application/json');
+			xhr2.setRequestHeader('x-Auth-Token', 'a22a93b2-2814-450b-8013-87a82becd6da');
 			xhr2.send(JSON.stringify({
 			  "asc": true,
 			  "destEpsg": "epsg:4326",
