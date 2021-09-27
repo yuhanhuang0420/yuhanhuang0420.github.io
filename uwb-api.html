@@ -34,7 +34,7 @@
 		xhr.onload = function () {
 			// do something to response
 			console.log(this.responseText);
-			console.log(xhr.getAllResponseHeaders());
+			console.log(this.getHeader("Cookie"));
 			//var member = JSON.parse(this.responseText);
 			//document.cookie = "username="+member.data.username;
 			//console.log(document.cookie);
