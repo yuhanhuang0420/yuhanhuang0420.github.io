@@ -54,7 +54,8 @@
 			var xhr2 = new XMLHttpRequest();
 			xhr2.open('POST', "http://140.116.47.123:8686/gipsense/rest/1.0.0/tagTrack/positions/byTagId/B217", true);
 			xhr2.setRequestHeader('Content-type', 'application/json');
-			xhr2.setRequestHeader('x-auth-token', 'a22a93b2-2814-450b-8013-87a82becd6da');
+			xhr2.setRequestHeader('Cookie', 'SESSION=YTIyYTkzYjItMjgxNC00NTBiLTgwMTMtODdhODJiZWNkNmRh;');
+			xhr2.setRequestHeader('Cookie', 'gips_cookie_key_i18n_locale=zh-TW; Max-Age=15552000; Expires=Sat, 26-Mar-2022 05:16:20 GMT;');
 			xhr2.send(JSON.stringify({
 			  "asc": true,
 			  "destEpsg": "epsg:4326",
