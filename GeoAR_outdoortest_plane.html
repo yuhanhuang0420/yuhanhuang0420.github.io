@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>GeoAR.js demo: outdoor location test(plane)</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; debugUIEnabled: false;"
+    >
+		<!--測量系館-->
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/cube/cube_1m.gltf"
+		gps-entity-place="latitude: 22.9986865; longitude: 120.2200004;"
+		></a-entity>
+		<!--數學系館-->
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/cube/cube_1m.gltf"
+		gps-entity-place="latitude: 22.9986521; longitude: 120.2193961;"
+		></a-entity>
+		<!--測量系副館-->
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/cube/cube_1m.gltf"
+		gps-entity-place="latitude: 22.9988996; longitude: 120.2192235;"
+		></a-entity>
+		<!--計網中心-->
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/cube/cube_1m.gltf"
+		gps-entity-place="latitude: 22.9981731; longitude: 120.2185614;"
+		></a-entity>
+		<!--計網中心-->
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/cube/cube_1m.gltf"
+		gps-entity-place="latitude: 22.9981241; longitude: 120.2197388;"
+		></a-entity>
+		<!--總圖書館-->
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/cube/cube_1m.gltf"
+		gps-entity-place="latitude: 22.9998832; longitude: 120.2198755;"
+		></a-entity>
+		
+      <a-camera gps-camera rotation-reader></a-camera>
+	</a-scene>
+  </body>
+</html>
