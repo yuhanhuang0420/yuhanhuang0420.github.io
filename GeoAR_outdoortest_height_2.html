@@ -38,6 +38,10 @@
 	</a-scene>
 	
 	<script>
+		navigator.geolocation.getCurrentPosition(successCallback);  
+    function successCallback(position){  
+        console.log(position.coords.latitude,position.coords.longitude); 
+    };  
 		navigator.geolocation.watchPosition(function(position) {
 			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);
 			
