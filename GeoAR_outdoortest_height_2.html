@@ -38,18 +38,15 @@
 	</a-scene>
 	
 	<script>
-		navigator.geolocation.getCurrentPosition(successCallback);  
-    function successCallback(position){  
-        console.log(position.coords.latitude,position.coords.longitude); 
-    };  
 		navigator.geolocation.watchPosition(function(position) {
 			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);
 			
 			console.log(position.coords.altitude);
 		});
+		var num = 0;
 		function CheckHeight(num,position){
-			var entity = document.querySelector('#'+num+'floor');
-			var att = document.createAttribute('position');
+			//var entity = document.querySelector('#'+num+'floor');
+			//var att = document.createAttribute('position');
 			var floor = 0;
 			if (num == 1){
 				floor = 24.015;
@@ -58,8 +55,9 @@
 			}else if(num == 3){
 				floor = 50.015;
 			var height = floor - position.coords.altitude;
-			att.value = "0 "+height+" 0";
-			camera.setAttributeNode(att);
+			//att.value = "0 "+height+" 0";
+			//camera.setAttributeNode(att);
+			console.log(num+": "+height);
 		};
 	</script>
   </body>
