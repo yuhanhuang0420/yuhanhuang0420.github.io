@@ -41,7 +41,7 @@
 		navigator.geolocation.watchPosition(function(position) {
 			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);
 			
-			console.log(position.coords.altitude);
+			alert(position.coords.altitude);
 		});
 		var num = 0;
 		function CheckHeight(num,position){
