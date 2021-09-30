@@ -20,31 +20,35 @@
 		scale="1 1 1"
 		gltf-model="./assets/cube/cube_1m.gltf"
 		gps-entity-place="latitude: 22.9986315; longitude: 120.2200450;"
+		position="0 0 0"
 		></a-entity>
 		<a-entity id="2floor"
 		rotation="0 0 0"
 		scale="1 1 1"
 		gltf-model="./assets/cube/cube_1m.gltf"
 		gps-entity-place="latitude: 22.9986315; longitude: 120.2200450;"
+		position="0 4.945 0"
 		></a-entity>
 		<a-entity id="3floor"
 		rotation="0 0 0"
 		scale="1 1 1"
 		gltf-model="./assets/cube/cube_1m.gltf"
 		gps-entity-place="latitude: 22.9986315; longitude: 120.2200450;"
+		position="0 4.488 0"
 		></a-entity>
 		<a-entity id="4floor"
 		rotation="0 0 0"
 		scale="1 1 1"
 		gltf-model="./assets/cube/cube_1m.gltf"
 		gps-entity-place="latitude: 22.9986315; longitude: 120.2200450;"
+		position="0 4.537 0"
 		></a-entity>
 		
       <a-camera gps-camera rotation-reader></a-camera>
 	</a-scene>
 	
 	<script>
-		var watchID = navigator.geolocation.watchPosition(function(position) {
+		/*var watchID = navigator.geolocation.watchPosition(function(position) {
 			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
 			
 			console.log(position.coords.altitude);
@@ -66,7 +70,7 @@
 			att.value = "0 "+height+" 0";
 			camera.setAttributeNode(att);
 			
-		};
+		};*/
 	</script>
   </body>
 </html>
