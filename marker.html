@@ -9,25 +9,21 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 	<script>
 		window.onload = function() {
-			AFRAME.registerComponent('vidHandler', {
-			  // define a variable in which we will keep the video element
-			  schema: {
-				 video: {type: 'selector'},
-			  },
-			  init: function() {
-				// use the video from the schema
-				this.video = this.data.video;
-				var marker = this.el;
+			AFRAME.registerComponent('vidhandler', {
+				init: function () {
+					var marker = this.el;
 
-				marker.addEventListener('markerFound', function () {
-					this.video.play();
-				}.bind(this));
+					this.vid = document.querySelector("#vid_1");
 
-				marker.addEventListener('markerLost', function() {
-					this.video.pause();
-					this.video.currentTime = 0;
-				}.bind(this));
-			  }
+					marker.addEventListener('markerFound', function () {
+						this.vid.play();
+					}.bind(this));
+
+					marker.addEventListener('markerLost', function() {
+						this.vid.pause();
+						this.vid.currentTime = 0;
+					}.bind(this));
+				}
 			});
 		};
 	</script>
