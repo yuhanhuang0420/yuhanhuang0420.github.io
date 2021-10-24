@@ -13,12 +13,11 @@
 			AFRAME.registerComponent('vidhandler', {
 				init: function () {
 					var marker = this.el;
+					var button = document.querySelector("#btn");
 					this.vid = document.querySelector("#vid_1");
 
+					button.addEventListener('click', function() { this.vid.play(); });
 					marker.addEventListener('markerFound', function () {
-						this.vid.play();
-					}.bind(this));
-					marker.addEventListener('click', function () {
 						this.vid.play();
 					}.bind(this));
 					marker.addEventListener('markerLost', function() {
@@ -32,7 +31,8 @@
 </head>
 
 <body style='margin: 0px; overflow: hidden;'>
-    <a-scene 
+    <button id="btn">iOS請點此播放</button>
+	<a-scene 
 		vr-mode-ui="enabled: false;"
         renderer='antialias: true; alpha: true; precision: mediump;'
         embedded arjs='trackingMethod: best; sourceType: webcam; debugUIEnabled: false;'>
