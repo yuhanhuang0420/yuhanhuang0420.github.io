@@ -22,10 +22,10 @@
 						this.vid.play();
 					}.bind(this));
 
-			marker.addEventListener('markerLost', function() {
-				this.vid.pause();
-				this.vid.currentTime = 0;
-			}.bind(this));
+					marker.addEventListener('markerLost', function() {
+						this.vid.pause();
+						this.vid.currentTime = 0;
+					}.bind(this));
 				}
 			});
 		};
@@ -41,7 +41,7 @@
         <a-assets>
             <video src="./assets/poster/video/MOV_CTDZ7902_Trim.mp4"
                 preload="auto" id="vid" response-type="arraybuffer" loop
-                crossorigin webkit-playsinline autoplay muted playsinline onclick="video.play();">
+                crossorigin webkit-playsinline autoplay muted playsinline onclick="this.play();">
             </video>
         </a-assets>
 
