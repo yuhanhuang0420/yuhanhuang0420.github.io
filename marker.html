@@ -12,11 +12,13 @@
 		window.onload = function() {
 			AFRAME.registerComponent('vidhandler', {
 				init: function () {
-					var marker = this.el;
 					this.vid_1 = document.querySelector("#vid_1");
 					this.vid_2 = document.querySelector("#vid_2");
-
-					marker.addEventListener('markerFound', function () {
+					this.el.sceneEl.addEventListener('markerFound', () => {
+						this.vid_1.play();
+						this.vid_2.play();
+					});
+					/*marker.addEventListener('markerFound', function () {
 						this.vid_1.play();
 						this.vid_2.play();
 					}.bind(this));
@@ -26,7 +28,7 @@
 						this.vid_2.pause();
 						this.vid_2.currentTime = 0;
 						
-					}.bind(this));
+					}.bind(this));*/
 				}
 			});
 		};
