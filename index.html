@@ -3,6 +3,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<meta name="apple-mobile-web-app-capable" content="yes">
     <title>View AR Cube</title>
 	<script src="https://aframe.io/releases/1.0.0/aframe.min.js"></script>
     <!-- we import arjs version without NFT but with marker + location based support 
@@ -39,8 +40,8 @@
 
         <a-assets>
             <video src="./assets/poster/video/MOV_CTDZ7902_Trim.mp4"
-                autoplay preload="auto" id="vid" response-type="arraybuffer" loop
-                crossorigin webkit-playsinline autoplay muted playsinline>
+                preload="auto" id="vid" response-type="arraybuffer" loop
+                crossorigin webkit-playsinline autoplay muted playsinline onclick="video.play();">
             </video>
         </a-assets>
 
