@@ -21,6 +21,10 @@
 					marker.addEventListener('markerFound', function () {
 						this.vid.play();
 					}.bind(this));
+					
+					marker.addEventListener('click', function () {
+						this.vid.play();
+					}.bind(this));
 
 					marker.addEventListener('markerLost', function() {
 						this.vid.pause();
@@ -41,7 +45,7 @@
         <a-assets>
             <video src="./assets/poster/video/MOV_CTDZ7902_Trim.mp4"
                 preload="auto" id="vid" response-type="arraybuffer" loop
-                crossorigin webkit-playsinline autoplay muted playsinline onclick="this.play();">
+                crossorigin webkit-playsinline autoplay="true" muted playsinline controls>
             </video>
         </a-assets>
 
