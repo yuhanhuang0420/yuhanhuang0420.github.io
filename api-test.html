@@ -10,7 +10,6 @@
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', MyApiURL);
 		xhr.setRequestHeader('Content-type', 'application/json');
-		xhr.setRequestHeader('permissions-policy', 'interest-cohort=()');
 		xhr.onreadystatechange=(e) => {
 			// do something to response
 			console.log(xhr.responseText);
