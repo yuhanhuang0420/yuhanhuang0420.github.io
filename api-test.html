@@ -6,7 +6,7 @@
     <title>api-test</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script>
-		const MyApiURL = " https://5f43-111-255-16-130.ngrok.io/gipsense/TrackAPI.php";
+		const MyApiURL = "https://5f43-111-255-16-130.ngrok.io/gipsense/TrackAPI.php";
 		
 		/*var xhr = new XMLHttpRequest();
 		xhr.open('GET', MyApiURL, true);
@@ -14,12 +14,29 @@
 		xhr.onreadystatechange=(e) => {
 			// do something to response
 			console.log(xhr.responseText);
-		};*/
+		};
 		
 		$.get(
 			MyApiURL, 
 			function(result){
 				$("div").html(result);
+		});*/
+		
+		var settings = {
+		  'cache': false,
+		  'dataType': "jsonp",
+		  "async": true,
+		  "crossDomain": true,
+		  "url": "https://5f43-111-255-16-130.ngrok.io/gipsense/TrackAPI.php",
+		  "method": "GET",
+		  "headers": {
+			  "accept": "application/json",
+			  "Access-Control-Allow-Origin":"*"
+		  }
+		}
+
+		$.ajax(settings).done(function (response) {
+		  console.log(response);
 		});
 	</script>
 </head>
