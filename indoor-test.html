@@ -20,7 +20,6 @@
 		<a-text
         value="gate"
         scale="1 1 1"
-		look-at="[gps-camera]"
 		gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;"
 		position="0 29.5 0"
 		></a-text>
@@ -35,7 +34,6 @@
 		<a-text
         value="Chin-Way Hall"
         scale="1 1 1"
-		look-at="[gps-camera]"
 		gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;"
 		position="0 29.5 0"
 		></a-text>
@@ -51,7 +49,6 @@
         value="55250"
         scale="1 1 1"
 		color="yellow"
-		look-at="[gps-camera]"
 		gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;"
 		position="0 34 0"
 		></a-text>
@@ -67,7 +64,6 @@
         value="55208"
         scale="1 1 1"
 		color="yellow"
-		look-at="[gps-camera]"
 		gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
 		position="0 34 0"
 		></a-text>
@@ -83,7 +79,6 @@
         value="55209"
         scale="1 1 1"
 		color="yellow"
-		look-at="[gps-camera]"
 		gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;"
 		position="0 34 0"
 		></a-text>
@@ -99,7 +94,6 @@
         value="55210"
         scale="1 1 1"
 		color="yellow"
-		look-at="[gps-camera]"
 		gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;"
 		position="0 34 0"
 		></a-text>
@@ -115,7 +109,6 @@
         value="Our lab"
         scale="1 1 1"
 		color="red"
-		look-at="[gps-camera]"
 		gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
 		position="0 38.5 0"
 		></a-text>
@@ -134,7 +127,7 @@
 		//const MyApiURL = "https://5f43-111-255-16-130.ngrok.io/gipsense/TrackAPI.php";
 		var dataLength = 0; //儲存軌跡資料長度
 		var e = '0';
-		var simulateLocation = '';
+		var simulateLocation = '0';
 		var lat = 0;
 		var lon = 0;
 		var alt = 0;
@@ -168,6 +161,10 @@
 			var gps = document.createAttribute('gps-camera');
 			gps.value = simulateLocation;
 			camera.setAttributeNode(gps);
+			var text = document.querySelector('a-text');
+			var lookat = document.createAttribute('look-at');
+			lookat.value = "[gps-camera]";
+			text.setAttributeNode(lookat);
 		}
 		
 		
