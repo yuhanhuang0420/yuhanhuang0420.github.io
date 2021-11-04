@@ -16,109 +16,111 @@
 	  embedded
 	  arjs="sourceType: webcam; debugUIEnabled: false;"
 	>
-		<!--一樓大門-->
-		<a-text
-        value="gate"
-        scale="1 1 1"
-		gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;"
-		position="0 0 0"
-		></a-text>
-		<a-entity
-		rotation="0 0 0"
-		scale="1 1 1"
-		gltf-model="./assets/pin.gltf"
-		gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;"
-		position="0 0 0"
-		></a-entity>
-		<!--經緯廳-->
-		<a-text
-        value="Chin-Way Hall"
-        scale="1 1 1"
-		gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;"
-		position="0 29.5 0"
-		></a-text>
-		<a-entity
-		rotation="0 0 0"
-		scale="1 1 1"
-		gltf-model="./assets/pin.gltf"
-		gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;"
-		position="0 27.033 0"
-		></a-entity>
-		<!--大一教室-->
-		<a-text
-        value="55250"
-        scale="1 1 1"
-		color="yellow"
-		gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;"
-		position="0 34 0"
-		></a-text>
-		<a-entity
-		rotation="0 0 0"
-		scale="1 1 1"
-		gltf-model="./assets/pin_yellow.gltf"
-		gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;"
-		position="0 31.634 0"
-		></a-entity>
-		<!--電腦教室-->
-		<a-text
-        value="55208"
-        scale="1 1 1"
-		color="yellow"
-		gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
-		position="0 34 0"
-		></a-text>
-		<a-entity
-		rotation="0 0 0"
-		scale="1 1 1"
-		gltf-model="./assets/pin_yellow.gltf"
-		gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
-		position="0 31.634 0"
-		></a-entity>
-		<!--圖書室-->
-		<a-text
-        value="55209"
-        scale="1 1 1"
-		color="yellow"
-		gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;"
-		position="0 34 0"
-		></a-text>
-		<a-entity
-		rotation="0 0 0"
-		scale="1 1 1"
-		gltf-model="./assets/pin_yellow.gltf"
-		gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;"
-		position="0 31.634 0"
-		></a-entity>
-		<!--55210實驗室-->
-		<a-text
-        value="55210"
-        scale="1 1 1"
-		color="yellow"
-		gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;"
-		position="0 34 0"
-		></a-text>
-		<a-entity
-		rotation="0 0 0"
-		scale="1 1 1"
-		gltf-model="./assets/pin_yellow.gltf"
-		gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;"
-		position="0 31.634 0"
-		></a-entity>
-		<!--55316實驗室-->
-		<a-text
-        value="Our lab"
-        scale="1 1 1"
-		color="red"
-		gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
-		position="0 38.5 0"
-		></a-text>
-		<a-entity
-		rotation="0 0 0"
-		scale="1 1 1"
-		gltf-model="./assets/pin_red.gltf"
-		gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
-		position="0 36.148 0"
-		></a-entity>
+		<a-entity id="all">
+			<!--一樓大門-->
+			<a-text
+			value="gate"
+			scale="1 1 1"
+			gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;"
+			position="0 0 0"
+			></a-text>
+			<a-entity
+			rotation="0 0 0"
+			scale="1 1 1"
+			gltf-model="./assets/pin.gltf"
+			gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;"
+			position="0 0 0"
+			></a-entity>
+			<!--經緯廳-->
+			<a-text
+			value="Chin-Way Hall"
+			scale="1 1 1"
+			gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;"
+			position="0 29.5 0"
+			></a-text>
+			<a-entity
+			rotation="0 0 0"
+			scale="1 1 1"
+			gltf-model="./assets/pin.gltf"
+			gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;"
+			position="0 27.033 0"
+			></a-entity>
+			<!--大一教室-->
+			<a-text
+			value="55250"
+			scale="1 1 1"
+			color="yellow"
+			gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;"
+			position="0 34 0"
+			></a-text>
+			<a-entity
+			rotation="0 0 0"
+			scale="1 1 1"
+			gltf-model="./assets/pin_yellow.gltf"
+			gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;"
+			position="0 31.634 0"
+			></a-entity>
+			<!--電腦教室-->
+			<a-text
+			value="55208"
+			scale="1 1 1"
+			color="yellow"
+			gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
+			position="0 34 0"
+			></a-text>
+			<a-entity
+			rotation="0 0 0"
+			scale="1 1 1"
+			gltf-model="./assets/pin_yellow.gltf"
+			gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
+			position="0 31.634 0"
+			></a-entity>
+			<!--圖書室-->
+			<a-text
+			value="55209"
+			scale="1 1 1"
+			color="yellow"
+			gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;"
+			position="0 34 0"
+			></a-text>
+			<a-entity
+			rotation="0 0 0"
+			scale="1 1 1"
+			gltf-model="./assets/pin_yellow.gltf"
+			gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;"
+			position="0 31.634 0"
+			></a-entity>
+			<!--55210實驗室-->
+			<a-text
+			value="55210"
+			scale="1 1 1"
+			color="yellow"
+			gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;"
+			position="0 34 0"
+			></a-text>
+			<a-entity
+			rotation="0 0 0"
+			scale="1 1 1"
+			gltf-model="./assets/pin_yellow.gltf"
+			gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;"
+			position="0 31.634 0"
+			></a-entity>
+			<!--55316實驗室-->
+			<a-text
+			value="Our lab"
+			scale="1 1 1"
+			color="red"
+			gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
+			position="0 38.5 0"
+			></a-text>
+			<a-entity
+			rotation="0 0 0"
+			scale="1 1 1"
+			gltf-model="./assets/pin_red.gltf"
+			gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
+			position="0 36.148 0"
+			></a-entity>
+		</a-entity>
 		<a-camera rotation-reader></a-camera>
 	</a-scene>
 	
@@ -166,13 +168,17 @@
 				lookat.value = "[gps-camera]";
 				text[j].setAttributeNode(lookat);
 			}
+			var entity = document.querySelector('#all');
+			var position = document.createAttribute('position');
+			position.value = '0 27.033 0';
+			entity.setAttributeNode(position);
 		}
 		
 		function clock(e){
 			setInterval(function() {
 				lat = e.data.values[i][9].y;
 				lon = e.data.values[i][9].x;
-				alt = 26.728 + e.data.values[i][9].z;
+				alt = 27.033 + e.data.values[i][9].z;
 				AddGpsCamera();
 				i++;
 				if (i > dataLength) {
