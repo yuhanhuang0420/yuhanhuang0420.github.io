@@ -162,8 +162,8 @@
 			gps.value = simulateLocation;
 			camera.setAttributeNode(gps);
 			var text = document.querySelectorAll('a-text');
-			var lookat = document.createAttribute('look-at');
 			for(var j=0; j<text.length; j++){
+				var lookat = document.createAttribute('look-at');
 				lookat.value = "[gps-camera]";
 				text[j].setAttributeNode(lookat);
 			}
