@@ -134,14 +134,23 @@
 		//const MyApiURL = "https://5f43-111-255-16-130.ngrok.io/gipsense/TrackAPI.php";
 		var dataLength = 0; //儲存軌跡資料長度
 		var e = '0';
+		var simulateLocation = '';
+		var lat = 0;
+		var lon = 0;
+		var alt = 0;
+		var i = 0;
 		jQuery(document).ready(function(){ 
 			$.getJSON( "TagTrack.json", function( data ) {
 				e = data;
 				dataLength = e.data.values.length;
 				console.log(dataLength);
+				lat = e.data.values[i][9].y;
+				lon = e.data.values[i][9].x;
+				alt = 27.033 + e.data.values[i][9].z;
+				AddGpsCamera();
+				console.log(simulateLocation);
 			});
 		});
-		console.log(e);
 		//用XMLHttpRequest, $.get, $.ajax呼叫API都會出現404錯誤 
 		/*jQuery(document).ready(function(){                                  // 將$.getJSON()放在document.ready事件中
 			var jqxhr_track = $.getJSON(MyApiURL, function(e) {             // url是JSON資料的網址，取得的資料存在e中
@@ -152,11 +161,7 @@
 		});*/
 		
 		/*將定位設為虛擬位置*/
-		var simulateLocation = '';
-		var lat = 0;
-		var lon = 0;
-		var alt = 0;
-		var i = 0;
+		
 		function AddGpsCamera(){
 			simulateLocation = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+'; simulateAltitude: '+alt+';';
 			var camera = document.querySelector('a-camera');
@@ -165,11 +170,7 @@
 			camera.setAttributeNode(gps);
 		}
 		
-		lat = e.data.values[i][9].y;
-		lon = e.data.values[i][9].x;
-		alt = 27.033 + e.data.values[i][9].z;
-		AddGpsCamera();
-		console.log(simulateLocation);
+		
 		/*var clock = setInterval(function() {
 			lat = e.data.values[i][9].y;
 			lon = e.data.values[i][9].x;
