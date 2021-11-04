@@ -42,7 +42,12 @@
 			camera.setAttributeNode(gps);
 		}
 		
-		var clock = setInterval(function() {
+		lat = e.data.values[i][9].y;
+		lon = e.data.values[i][9].x;
+		alt = 27.033 + e.data.values[i][9].z;
+		AddGpsCamera();
+		
+		/*var clock = setInterval(function() {
 			lat = e.data.values[i][9].y;
 			lon = e.data.values[i][9].x;
 			alt = 27.033 + e.data.values[i][9].z;
@@ -51,8 +56,7 @@
 			if (i > dataLength) {
 				clearInterval(clock);
 			}
-			alert(simulateLocation);
-		}, 1000);
+		}, 1000);*/
 	</script>
 </head>
 
