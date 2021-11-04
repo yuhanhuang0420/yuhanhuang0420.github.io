@@ -161,10 +161,12 @@
 			var gps = document.createAttribute('gps-camera');
 			gps.value = simulateLocation;
 			camera.setAttributeNode(gps);
-			var text = document.querySelector('a-text');
+			var text = document.querySelectorAll('a-text');
 			var lookat = document.createAttribute('look-at');
-			lookat.value = "[gps-camera]";
-			text.setAttributeNode(lookat);
+			for(var j=0; j<text.length; j++){
+				lookat.value = "[gps-camera]";
+				text[j].setAttributeNode(lookat);
+			}
 		}
 		
 		
