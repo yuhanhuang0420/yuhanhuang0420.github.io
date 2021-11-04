@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>indoor-real-time-position-test</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+	<script>
+		/*呼叫後端API，從GIPS server獲取定位軌跡*/
+		const MyApiURL = "https://5f43-111-255-16-130.ngrok.io/gipsense/TrackAPI.php";
+		var dataLength = 0; //儲存軌跡資料長度
+		
+		//用XMLHttpRequest, $.get, $.ajax呼叫API都會出現404錯誤 
+		jQuery(document).ready(function(){                                  // 將$.getJSON()放在document.ready事件中
+			var jqxhr_track = $.getJSON(MyApiURL, function(e) {             // url是JSON資料的網址，取得的資料存在e中
+				console.log(e.data.values[0]);                              // 請求成功會執行此區塊，可在此處理JSON資料
+				dataLength = e.data.values.length;
+				console.log(dataLength);
+			});
+		});
+		
+		/*將定位設為虛擬位置*/
+		var lat = 23.0166;
+		var lon = 120.227366;
+		var alt = 0;
+		function AddGpsCamera(){
+			var simulateLocation = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+'; simulateAltitude: '+alt+';';
+			var camera = document.querySelector('a-camera');
+			var gps = document.createAttribute('gps-camera');
+			gps.value = simulateLocation;
+			camera.setAttributeNode(gps);
+		}
+		AddGpsCamera();
+		var clock = setInterval(function() {
+			if (lat >= 23.016623 || lon >= 120.228366) {
+				clearInterval(clock);
+			}
+			
+			//lat += 0.0001;
+			lon += 0.0001;
+			alt += 2;
+			
+			AddGpsCamera();
+			//alert(simulateLocation);
+		}, 1000);
+	</script>
+</head>
+
+<body style="margin: 0px; overflow: hidden;">
+	<a-scene
+	  vr-mode-ui="enabled: false"
+	  embedded
+	  arjs="sourceType: webcam; debugUIEnabled: false;"
+	>
+		<!--一樓大門-->
+		<a-text
+        value="gate"
+        scale="1 1 1"
+		look-at="[gps-camera]"
+		gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;"
+		position="0 29.5 0"
+		></a-text>
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/pin.gltf"
+		gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;"
+		position="0 26.728 0"
+		></a-entity>
+		<!--經緯廳-->
+		<a-text
+        value="Chin-Way Hall"
+        scale="1 1 1"
+		look-at="[gps-camera]"
+		gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;"
+		position="0 29.5 0"
+		></a-text>
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/pin.gltf"
+		gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;"
+		position="0 27.033 0"
+		></a-entity>
+		<!--大一教室-->
+		<a-text
+        value="55250"
+        scale="1 1 1"
+		color="yellow"
+		look-at="[gps-camera]"
+		gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;"
+		position="0 34 0"
+		></a-text>
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/pin_yellow.gltf"
+		gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;"
+		position="0 31.634 0"
+		></a-entity>
+		<!--電腦教室-->
+		<a-text
+        value="55208"
+        scale="1 1 1"
+		color="yellow"
+		look-at="[gps-camera]"
+		gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
+		position="0 34 0"
+		></a-text>
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/pin_yellow.gltf"
+		gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
+		position="0 31.634 0"
+		></a-entity>
+		<!--圖書室-->
+		<a-text
+        value="55209"
+        scale="1 1 1"
+		color="yellow"
+		look-at="[gps-camera]"
+		gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;"
+		position="0 34 0"
+		></a-text>
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/pin_yellow.gltf"
+		gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;"
+		position="0 31.634 0"
+		></a-entity>
+		<!--55210實驗室-->
+		<a-text
+        value="55210"
+        scale="1 1 1"
+		color="yellow"
+		look-at="[gps-camera]"
+		gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;"
+		position="0 34 0"
+		></a-text>
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/pin_yellow.gltf"
+		gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;"
+		position="0 31.634 0"
+		></a-entity>
+		<!--55316實驗室-->
+		<a-text
+        value="Our lab"
+        scale="1 1 1"
+		color="red"
+		look-at="[gps-camera]"
+		gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
+		position="0 38.5 0"
+		></a-text>
+		<a-entity
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/pin_red.gltf"
+		gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
+		position="0 36.148 0"
+		></a-entity>
+		<a-camera rotation-reader></a-camera>
+	</a-scene>
+</body>
+</html>
