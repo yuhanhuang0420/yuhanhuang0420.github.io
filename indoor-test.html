@@ -134,12 +134,14 @@
 		//const MyApiURL = "https://5f43-111-255-16-130.ngrok.io/gipsense/TrackAPI.php";
 		var dataLength = 0; //儲存軌跡資料長度
 		var e = '0';
-		$.getJSON( "TagTrack.json", function( data ) {
-			e = data;
-			dataLength = e.data.values.length;
-			console.log(dataLength);
+		jQuery(document).ready(function(){ 
+			$.getJSON( "TagTrack.json", function( data ) {
+				e = data;
+				dataLength = e.data.values.length;
+				console.log(dataLength);
+			});
 		});
-		
+		console.log(e);
 		//用XMLHttpRequest, $.get, $.ajax呼叫API都會出現404錯誤 
 		/*jQuery(document).ready(function(){                                  // 將$.getJSON()放在document.ready事件中
 			var jqxhr_track = $.getJSON(MyApiURL, function(e) {             // url是JSON資料的網址，取得的資料存在e中
@@ -167,7 +169,7 @@
 		lon = e.data.values[i][9].x;
 		alt = 27.033 + e.data.values[i][9].z;
 		AddGpsCamera();
-		
+		console.log(simulateLocation);
 		/*var clock = setInterval(function() {
 			lat = e.data.values[i][9].y;
 			lon = e.data.values[i][9].x;
@@ -177,7 +179,7 @@
 			if (i > dataLength) {
 				clearInterval(clock);
 			}
-			alert(simulateLocation);
+			
 		}, 1000);*/
 	</script>
 </body>
