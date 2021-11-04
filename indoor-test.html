@@ -137,11 +137,11 @@
 				e = data;
 				dataLength = e.data.values.length;
 				console.log(dataLength);
-				lat = e.data.values[i][9].y;
+				/*lat = e.data.values[i][9].y;
 				lon = e.data.values[i][9].x;
 				alt = 27.033 + e.data.values[i][9].z;
-				AddGpsCamera();
-				console.log(simulateLocation);
+				AddGpsCamera();*/
+				clock(e);
 			});
 		});
 		//用XMLHttpRequest, $.get, $.ajax呼叫API都會出現404錯誤 
@@ -154,7 +154,6 @@
 		});*/
 		
 		/*將定位設為虛擬位置*/
-		
 		function AddGpsCamera(){
 			simulateLocation = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+'; simulateAltitude: '+alt+';';
 			var camera = document.querySelector('a-camera');
@@ -169,18 +168,19 @@
 			}
 		}
 		
-		
-		/*var clock = setInterval(function() {
-			lat = e.data.values[i][9].y;
-			lon = e.data.values[i][9].x;
-			alt = 26.728 + e.data.values[i][9].z;
-			AddGpsCamera();
-			i++;
-			if (i > dataLength) {
-				clearInterval(clock);
-			}
-			
-		}, 1000);*/
+		function clock(e){
+			setInterval(function() {
+				lat = e.data.values[i][9].y;
+				lon = e.data.values[i][9].x;
+				alt = 26.728 + e.data.values[i][9].z;
+				AddGpsCamera();
+				i++;
+				if (i > dataLength) {
+					clearInterval(clock());
+				}
+				console.log(simulateLocation);
+			}, 1000);
+		}
 	</script>
 </body>
 </html>
