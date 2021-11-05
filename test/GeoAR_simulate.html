@@ -16,23 +16,9 @@
       arjs="sourceType: webcam; debugUIEnabled: false;"
     >
 		<a-entity
-		rotation="0 0 0"
+		rotation="0 255 0"
 		scale="1 1 1"
-		gltf-model="../assets/pin_red.gltf"
-		gps-entity-place="latitude: 23.016623; longitude: 120.228366;"
-		position="0 30 0"
-		></a-entity>
-	    	<a-entity
-		rotation="0 0 0"
-		scale="1 1 1"
-		gltf-model="../assets/pin_yellow.gltf"
-		gps-entity-place="latitude: 23.016623; longitude: 120.228366;"
-		position="0 10 0"
-		></a-entity>
-	    	<a-entity
-		rotation="0 0 0"
-		scale="1 1 1"
-		gltf-model="../assets/pin.gltf"
+		gltf-model="../assets/cube/cube_scale.gltf"
 		gps-entity-place="latitude: 23.016623; longitude: 120.228366;"
 		position="0 0 0"
 		></a-entity>
@@ -41,8 +27,8 @@
 	
 	<script>
 		//document.getElementById(camera).gps-camera ="simulateLatitude: 41.890890; simulateLongitude: 12.489357;";
-		var lat = 23.015;
-		var lon = 120.227366;
+		var lat = 23.016;
+		var lon = 120.228;
 		var alt = 10;
 		function AddGpsCamera(){
 			test = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+'; simulateAltitude: '+alt+';';
@@ -58,7 +44,7 @@
 			}
 			
 			//lat += 0.0001;
-			lon += 0.0001;
+			//lon += 0.0001;
 			//alt += 2;
 			
 			AddGpsCamera();
