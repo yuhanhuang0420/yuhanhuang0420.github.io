@@ -20,7 +20,7 @@
 		scale="1 1 1"
 		gltf-model="../assets/cube/cube_scale.gltf"
 		gps-entity-place="latitude: 23.016623; longitude: 120.228366;"
-		position="0 10 0"
+		position="0 0 0"
 		></a-entity>
       <a-camera rotation-reader></a-camera>
 	</a-scene>
@@ -29,7 +29,7 @@
 		//document.getElementById(camera).gps-camera ="simulateLatitude: 41.890890; simulateLongitude: 12.489357;";
 		var lat = 23.016623;
 		var lon = 120.227366;
-		var alt = 0;
+		var alt = 10;
 		function AddGpsCamera(){
 			test = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+'; simulateAltitude: '+alt+';';
 			var camera = document.querySelector('a-camera');
