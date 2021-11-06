@@ -167,7 +167,7 @@
 		
 		/*將定位設為虛擬位置*/
 		function AddGpsCamera(){
-			simulateLocation = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+'; simulateAltitude: 0';
+			simulateLocation = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+';';
 			var camera = document.querySelector('a-camera');
 			var gps = document.createAttribute('gps-camera');
 			gps.value = simulateLocation;
