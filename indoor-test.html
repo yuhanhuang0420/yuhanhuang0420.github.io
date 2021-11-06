@@ -140,29 +140,29 @@
 		});*/
 		
 		/*各模型高度值設定*/
-		function height(H){
+		function height(){
 			var text = document.querySelectorAll('a-text');
 			var entity = document.querySelectorAll('a-entity');
-			function SetPosition(data,j,h,H){
+			function SetPosition(data,j,h){
 				var p = document.createAttribute('position');
-				hh = h-H;
-                                p.value = '0 '+hh+' 0';
+				var H = h-alt;
+                                p.value = '0 '+H+' 0';
 				data[j].setAttributeNode(p);
 			}
-			SetPosition(text,0,29.5,H);
-			SetPosition(text,1,29.5,H);
-			SetPosition(text,2,34,H);
-			SetPosition(text,3,34,H);
-			SetPosition(text,4,34,H);
-			SetPosition(text,5,34,H);
-			SetPosition(text,6,38.5,H);
-			SetPosition(entity,0,26.728,H);
-			SetPosition(entity,1,27.033,H);
-			SetPosition(entity,2,31.634,H);
-			SetPosition(entity,3,31.634,H);
-			SetPosition(entity,4,31.634,H);
-			SetPosition(entity,5,31.634,H);
-			SetPosition(entity,6,36.148,H);
+			SetPosition(text,0,29.5);
+			SetPosition(text,1,29.5);
+			SetPosition(text,2,34);
+			SetPosition(text,3,34);
+			SetPosition(text,4,34);
+			SetPosition(text,5,34);
+			SetPosition(text,6,38.5);
+			SetPosition(entity,0,26.728);
+			SetPosition(entity,1,27.033);
+			SetPosition(entity,2,31.634);
+			SetPosition(entity,3,31.634);
+			SetPosition(entity,4,31.634);
+			SetPosition(entity,5,31.634);
+			SetPosition(entity,6,36.148);
 		}
 		
 		/*將定位設為虛擬位置*/
@@ -178,16 +178,19 @@
 				lookat.value = "[gps-camera]";
 				text[j].setAttributeNode(lookat);
 			}
+                        height();
 		}
 		
 		function clock(e){
-			setInterval(function() {
-				lat = e.data.values[i][9].y;
+			lat = e.data.values[i][9].y;
+	                lon = e.data.values[i][9].x;
+			alt = 26.728 + e.data.values[i][9].z;
+                        setInterval(function() {
+				i++;
+                                lat = e.data.values[i][9].y;
 				lon = e.data.values[i][9].x;
 				alt = 26.728 + e.data.values[i][9].z;
-				height(alt);
                                 AddGpsCamera();
-				i++;
 				if (i > dataLength) {
 					clearInterval(clock());
 				}
