@@ -178,25 +178,26 @@
 				lookat.value = "[gps-camera]";
 				text[j].setAttributeNode(lookat);
 			}
-                        
+                        height();
 		}
 		
 		function clock(e){
 			lat = e.data.values[i][9].y;
 	                lon = e.data.values[i][9].x;
 			alt = 26.728 + e.data.values[i][9].z;
-                        height();
+                        
                         AddGpsCamera();
                         setInterval(function() {
 				i++;
                                 lat = e.data.values[i][9].y;
 				lon = e.data.values[i][9].x;
 				alt = 26.728 + e.data.values[i][9].z;
-                                height();
-                                AddGpsCamera();
+                                
+                                
 				if (i > dataLength) {
 					clearInterval(clock());
 				}
+                                AddGpsCamera();
 				console.log(simulateLocation);
 			}, 1000);
 		}
