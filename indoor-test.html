@@ -143,25 +143,26 @@
 		function height(H){
 			var text = document.querySelectorAll('a-text');
 			var entity = document.querySelectorAll('a-entity');
-			function SetPosition(data,j,h){
+			function SetPosition(data,j,h,H){
 				var p = document.createAttribute('position');
-				p.value = '0 '+h-H+' 0';
+				hh = h-H;
+                                p.value = '0 '+hh+' 0';
 				data[j].setAttributeNode(p);
 			}
-			SetPosition(text,0,29.5);
-			SetPosition(text,1,29.5);
-			SetPosition(text,2,34);
-			SetPosition(text,3,34);
-			SetPosition(text,4,34);
-			SetPosition(text,5,34);
-			SetPosition(text,6,38.5);
-			SetPosition(entity,0,26.728);
-			SetPosition(entity,1,27.033);
-			SetPosition(entity,2,31.634);
-			SetPosition(entity,3,31.634);
-			SetPosition(entity,4,31.634);
-			SetPosition(entity,5,31.634);
-			SetPosition(entity,6,36.148);
+			SetPosition(text,0,29.5,H);
+			SetPosition(text,1,29.5,H);
+			SetPosition(text,2,34,H);
+			SetPosition(text,3,34,H);
+			SetPosition(text,4,34,H);
+			SetPosition(text,5,34,H);
+			SetPosition(text,6,38.5,H);
+			SetPosition(entity,0,26.728,H);
+			SetPosition(entity,1,27.033,H);
+			SetPosition(entity,2,31.634,H);
+			SetPosition(entity,3,31.634,H);
+			SetPosition(entity,4,31.634,H);
+			SetPosition(entity,5,31.634,H);
+			SetPosition(entity,6,36.148,H);
 		}
 		
 		/*將定位設為虛擬位置*/
