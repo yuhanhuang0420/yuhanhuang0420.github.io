@@ -6,8 +6,8 @@
     <title>indoor-real-time-position-test</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 </head>
 
 <body style="margin: 0px; overflow: hidden;">
@@ -127,7 +127,7 @@
 				lon = e.data.values[i][9].x;
 				alt = 27.033 ;//+ e.data.values[i][9].z;
 				AddGpsCamera();*/
-				clock(e);
+				clock();
 			});
 		});
 		//用XMLHttpRequest, $.get, $.ajax呼叫API都會出現404錯誤 
@@ -178,26 +178,25 @@
 				lookat.value = "[gps-camera]";
 				text[j].setAttributeNode(lookat);
 			}
-                        height();
+                        
 		}
 		
-		function clock(e){
+		function clock(){
 			lat = e.data.values[i][9].y;
 	                lon = e.data.values[i][9].x;
 			alt = 26.728 + e.data.values[i][9].z;
-                        
                         AddGpsCamera();
+			height();
                         setInterval(function() {
 				i++;
-                                lat = e.data.values[i][9].y;
-				lon = e.data.values[i][9].x;
-				alt = 26.728 + e.data.values[i][9].z;
-                                
-                                
 				if (i > dataLength) {
 					clearInterval(clock());
 				}
+                                lat = e.data.values[i][9].y;
+				lon = e.data.values[i][9].x;
+				alt = 26.728 + e.data.values[i][9].z;
                                 AddGpsCamera();
+				height();
 				console.log(simulateLocation);
 			}, 1000);
 		}
