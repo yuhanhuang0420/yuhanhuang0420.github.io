@@ -143,7 +143,7 @@
 		function height(H){
 			var text = document.querySelectorAll('a-text');
 			var entity = document.querySelectorAll('a-entity');
-			function SetPosition(data,j,h,H){
+			function SetPosition(data,j,h){
 				var p = document.createAttribute('position');
 				p.value = '0 '+h-H+' 0';
 				data[j].setAttributeNode(p);
