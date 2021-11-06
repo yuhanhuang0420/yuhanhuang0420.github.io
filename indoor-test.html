@@ -140,12 +140,12 @@
 		});*/
 		
 		/*各模型高度值設定*/
-		function height(){
+		function height(H){
 			var text = document.querySelectorAll('a-text');
 			var entity = document.querySelectorAll('a-entity');
-			function SetPosition(data,j,h){
+			function SetPosition(data,j,h,H){
 				var p = document.createAttribute('position');
-				p.value = '0 '+h+' 0';
+				p.value = '0 '+h-H+' 0';
 				data[j].setAttributeNode(p);
 			}
 			SetPosition(text,0,29.5);
@@ -166,7 +166,7 @@
 		
 		/*將定位設為虛擬位置*/
 		function AddGpsCamera(){
-			simulateLocation = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+'; simulateAltitude: '+alt+';';
+			simulateLocation = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+';';
 			var camera = document.querySelector('a-camera');
 			var gps = document.createAttribute('gps-camera');
 			gps.value = simulateLocation;
@@ -177,21 +177,21 @@
 				lookat.value = "[gps-camera]";
 				text[j].setAttributeNode(lookat);
 			}
-			height();
 		}
 		
 		function clock(e){
 			setInterval(function() {
 				lat = e.data.values[i][9].y;
 				lon = e.data.values[i][9].x;
-				alt = 27.033;// + e.data.values[i][9].z;
-				AddGpsCamera();
+				alt = 26.728 + e.data.values[i][9].z;
+				height(alt);
+                                AddGpsCamera();
 				i++;
 				if (i > dataLength) {
 					clearInterval(clock());
 				}
 				console.log(simulateLocation);
-			}, 10000);
+			}, 1000);
 		}
 	</script>
 </body>
