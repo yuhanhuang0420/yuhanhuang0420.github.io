@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Along tracking axis: location-based</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+  </head>
+<!--latitude: 23.0024088; longitude: 120.2136363;-->
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; debugUIEnabled: false;"
+    >
+		<!--圖書室-->
+		<a-entity id="entity1">
+			<a-text value="Reading room: wall01<br/>Last painted: Nov.8, 2021" color="green" scale="1 1 1" position="0 1.7 0" look-at="[gps-camera]" gps-entity-place="latitude: 22.9986857; longitude: 120.2201968;"></a-text>
+			<a-entity geometry="primitive: plane" scale="4 4 0" draw="width: 512; height: 512;" htmltexture="asset: #bears" material="opacity: 0.0; transparent: true" gps-entity-place="latitude: 22.9986789; longitude: 120.2202150;"></a-entity>
+			<a-text value="Reading room: wall02<br/>Last painted: Sep.8, 2021" color="yellow" scale="1 1 1" position="0 1.7 0" look-at="[gps-camera]" gps-entity-place="latitude: 22.9986460; longitude: 120.2202395;"></a-text>
+		</a-entity>
+      <a-camera gps-camera="simulateLatitude: 22.9986809; simulateLongitude: 120.2202150;" rotation-reader></a-camera>
+	</a-scene>
+	<script>
+		/*var clock = setInterval(function() {
+			//document.getElementById('entity1').innerHTML = '<a-text value="Put the chair here." scale="1 1 1" color="yellow" look-at="[gps-camera]" gps-entity-place="latitude: 22.9986770; longitude: 120.2202348;"></a-text><a-entity geometry="primitive: plane" scale="4 4 0" draw="width: 512; height: 512;" htmltexture="asset: #bears" material="opacity: 0.0; transparent: true" gps-entity-place="latitude: 22.9986789; longitude: 120.2202150;"></a-entity>';
+
+			clearInterval(clock);
+		}, 10000);*/
+	</script>
+  </body>
+</html>
