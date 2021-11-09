@@ -1,0 +1,11 @@
+Model Information:
+* title:	Simple Chair
+* source:	https://sketchfab.com/3d-models/simple-chair-857d6219e3fa427b83677219f188cf93
+* author:	YouniqueĪdeaStudio (https://sketchfab.com/sinnervoncrawsz)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Simple Chair" (https://sketchfab.com/3d-models/simple-chair-857d6219e3fa427b83677219f188cf93) by YouniqueĪdeaStudio (https://sketchfab.com/sinnervoncrawsz) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
