@@ -18,8 +18,21 @@
 		<!--圖書室-->
 		<a-entity id="entity1">
 			<a-text value="Reading room: wall01<br/>Last painted: Nov.8, 2021" color="green" scale="1 1 1" position="0 1.7 0" look-at="[gps-camera]" gps-entity-place="latitude: 22.9986857; longitude: 120.2201968;"></a-text>
-			<a-entity geometry="primitive: plane" scale="4 4 0" draw="width: 512; height: 512;" htmltexture="asset: #bears" material="opacity: 0.0; transparent: true" gps-entity-place="latitude: 22.9986789; longitude: 120.2202150;"></a-entity>
 			<a-text value="Reading room: wall02<br/>Last painted: Sep.8, 2021" color="yellow" scale="1 1 1" position="0 1.7 0" look-at="[gps-camera]" gps-entity-place="latitude: 22.9986460; longitude: 120.2202395;"></a-text>
+			<a-text
+			value="55209"
+			scale="1 1 1"
+			color="yellow"
+			look-at="[gps-camera]"
+			gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;"
+			position="0 2.3 0"
+			></a-text>
+			<a-entity
+			rotation="0 0 0"
+			scale="1 1 1"
+			gltf-model="../assets/pin_yellow.gltf"
+			gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;"
+			></a-entity>
 		</a-entity>
       <a-camera gps-camera="simulateLatitude: 22.9986809; simulateLongitude: 120.2202150;" rotation-reader></a-camera>
 	</a-scene>
