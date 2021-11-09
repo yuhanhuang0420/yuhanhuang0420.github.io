@@ -15,15 +15,12 @@
       embedded
       arjs="sourceType: webcam; debugUIEnabled: false;"
     >
-		<a-marker preset='custom' type='pattern' url='../assets/seminar/pattern-C.patt'>
-			<a-text value="Should be returned to the Reading room." scale="1 1 1" position="0 0 0"></a-text>
-		</a-marker>
-	    	<a-marker preset='custom' type='pattern' url='../assets/seminar/pattern-C.patt'>
+	    	<a-marker preset='custom' type='pattern' url='../assets/seminar/pattern-ch1.patt'>
 			<a-text
 			value="Should be returned to the Reading room."
 			color="red"
 			align="center"
-			scale="1 1 1"
+			scale="0.8 0.8 0.8"
 			position="0 0 0"
 			look-at="[camera]"
 			></a-text>
@@ -31,10 +28,10 @@
       <a-entity camera></a-entity>
 	</a-scene>
 	<script>
-		/*var clock = setInterval(function() {
+		var clock = setInterval(function() {
 			var text = document.querySelector('a-text');
 			text.setAttribute("value","Return complete!");
-		}, 10000);*/
+		}, 10000);
 	</script>
   </body>
 </html>
