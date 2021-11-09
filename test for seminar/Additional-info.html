@@ -11,6 +11,7 @@
     <a-scene embedded arjs renderer="precision: mediump">
         <!-- Declaring chart component -->
 		<a-text value="You're at corridor." scale="1 1 1" position="0 0 -4"></a-text>
+	    	<a-text id="2" scale="1 1 1" position="0 -1 -4"></a-text>
         <!-- Aframe camera -->
         <a-entity camera look-controls pointerLockEnabled>
             <a-cursor></a-cursor>
@@ -19,7 +20,9 @@
 	<script>
 		var clock = setInterval(function() {
 			var text = document.querySelector('a-text');
-			text.setAttribute('value','You're at Reading room.<br/>Total number of chairs: 27');
+			text.setAttribute("value","You're at Reading room.");
+			var text2 = document.querySelector('#2');
+			text2.setAttribute("value","Total number of chairs: 27");
 			//value_.value = "You're at Reading room.<br/>Total number of chairs: 27";
 			//entity.setAttributeNode(value_);
 			//clearInterval(clock);
