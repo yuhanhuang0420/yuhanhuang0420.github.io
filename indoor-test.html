@@ -125,7 +125,7 @@
 				console.log(dataLength);
 				/*lat = e.data.values[i][9].y;
 				lon = e.data.values[i][9].x;
-				alt = 27.033 ;//+ e.data.values[i][9].z;
+				alt = 27.033 + e.data.values[i][9].z;
 				AddGpsCamera();*/
 				clock();
 			});
@@ -146,7 +146,8 @@
 			function SetPosition(data,j,h){
 				var p = document.createAttribute('position');
 				var H = h-alt;
-                                p.value = '0 '+H+' 0';
+                                //p.value = '0 '+H+' 0'; //(relative height)
+				p.value = '0 '+h+' 0'; //(absolute height)
 				data[j].setAttributeNode(p);
 			}
 			SetPosition(text,0,29.5);
@@ -167,7 +168,8 @@
 		
 		/*將定位設為虛擬位置*/
 		function AddGpsCamera(){
-			simulateLocation = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+';';
+			//simulateLocation = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+';'; //(relative height)
+			simulateLocation = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+'; simulateAltitude: '+alt+';'; //(absolute height)
 			var camera = document.querySelector('a-camera');
 			var gps = document.createAttribute('gps-camera');
 			gps.value = simulateLocation;
@@ -187,6 +189,7 @@
 			alt = 26.728 + e.data.values[i][9].z;
                         AddGpsCamera();
 			height();
+			console.log(simulateLocation);
                         setInterval(function() {
 				i++;
 				if (i > dataLength) {
