@@ -46,7 +46,8 @@
 			console.log(position.coords.altitude);
 		});
 		function CheckHeight(num,position){
-			var entity = document.querySelector('#'+num+'floor');
+			var id = '#'+num+'floor';
+			var entity = document.querySelector(id);
 			var att = document.createAttribute('position');
 			var floor = 0;
 			if (num == 1){
