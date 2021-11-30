@@ -44,7 +44,7 @@
 			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
 			
 			console.log('lat: '+position.coords.latitude);
-			console.log('lon: '+position.coords.longtitude);
+			console.log('lon: '+position.coords.longitude);
 			console.log('alt: '+position.coords.altitude);
 		});
 		function CheckHeight(num,position){
@@ -66,7 +66,7 @@
 				}
 				var height = floor - position.coords.altitude;
 				var x = 22.9986315 - position.coords.latitude;
-				var z = 120.2200450 - position.coords.longtitude;
+				var z = 120.2200450 - position.coords.longitude;
 				att.value = x+" "+height+" "+z;
 				entity[j].setAttributeNode(att);
 			}
