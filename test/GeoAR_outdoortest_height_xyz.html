@@ -46,24 +46,28 @@
 			console.log(position.coords.altitude);
 		});
 		function CheckHeight(num,position){
-			var id = '#'+num+'_floor';
-			var entity = document.querySelector(id);
-			var att = document.createAttribute('position');
-			var floor = 0;
-			if (num == 1){
-				floor = 26.731;
-			}else if(num == 2){
-				floor = 31.676;
-			}else if(num == 3){
-				floor = 36.164;
-			}else if(num == 4){
-				floor = 40.701;
+			//var id = '#'+num+'_floor';
+			//var entity = document.querySelector(id);
+			//var att = document.createAttribute('position');
+			var entity = document.querySelectorAll('a-entity');
+			for(var j=0; j<entity.length; j++){
+				var att = document.createAttribute('position');
+				var floor = 0;
+				if (num == 1){
+					floor = 26.731;
+				}else if(num == 2){
+					floor = 31.676;
+				}else if(num == 3){
+					floor = 36.164;
+				}else if(num == 4){
+					floor = 40.701;
+				}
+				var height = floor - position.coords.altitude;
+				var x = 22.9986315 - position.coords.latitude;
+				var z = 120.2200450 - position.coords.longtitude;
+				att.value = x+" "+height+" "+z;
+				entity[j].setAttributeNode(att);
 			}
-			var height = floor - position.coords.altitude;
-      var x = 22.9986315 - position.coords.latitude;
-      var z = 120.2200450 - position.coords.longtitude;
-			att.value = x+" "+height+" "+z;
-			camera.setAttributeNode(att);
 		};
 	</script>
   </body>
