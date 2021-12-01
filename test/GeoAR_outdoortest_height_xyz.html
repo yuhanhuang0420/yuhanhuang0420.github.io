@@ -47,6 +47,7 @@
 			console.log('lon: '+position.coords.longitude);
 			console.log('alt: '+position.coords.altitude);
 			//alert('lat: '+position.coords.latitude+'; lon: '+position.coords.longitude+'; alt: '+position.coords.altitude);
+			alert('x: '+(22.9986315 - position.coords.latitude)*110751.075273+'; z: '+(120.2200450 - position.coords.longitude)*101751.561277);
 		});
 		function CheckHeight(num,position){
 			//var id = '#'+num+'_floor';
@@ -70,7 +71,6 @@
 				var z = (120.2200450 - position.coords.longitude)*101751.561277;
 				att.value = x+" "+height+" "+z;
 				entity[num-1].setAttributeNode(att);
-				alert('x: '+x+'; y: '+height+'; z: '+z);
 			}
 		};
 	</script>
