@@ -66,8 +66,8 @@
 					floor = 40.701;
 				}
 				var height = floor - position.coords.altitude;
-				var x = 22.9986315 - position.coords.latitude;
-				var z = 120.2200450 - position.coords.longitude;
+				var x = (22.9986315 - position.coords.latitude)*110751.075273;
+				var z = (120.2200450 - position.coords.longitude)*101751.561277;
 				att.value = x+" "+height+" "+z;
 				entity[num-1].setAttributeNode(att);
 			}
