@@ -44,21 +44,24 @@
 	</a-scene>
 	
 	<script>
-		window.addEventListener('deviceorientation', function(event) {
-				alert(event.webkitCompassHeading + ' : ');
+		
+		var watchID = navigator.geolocation.watchPosition(function(position) {
+			window.addEventListener('deviceorientation', function(event) {
+				var theta = -(event.webkitCompassHeading-180-90);
+				var theta_rad = theta * Math.PI /180;
+				var N = (22.9986315 - position.coords.latitude)*110751.075273;
+				var E = (120.2200450 - position.coords.longitude)*101751.561277;
+				var x = Math.cos(theta_rad)*N + Math.sin(theta_rad)*E;
+				var z = Math.cos(theta_rad)*E - Math.sin(theta_rad)*N;
+				CheckHeight(1,position,x,z);CheckHeight(2,position,x,z);CheckHeight(3,position,x,z);CheckHeight(4,position,x,z);
 			});
-		/*var watchID = navigator.geolocation.watchPosition(function(position) {
-			
-			
-			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
 			
 			console.log('lat: '+position.coords.latitude);
 			console.log('lon: '+position.coords.longitude);
 			console.log('alt: '+position.coords.altitude);
 			//alert('lat: '+position.coords.latitude+'; lon: '+position.coords.longitude+'; alt: '+position.coords.altitude);
-			alert('x: '+(22.9986315 - position.coords.latitude)*110751.075273+'; z: '+(120.2200450 - position.coords.longitude)*101751.561277);
-		});*/
-		function CheckHeight(num,position){
+		});
+		function CheckHeight(num,position,x,z){
 			//var id = '#'+num+'_floor';
 			//var entity = document.querySelector(id);
 			//var att = document.createAttribute('position');
@@ -76,8 +79,8 @@
 					floor = 40.701;
 				}
 				var height = floor - position.coords.altitude;
-				var x = (22.9986315 - position.coords.latitude)*110751.075273;
-				var z = (120.2200450 - position.coords.longitude)*101751.561277;
+				//var x = (22.9986315 - position.coords.latitude)*110751.075273;
+				//var z = (120.2200450 - position.coords.longitude)*101751.561277;
 				att.value = x+" "+height+" "+z;
 				entity[num-1].setAttributeNode(att);
 			}
