@@ -44,9 +44,8 @@
 	</a-scene>
 	
 	<script>
-		
-		var watchID = navigator.geolocation.watchPosition(function(position) {
-			window.addEventListener('deviceorientation', function(event) {
+		window.addEventListener('deviceorientation', function(event) {
+			var watchID = navigator.geolocation.watchPosition(function(position) {
 				var theta = -(event.webkitCompassHeading-180-90);
 				var theta_rad = theta * Math.PI /180;
 				var N = (22.9986315 - position.coords.latitude)*110751.075273;
@@ -54,12 +53,13 @@
 				var x = Math.cos(theta_rad)*N + Math.sin(theta_rad)*E;
 				var z = Math.cos(theta_rad)*E - Math.sin(theta_rad)*N;
 				CheckHeight(1,position,x,z);CheckHeight(2,position,x,z);CheckHeight(3,position,x,z);CheckHeight(4,position,x,z);
+				
+				console.log('lat: '+position.coords.latitude);
+				console.log('lon: '+position.coords.longitude);
+				console.log('alt: '+position.coords.altitude);
+				console.log('x: '+x+'; z: '+z);
+				//alert('lat: '+position.coords.latitude+'; lon: '+position.coords.longitude+'; alt: '+position.coords.altitude);
 			});
-			
-			console.log('lat: '+position.coords.latitude);
-			console.log('lon: '+position.coords.longitude);
-			console.log('alt: '+position.coords.altitude);
-			//alert('lat: '+position.coords.latitude+'; lon: '+position.coords.longitude+'; alt: '+position.coords.altitude);
 		});
 		function CheckHeight(num,position,x,z){
 			//var id = '#'+num+'_floor';
