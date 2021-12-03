@@ -46,8 +46,22 @@
 	<script>
 		var theta = 0;
 		var theta_rad = 0;
+		
+		var watchID = navigator.geolocation.getCurrentPosition(function(position) {
+			window.addEventListener('deviceorientation', function(event) {
+				theta = -(event.webkitCompassHeading-180-90);
+				theta_rad = theta * Math.PI /180;
+			}, {once: true});
 			
-		var watchID = navigator.geolocation.watchPosition(function(position) {
+			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
+
+			console.log('lat: '+position.coords.latitude);
+			console.log('lon: '+position.coords.longitude);
+			console.log('alt: '+position.coords.altitude);
+			alert(theta_rad);
+		});
+		
+		/*var watchID = navigator.geolocation.watchPosition(function(position) {
 			window.addEventListener('deviceorientation', function(event) {
 				theta = -(event.webkitCompassHeading-180-90);
 				theta_rad = theta * Math.PI /180;
@@ -60,7 +74,7 @@
 			console.log('alt: '+position.coords.altitude);
 			alert(theta_rad);
 			//alert('lat: '+position.coords.latitude+'; lon: '+position.coords.longitude+'; alt: '+position.coords.altitude);
-		});
+		});*/
 		function CheckHeight(num,position){
 			//var id = '#'+num+'_floor';
 			//var entity = document.querySelector(id);
