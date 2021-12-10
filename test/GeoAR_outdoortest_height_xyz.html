@@ -44,29 +44,29 @@
 		var theta = 0;
 		var theta_rad = 0;
 		
-		var e = '0';
+		/*var e = '0';
 		var position = '0';
 		var dataLength = 0; //儲存軌跡資料長度
 		var lat = 0;
 		var lon = 0;
 		var alt = 0;
-		var i = 0;
+		var i = 0;*/
 		
-		/*var watchID = navigator.geolocation.watchPosition(function(position) {
+		var watchID = navigator.geolocation.watchPosition(function(position) {
 			window.addEventListener('deviceorientation', function(event) {
 				theta = -(event.webkitCompassHeading-180-90);
 				theta_rad = theta * Math.PI /180;
 			});
 			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
 			//alert('lat: '+position.coords.latitude+'; lon: '+position.coords.longitude+'; alt: '+position.coords.altitude);
-		});*/
-		jQuery(document).ready(function(){ 
+		});
+		/*jQuery(document).ready(function(){ 
 			$.getJSON( "../TagTrack.json", function( data ) {
 				e = data;
 				dataLength = e.data.values.length;
 				clock();
 			});
-		});
+		});*/
 		function clock(){
 			window.addEventListener('deviceorientation', function(event) {
 				theta = -(event.webkitCompassHeading-180-90);
