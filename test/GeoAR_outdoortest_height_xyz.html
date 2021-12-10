@@ -106,12 +106,12 @@
 				}
 				//var height = floor - position.coords.altitude;
 				var height = floor - alt;
-				//var N = (22.9986315 - position.coords.latitude)*110751.075273;
-				//var E = (120.2200450 - position.coords.longitude)*101751.561277; //geomatic department
+				var N = (22.9986315 - position.coords.latitude)*110751.075273;
+				var E = (120.2200450 - position.coords.longitude)*101751.561277; //geomatic department
 				//var N = (23.0159939 - position.coords.latitude)*110751.075273;
 				//var E = (120.2271473 - position.coords.longitude)*101751.561277; //near test
-				var N = (22.9986315 - lat)*110751.075273;
-				var E = (120.2200450 - lon)*101751.561277;
+				//var N = (22.9986315 - lat)*110751.075273;
+				//var E = (120.2200450 - lon)*101751.561277;
 				var z = Math.cos(theta_rad)*E + Math.sin(theta_rad)*N;
 				var x = Math.cos(theta_rad)*N - Math.sin(theta_rad)*E;
 				att.value = x+" "+height+" "+z;
