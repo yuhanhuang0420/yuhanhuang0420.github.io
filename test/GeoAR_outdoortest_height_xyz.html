@@ -43,35 +43,44 @@
 	<script>
 		var theta = 0;
 		var theta_rad = 0;
+		window.addEventListener('deviceorientation', function(event) {
+			theta = -(event.webkitCompassHeading-180-90);
+			theta_rad = theta * Math.PI /180;
+		});
 		
-		/*var e = '0';
+		//for indoor
+		var e = '0';
 		var position = '0';
 		var dataLength = 0; //儲存軌跡資料長度
 		var lat = 0;
 		var lon = 0;
 		var alt = 0;
-		var i = 0;*/
+		var i = 0;
 		
-		var watchID = navigator.geolocation.watchPosition(function(position) {
-			window.addEventListener('deviceorientation', function(event) {
-				theta = -(event.webkitCompassHeading-180-90);
-				theta_rad = theta * Math.PI /180;
-			});
+		//watch position for outdoor
+		/*var watchID = navigator.geolocation.watchPosition(function(position) {
+			//window.addEventListener('deviceorientation', function(event) {
+				//theta = -(event.webkitCompassHeading-180-90);
+				//theta_rad = theta * Math.PI /180;
+			//});
 			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
 			//alert('lat: '+position.coords.latitude+'; lon: '+position.coords.longitude+'; alt: '+position.coords.altitude);
-		});
-		/*jQuery(document).ready(function(){ 
+		});*/
+		
+		//watch position for indoor (呼叫後端API，從GIPS server獲取定位軌跡)
+		//const MyApiURL = "https://5f43-111-255-16-130.ngrok.io/gipsense/TrackAPI.php";
+		jQuery(document).ready(function(){ 
 			$.getJSON( "../TagTrack.json", function( data ) {
 				e = data;
 				dataLength = e.data.values.length;
 				clock();
 			});
-		});*/
+		});
 		function clock(){
-			window.addEventListener('deviceorientation', function(event) {
-				theta = -(event.webkitCompassHeading-180-90);
-				theta_rad = theta * Math.PI /180;
-			});
+			//window.addEventListener('deviceorientation', function(event) {
+				//theta = -(event.webkitCompassHeading-180-90);
+				//theta_rad = theta * Math.PI /180;
+			//});
 			lat = e.data.values[i][9].y;
 	                lon = e.data.values[i][9].x;
 			alt = 26.728 + e.data.values[i][9].z;
@@ -104,14 +113,18 @@
 				}else if(num == 4){
 					floor = 40.701;
 				}
-				var height = floor - position.coords.altitude;
-				//var height = floor - alt;
-				var N = (22.9986315 - position.coords.latitude)*110751.075273;
-				var E = (120.2200450 - position.coords.longitude)*101751.561277; //geomatic department
+				//for outdoor
+				//var height = floor - position.coords.altitude;
+				//var N = (22.9986315 - position.coords.latitude)*110751.075273;
+				//var E = (120.2200450 - position.coords.longitude)*101751.561277; //geomatic department
 				//var N = (23.0159939 - position.coords.latitude)*110751.075273;
 				//var E = (120.2271473 - position.coords.longitude)*101751.561277; //near test
-				//var N = (22.9986315 - lat)*110751.075273;
-				//var E = (120.2200450 - lon)*101751.561277;
+				
+				//for indoor
+				var height = floor - alt;
+				var N = (22.9986315 - lat)*110751.075273;
+				var E = (120.2200450 - lon)*101751.561277;
+				
 				var z = Math.cos(theta_rad)*E + Math.sin(theta_rad)*N;
 				var x = Math.cos(theta_rad)*N - Math.sin(theta_rad)*E;
 				att.value = x+" "+height+" "+z;
