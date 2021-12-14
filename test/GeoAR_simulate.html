@@ -50,6 +50,7 @@
 		var lat = 0;
 		var lon = 0;
 		var alt = 0;
+		var height = 0;
 		var i = 0;
 		jQuery(document).ready(function(){ 
 			$.getJSON( "../TagTrack.json", function( data ) {
@@ -59,6 +60,7 @@
 				lat = e.data.values[i][9].y;
 	                	lon = e.data.values[i][9].x;
 				alt = 26.728 + e.data.values[i][9].z;
+				height = alt;
 				clock();
 			});
 		});
@@ -84,8 +86,8 @@
 				}else if(num == 4){
 					floor = 40.701;
 				}
-				var height = floor - 26.728;
-				att.value = '0 '+height+' 0';
+				floor = floor - height;
+				att.value = '0 '+floor+' 0';
 				entity[num-1].setAttributeNode(att);
 			}
 		};
