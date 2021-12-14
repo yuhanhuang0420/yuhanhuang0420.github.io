@@ -15,23 +15,47 @@
       embedded
       arjs="sourceType: webcam; debugUIEnabled: false;"
     >
-		<a-entity
-		rotation="0 255 0"
+		<!--測量系館中心牆角(Project Base Point)gps-entity-place="latitude: 22.9986315; longitude: 120.2200450;"-->
+		<a-entity id="1_floor"
+		rotation="0 0 0"
 		scale="1 1 1"
-		gltf-model="../assets/cube/cube_scale.gltf"
-		gps-entity-place="latitude: 23.016623; longitude: 120.228366;"
-		position="0 10 0"
+		gltf-model="../assets/cube/cube_1m.gltf"
+		></a-entity>
+		<a-entity id="2_floor"
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="../assets/cube/cube_1m_yellow.gltf"
+		></a-entity>
+		<a-entity id="3_floor"
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="../assets/cube/cube_1m_orange.gltf"
+		></a-entity>
+		<a-entity id="4_floor"
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="../assets/cube/cube_1m_red.gltf"
 		></a-entity>
       <a-camera rotation-reader></a-camera>
 	</a-scene>
 	
 	<script>
 		//document.getElementById(camera).gps-camera ="simulateLatitude: 41.890890; simulateLongitude: 12.489357;";
-		var lat = 23.016623;
-		var lon = 120.227366;
-		var alt = 20;
+		var e = '0';
+		var dataLength = 0;
+		var lat = 0;
+		var lon = 0;
+		var alt = 0;
+		jQuery(document).ready(function(){ 
+			$.getJSON( "TagTrack.json", function( data ) {
+				e = data;
+				dataLength = e.data.values.length;
+				console.log(dataLength);
+				clock();
+			});
+		});
 		function AddGpsCamera(){
-			test = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+'; simulateAltitude: '+alt+';';
+			var test = 'simulateLatitude: '+lat+'; simulateLongitude: '+lon+'; simulateAltitude: '+alt+';';
 			var camera = document.querySelector('a-camera');
 			var gps = document.createAttribute('gps-camera');
 			gps.value = test;
