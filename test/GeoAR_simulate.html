@@ -21,25 +21,25 @@
 		rotation="0 0 0"
 		scale="1 1 1"
 		gltf-model="../assets/cube/cube_1m.gltf"
-		gps-entity-place="latitude: 23.0159939; longitude: 120.2271473;"
+		gps-entity-place="latitude: 22.9986315; longitude: 120.2200450;"
 		></a-entity>
 		<a-entity id="2_floor"
 		rotation="0 0 0"
 		scale="1 1 1"
 		gltf-model="../assets/cube/cube_1m_yellow.gltf"
-		gps-entity-place="latitude: 23.0159939; longitude: 120.2271473;"
+		gps-entity-place="latitude: 22.9986315; longitude: 120.2200450;"
 		></a-entity>
 		<a-entity id="3_floor"
 		rotation="0 0 0"
 		scale="1 1 1"
 		gltf-model="../assets/cube/cube_1m_orange.gltf"
-		gps-entity-place="latitude: 23.0159939; longitude: 120.2271473;"
+		gps-entity-place="latitude: 22.9986315; longitude: 120.2200450;"
 		></a-entity>
 		<a-entity id="4_floor"
 		rotation="0 0 0"
 		scale="1 1 1"
 		gltf-model="../assets/cube/cube_1m_red.gltf"
-		gps-entity-place="latitude: 23.0159939; longitude: 120.2271473;"
+		gps-entity-place="latitude: 22.9986315; longitude: 120.2200450;"
 		></a-entity>
       	    <a-camera rotation-reader></a-camera>
 	</a-scene>
@@ -83,7 +83,7 @@
 				}else if(num == 4){
 					floor = 40.701;
 				}
-				var height = floor - 26.731;
+				var height = floor - alt;
 				att.value = '0 '+height+' 0';
 				entity[num-1].setAttributeNode(att);
 			}
@@ -99,8 +99,8 @@
 				lat = e.data.values[i][9].y;
 				lon = e.data.values[i][9].x;
 				alt = 26.728 + e.data.values[i][9].z;
-				AddGpsCamera();
 				CheckHeight(1);CheckHeight(2);CheckHeight(3);CheckHeight(4);
+				AddGpsCamera();
 			}, 5000);
 		};
 	</script>
