@@ -68,6 +68,7 @@
 			var gps = document.createAttribute('gps-camera');
 			gps.value = test;
 			camera.setAttributeNode(gps);
+			CheckHeight(1);CheckHeight(2);CheckHeight(3);CheckHeight(4);
 		};
 		function CheckHeight(num){
 			var entity = document.querySelectorAll('a-entity');
@@ -90,7 +91,6 @@
 		};
 		function clock (){
 			AddGpsCamera();
-			CheckHeight(1);CheckHeight(2);CheckHeight(3);CheckHeight(4);
 			setInterval(function() {
 				i++;
 				if (i > dataLength) {
@@ -99,7 +99,6 @@
 				lat = e.data.values[i][9].y;
 				lon = e.data.values[i][9].x;
 				alt = 26.728 + e.data.values[i][9].z;
-				CheckHeight(1);CheckHeight(2);CheckHeight(3);CheckHeight(4);
 				AddGpsCamera();
 			}, 5000);
 		};
