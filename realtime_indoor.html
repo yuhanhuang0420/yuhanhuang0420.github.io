@@ -72,20 +72,22 @@
 		const MyApiURL = "https://e918-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		
 		jQuery(document).ready(function(){
-			var jqxhr_track = $.getJSON( MyApiURL, function( data ) {
-				e = data;
-				console.log("x: "+ e.x +"y: "+ e.y +"z: "+ e.z);
-				lat = e.y;
-				lon = e.x;
-				alt = 26.728 + e.z;
-				CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
-			});
+			setInterval(function() {
+				$.getJSON( MyApiURL, function( data ) {
+					e = data;
+					console.log("x: "+ e.x +"y: "+ e.y +"z: "+ e.z);
+					lat = e.y;
+					lon = e.x;
+					alt = 26.728 + e.z;
+					CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
+				});
+			}, 1000);
 		});
 		
 		//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
 		function clock(){
 			lat = e.data.values[i][9].y;
-	        lon = e.data.values[i][9].x;
+	        	lon = e.data.values[i][9].x;
 			alt = 26.728 + e.data.values[i][9].z;
 			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
                         setInterval(function() {
