@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>real time indoor</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+</head>
+
+<body style="margin: 0px; overflow: hidden;">
+	<a-scene
+	vr-mode-ui="enabled: false"
+	embedded
+	arjs="sourceType: webcam; debugUIEnabled: false;"
+	>
+		<!--測量系館中心牆角(Project Base Point)gps-entity-place="latitude: 22.9986315; longitude: 120.2200450;"-->
+		<a-entity id="1_floor"
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/cube/cube_1m.gltf"
+		></a-entity>
+		<a-entity id="2_floor"
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/cube/cube_1m_yellow.gltf"
+		></a-entity>
+		<a-entity id="3_floor"
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/cube/cube_1m_orange.gltf"
+		></a-entity>
+		<a-entity id="4_floor"
+		rotation="0 0 0"
+		scale="1 1 1"
+		gltf-model="./assets/cube/cube_1m_red.gltf"
+		></a-entity>
+		
+	    <a-camera rotation-reader></a-camera>
+	</a-scene>
+	
+	<script>
+		var theta = 0;
+		var theta_rad = 0;
+		window.addEventListener('deviceorientation', function(event) {
+			theta = -(event.webkitCompassHeading-180-90);
+			theta_rad = theta * Math.PI /180;
+		});
+		
+		//for indoor
+		var e = '0';
+		var position = '0';
+		var dataLength = 0; //儲存軌跡資料長度
+		var lat = 0;
+		var lon = 0;
+		var alt = 0;
+		var i = 0;
+		
+		//watch position for outdoor
+		/*var watchID = navigator.geolocation.watchPosition(function(position) {
+			//window.addEventListener('deviceorientation', function(event) {
+				//theta = -(event.webkitCompassHeading-180-90);
+				//theta_rad = theta * Math.PI /180;
+			//});
+			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
+			//alert('lat: '+position.coords.latitude+'; lon: '+position.coords.longitude+'; alt: '+position.coords.altitude);
+		});*/
+		
+		//watch position for indoor (呼叫後端API，從GIPS server獲取定位軌跡)
+		const MyApiURL = "https://e918-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		
+		jQuery(document).ready(function(){
+			var jqxhr_track = $.getJSON( MyApiURL, function( data ) {
+				e = data;
+				console.log("x: "+ e.x +"y: "+ e.y +"z: "+ e.z);
+				lat = e.y;
+				lon = e.x;
+				alt = 26.728 + e.z;
+				CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
+			});
+		});
+		
+		//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
+		function clock(){
+			lat = e.data.values[i][9].y;
+	        lon = e.data.values[i][9].x;
+			alt = 26.728 + e.data.values[i][9].z;
+			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
+                        setInterval(function() {
+				i++;
+				if (i > dataLength) {
+					clearInterval(clock());
+				}
+                                lat = e.data.values[i][9].y;
+				lon = e.data.values[i][9].x;
+				alt = 26.728 + e.data.values[i][9].z;
+				CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
+			}, 1000);
+		};
+		
+		//設定各樓層的模型高及位置
+		function CheckHeight(num,position){
+			//var id = '#'+num+'_floor';
+			//var entity = document.querySelector(id);
+			//var att = document.createAttribute('position');
+			var entity = document.querySelectorAll('a-entity');
+			for(var j=0; j<entity.length; j++){
+				var att = document.createAttribute('position');
+				var floor = 0;
+				if (num == 1){
+					floor = 26.731;
+				}else if(num == 2){
+					floor = 31.676;
+				}else if(num == 3){
+					floor = 36.164;
+				}else if(num == 4){
+					floor = 40.701;
+				}
+				//for outdoor
+				//var height = floor - position.coords.altitude;
+				//var N = (22.9986315 - position.coords.latitude)*110751.075273;
+				//var E = (120.2200450 - position.coords.longitude)*101751.561277; //geomatic department
+				
+				//for indoor
+				var height = floor - alt;
+				var N = (22.9986315 - lat)*110751.075273;
+				var E = (120.2200450 - lon)*101751.561277;
+				
+				var z = Math.cos(theta_rad)*E + Math.sin(theta_rad)*N;
+				var x = Math.cos(theta_rad)*N - Math.sin(theta_rad)*E;
+				att.value = x+" "+height+" "+z;
+				entity[num-1].setAttributeNode(att);
+			}
+		};
+	</script>
+</body>
+</html>
