@@ -119,7 +119,7 @@
       var target = document.querySelectorAll('a-'+type);
       for(var j=0; j<target.length; j++){
         if (type=="text"){
-          target.setAttribute("look-at", {x: 0, y: 0, z: 0});
+          target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
           data_h[j] += 2.4;
         } 
         var H = data_h[j] - position.coords.altitude;
