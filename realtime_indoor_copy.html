@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>real time indoor</title>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+</head>
+
+<body style="margin: 0px; overflow: hidden;">
+	<a-scene
+	vr-mode-ui="enabled: false"
+	embedded
+	arjs="sourceType: webcam; debugUIEnabled: false;"
+	>
+		<!--1.一樓大門-->
+		<a-text
+        value="gate"
+        scale="1 1 1"
+        look-at="[a-camera]"
+        gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;"
+        position="0 29.5 0"
+		></a-text>
+		<a-entity
+        rotation="0 0 0"
+        scale="1 1 1"
+        gltf-model="./assets/pin.gltf"
+        gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;"
+        position="0 26.728 0"
+		></a-entity>
+		<!--2.經緯廳-->
+		<a-text
+        value="Chin-Way Hall"
+        scale="1 1 1"
+        look-at="[a-camera]"
+        gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;"
+        position="0 29.5 0"
+		></a-text>
+		<a-entity
+        rotation="0 0 0"
+        scale="1 1 1"
+        gltf-model="./assets/pin.gltf"
+        gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;"
+        position="0 27.033 0"
+		></a-entity>
+		<!--3.大一教室-->
+		<a-text
+        value="55250"
+        scale="1 1 1"
+        color="yellow"
+        look-at="[a-camera]"
+        gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;"
+        position="0 34 0"
+		></a-text>
+		<a-entity
+        rotation="0 0 0"
+        scale="1 1 1"
+        gltf-model="./assets/pin_yellow.gltf"
+        gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;"
+        position="0 31.634 0"
+		></a-entity>
+		<!--4.電腦教室-->
+		<a-text
+        value="55208"
+        scale="1 1 1"
+        color="yellow"
+        look-at="[a-camera]"
+        gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
+        position="0 34 0"
+		></a-text>
+		<a-entity
+        rotation="0 0 0"
+        scale="1 1 1"
+        gltf-model="./assets/pin_yellow.gltf"
+        gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
+        position="0 31.634 0"
+		></a-entity>
+		<!--5.圖書室-->
+		<a-text
+        value="55209"
+        scale="1 1 1"
+        color="yellow"
+        look-at="[a-camera]"
+        gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;"
+        position="0 34 0"
+		></a-text>
+		<a-entity
+        rotation="0 0 0"
+        scale="1 1 1"
+        gltf-model="./assets/pin_yellow.gltf"
+        gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;"
+        position="0 31.634 0"
+		></a-entity>
+		<!--6.55210實驗室-->
+		<a-text
+        value="55210"
+        scale="1 1 1"
+        color="yellow"
+        look-at="[a-camera]"
+        gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;"
+        position="0 34 0"
+		></a-text>
+		<a-entity
+        rotation="0 0 0"
+        scale="1 1 1"
+        gltf-model="./assets/pin_yellow.gltf"
+        gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;"
+        position="0 31.634 0"
+		></a-entity>
+		<!--7.55316實驗室-->
+		<a-text
+        value="Our lab"
+        scale="1 1 1"
+        color="red"
+        look-at="[a-camera]"
+        gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
+        position="0 38.5 0"
+		></a-text>
+		<a-entity
+        rotation="0 0 0"
+        scale="1 1 1"
+        gltf-model="./assets/pin_red.gltf"
+        gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;"
+        position="0 36.148 0"
+		></a-entity>
+		
+	    <a-camera rotation-reader></a-camera>
+	</a-scene>
+	
+	<script>
+		//set a-entity data
+    var data = [];
+    
+    //get azimuth
+    var theta = 0;
+		var theta_rad = 0;
+		window.addEventListener('deviceorientation', function(event) {
+			theta = -(event.webkitCompassHeading-180-90);
+			theta_rad = theta * Math.PI /180;
+		});
+		
+		//for indoor
+		/*var e = '0';
+		var position = '0';
+		var dataLength = 0; //儲存軌跡資料長度
+		var lat = 0;
+		var lon = 0;
+		var alt = 0;
+		var i = 0;*/
+		
+		//watch position for outdoor
+		var watchID = navigator.geolocation.watchPosition(function(position) {
+			CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
+		});
+		
+		//watch position for indoor (呼叫後端API，從GIPS server獲取定位軌跡)
+		/*const MyApiURL = "https://fdae-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		
+		jQuery(document).ready(function(){
+			setInterval(function() {
+				$.getJSON( MyApiURL, function( data ) {
+					e = data;
+					console.log("x: "+ e.x +"y: "+ e.y +"z: "+ e.z);
+					lat = e.y;
+					lon = e.x;
+					alt = 26.728 + e.z;
+					CheckHeight(1,position);CheckHeight(2,position);CheckHeight(3,position);CheckHeight(4,position);
+				});
+			}, 1000);
+		});*/
+		
+		//設定各模型相對於所在即時位置的高及位置
+		function SetLocation(type,num,e,n,h,position){ //type: a實體類型, num: 第幾個a實體, e,n,h: a實體設定座標, position: 用戶即時位置座標
+		  
+      var target = document.querySelectorAll('a-'+type);
+      for(var j=0; j<target.length; j++){
+        if (j==num){
+          var target_att = document.createAttribute('position');
+          //相對位置計算: for outdoor
+          var H = h - position.coords.altitude;
+          var N = (n - position.coords.latitude)*110751.075273;
+          var E = (e - position.coords.longitude)*101751.561277; //各方向距離差(公尺)
+          var z = Math.cos(theta_rad)*E + Math.sin(theta_rad)*N;
+				  var x = Math.cos(theta_rad)*N - Math.sin(theta_rad)*E; //換算至手機相機坐標系中(公尺)
+          target_att.value = x+" "+H+" "+z;
+          target[j].setAttributeNode(target_att);
+        }
+      }
+		};
+		
+	</script>
+</body>
+</html>
