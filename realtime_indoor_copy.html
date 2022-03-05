@@ -20,7 +20,6 @@
 	<a-text
 		value="gate"
 		scale="1 1 1"
-		look-at="[camera]"
 	></a-text>
 	<a-entity
 		rotation="0 0 0"
@@ -31,7 +30,6 @@
 	<a-text
 		value="Chin-Way Hall"
 		scale="1 1 1"
-		look-at="[camera]"
 	></a-text>
 	<a-entity
 		rotation="0 0 0"
@@ -43,7 +41,6 @@
 		value="55250"
 		scale="1 1 1"
 		color="yellow"
-		look-at="[camera]"
 	></a-text>
 	<a-entity
 		rotation="0 0 0"
@@ -55,7 +52,6 @@
 		value="55208"
 		scale="1 1 1"
 		color="yellow"
-		look-at="[camera]"
 	></a-text>
 	<a-entity
 		rotation="0 0 0"
@@ -67,7 +63,6 @@
 		value="55209"
 		scale="1 1 1"
 		color="yellow"
-		look-at="[camera]"
 	></a-text>
 	<a-entity
 		rotation="0 0 0"
@@ -79,7 +74,6 @@
 		value="55210"
 		scale="1 1 1"
 		color="yellow"
-		look-at="[camera]"
 	></a-text>
 	<a-entity
 		rotation="0 0 0"
@@ -91,7 +85,6 @@
 		value="Our lab"
 		scale="1 1 1"
 		color="red"
-		look-at="[camera]"
 	></a-text>
 	<a-entity
 		rotation="0 0 0"
@@ -126,6 +119,7 @@
       var target = document.querySelectorAll('a-'+type);
       for(var j=0; j<target.length; j++){
         if (type=="text"){
+          target.setAttribute("look-at", {x: 0, y: 0, z: 0})
           data_h[j] += 2.4;
         } 
         var H = data_h[j] - position.coords.altitude;
