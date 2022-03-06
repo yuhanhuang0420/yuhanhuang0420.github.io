@@ -11,6 +11,7 @@ AFRAME.registerComponent('markerhandler', {
                 const scale = aEntity.getAttribute('scale');
                 Object.keys(scale).forEach((key) => scale[key] = scale[key] + 1);
                 aEntity.setAttribute('scale', scale);
+                alert("hi");
             }
         });
 }});
