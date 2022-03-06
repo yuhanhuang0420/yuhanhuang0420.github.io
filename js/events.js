@@ -6,6 +6,7 @@ AFRAME.registerComponent('markerhandler', {
 
         // every click, we make our model grow in size :)
         animatedMarker.addEventListener('click', function(ev, target){
+            alert("yeah");
             const intersectedElement = ev && ev.detail && ev.detail.intersectedEl;
             if (aEntity && intersectedElement === aEntity) {
                 const scale = aEntity.getAttribute('scale');
