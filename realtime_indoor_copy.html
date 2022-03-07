@@ -110,8 +110,22 @@
 		});
 		
 		//watch position for outdoor
-		var watchID = navigator.geolocation.watchPosition(function(position) {
-			SetLocation("text",position);SetLocation("entity",position)
+		/*var watchID = navigator.geolocation.watchPosition(function(position) {
+			SetLocation("text",position);SetLocation("entity",position);
+		});*/
+		
+		//watch position for indoor (呼叫後端API，從GIPS server獲取定位軌跡)
+		const MyApiURL = "https://fdae-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		var position = '';
+		jQuery(document).ready(function(){
+			setInterval(function() {
+				$.getJSON( MyApiURL, function( data ) {
+					position.coords.altitude = data.z + 26.728;
+					position.coords.latitude = data.y;
+					position.coords.longitude = data.x;
+					SetLocation("text",position);SetLocation("entity",position);
+				});
+			}, 1000);
 		});
 		
 		//設定各模型相對於所在即時位置的高及位置
