@@ -116,12 +116,13 @@
 		
 		//watch position for indoor (呼叫後端API，從GIPS server獲取定位軌跡)
 		const MyApiURL = "https://901b-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
-		var position = '';
 		jQuery(document).ready(function(){
 			setInterval(function() {
 				$.getJSON( MyApiURL, function( data ) {
-					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ data.z+26.728);
-					position = {coords:{latitude: data.y, longitude: data.x, altitude: data.z + 26.728}};
+					var height = data.z + 26.728;
+					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+					var position = {coords:{latitude: data.y, longitude: data.x, altitude: height}};
+					console.log("position: " + position);
 					//position.coords.altitude = data.z + 26.728;
 					//position.coords.latitude = data.y;
 					//position.coords.longitude = data.x;
