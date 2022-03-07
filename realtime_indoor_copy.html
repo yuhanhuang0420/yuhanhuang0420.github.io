@@ -95,6 +95,8 @@
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
 	
+	<div id="info"></div>
+	
 	<script>
 		//set a-entity data (e,n,h: a實體設定座標)
     var data_e = [120.2199345, 120.2200520, 120.2200649, 120.2200666, 120.2202121, 120.2202138, 120.2200666];
@@ -107,6 +109,7 @@
 		window.addEventListener('deviceorientation', function(event) {
 			theta = -(event.webkitCompassHeading-180-90);
 			theta_rad = theta * Math.PI /180;
+			document.getElementById("info").innerHTML = "theta_rad = " + theta_rad;
 		});
 		
 		//watch position for outdoor
