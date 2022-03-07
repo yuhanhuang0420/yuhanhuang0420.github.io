@@ -133,16 +133,17 @@
 		//設定各模型相對於所在即時位置的高及位置
 		function SetLocation(type,position){ //type: a實體類型, position: 用戶即時位置座標
       var target = document.querySelectorAll('a-'+type);
-      for(var j=0; j<target.length; j++){
-        if (type=="text"){
-          target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
-          data_h[j] += 2.4;
-        } 
+      for(var j=0; j<target.length; j++){ 
         var H = data_h[j] - position.coords.altitude;
         var N = (data_n[j] - position.coords.latitude)*110751.075273;
         var E = (data_e[j] - position.coords.longitude)*101751.561277; //各方向距離差(公尺)
         var z = Math.cos(theta_rad)*E + Math.sin(theta_rad)*N;
         var x = Math.cos(theta_rad)*N - Math.sin(theta_rad)*E; //換算至手機相機坐標系中(公尺)
+				
+				if (type=="text"){
+          target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
+          H = data_h[j] + 2.4 - position.coords.altitude;
+        }
 
         var target_att = document.createAttribute('position');
         target_att.value = x+" "+H+" "+z;
