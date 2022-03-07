@@ -120,7 +120,7 @@
 		jQuery(document).ready(function(){
 			setInterval(function() {
 				$.getJSON( MyApiURL, function( data ) {
-					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ data.z);
+					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ data.z+26.728);
 					position = {coords:{latitude: data.y, longitude: data.x, altitude: data.z + 26.728}};
 					//position.coords.altitude = data.z + 26.728;
 					//position.coords.latitude = data.y;
