@@ -118,7 +118,7 @@
 			//document.getElementById("info").innerHTML = "o: "+ DEG;
 		//});
 		//const orientation = theta_rad; 
-		const theta = -(0-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
+		const theta = -(0-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度，假設朝向正北開啟
 		const theta_rad = theta * Math.PI /180;
 		
 		//watch position for outdoor
@@ -157,7 +157,7 @@
 				}
 
 				let target_att = document.createAttribute('position');
-				target_att.value = x+" "+H+" "+z;
+				target_att.value = E+" "+H+" "+N;
 				target[j].setAttributeNode(target_att);
 			}
 		};
