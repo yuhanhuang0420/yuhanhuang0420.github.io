@@ -118,8 +118,8 @@
 			//document.getElementById("info").innerHTML = "o: "+ DEG;
 		//});
 		//const orientation = theta_rad; 
-		const theta = -(0-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度，假設朝向正北開啟
-		const theta_rad = theta * Math.PI /180;
+		//const theta = -(0-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度，假設朝向正北開啟，即ZX對齊EN
+		//const theta_rad = theta * Math.PI /180;
 		
 		//watch position for outdoor
 		//var watchID = navigator.geolocation.watchPosition(function( data ) {
@@ -128,7 +128,7 @@
 		//});
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入全域物件position)
-		const MyApiURL = "https://b015-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		const MyApiURL = "https://c388-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		jQuery(document).ready(function(){
 			setInterval(function() {
 				$.getJSON( MyApiURL, function( data ) {
