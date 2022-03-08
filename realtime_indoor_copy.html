@@ -119,22 +119,22 @@
 		window.addEventListener('deviceorientation', function(event) {
 			theta = -(event.webkitCompassHeading-180-90);
 			theta_rad = theta * Math.PI /180;
-			const o = theta_rad;
 		});
+		const orientation = theta_rad; //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
 		
 		//watch position for outdoor
-		//var watchID = navigator.geolocation.watchPosition(function(position) {
-			//SetLocation("text",o);SetLocation("entity",o);
+		//var watchID = navigator.geolocation.watchPosition(function( data ) {
+			position = data;
+			//SetLocation("text",orientation);SetLocation("entity",orientation);
 		//});
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入全域物件position)
 		const MyApiURL = "https://b015-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		jQuery(document).ready(function(){
-			let orientation = theta_rad; //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
-			document.getElementById("info").innerHTML = "o: "+ o;
+			document.getElementById("info").innerHTML = "o: "+ orientation;
 			setInterval(function() {
 				$.getJSON( MyApiURL, function( data ) {
-					var height = data.z + 26.728;
+					let height = data.z + 26.728;
 					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					position = {coords:{latitude: data.y, longitude: data.x, altitude: height}};
 					console.log("position: " + position);
@@ -145,20 +145,20 @@
 				
 		//設定各模型相對於所在即時位置的高及位置
 		function SetLocation(type, degree){ //type: a實體類型
-      var target = document.querySelectorAll('a-'+type);
-      for(var j=0; j<target.length; j++){ 
-        var H = data_h[j] - position.coords.altitude;
-        var N = (data_n[j] - position.coords.latitude)*110751.075273;
-        var E = (data_e[j] - position.coords.longitude)*101751.561277; //WGS84下ENH方向距離差(公尺，暫不考慮地球曲率)
-        var z = Math.cos(degree)*E + Math.sin(degree)*N;
-        var x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
+      let target = document.querySelectorAll('a-'+type);
+      for(let j=0; j<target.length; j++){ 
+        let H = data_h[j] - position.coords.altitude;
+        let N = (data_n[j] - position.coords.latitude)*110751.075273;
+        let E = (data_e[j] - position.coords.longitude)*101751.561277; //WGS84下ENH方向距離差(公尺，暫不考慮地球曲率)
+        let z = Math.cos(degree)*E + Math.sin(degree)*N;
+        let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
 				
 				if (type=="text"){
           target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
           H = data_h[j] + 2.4 - position.coords.altitude;
         }
 
-        var target_att = document.createAttribute('position');
+        let target_att = document.createAttribute('position');
         target_att.value = x+" "+H+" "+z;
         target[j].setAttributeNode(target_att);
       }
