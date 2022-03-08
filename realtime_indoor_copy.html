@@ -15,7 +15,6 @@
 	vr-mode-ui="enabled: false"
 	embedded
 	arjs="sourceType: webcam; debugUIEnabled: false;"
-	style="height:80%; width:100%;"
 	>
 	<!--1.一樓大門: gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;" position="0 26.728 0"-->
 	<a-text
@@ -96,54 +95,52 @@
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
 	
-	<div id="info"></div>
-	
 	<script>
+    //global variable
+		var position = new Object(); //用戶即時位置座標
+		var theta = 0; //手機-z軸向(朝前)相對於N軸向之順時針角度
+		var theta_rad = 0; //N軸轉向手機x軸向(朝右)的逆時針角度
+		
 		//set a-entity data (e,n,h: a實體設定座標)
     var data_e = [120.2199345, 120.2200520, 120.2200649, 120.2200666, 120.2202121, 120.2202138, 120.2200666];
     var data_n = [22.9986416, 22.9987154, 22.9987299, 22.9987492, 22.9987189, 22.9987382, 22.9987492];
     var data_h = [26.728, 27.033, 31.634, 31.634, 31.634, 31.634, 36.148];
     
-    //get azimuth
-    var theta = 0;
-		var theta_rad = 0;
-		window.addEventListener('deviceorientation', function(event) {
-			theta = -(event.webkitCompassHeading-180-90);
-			theta_rad = theta * Math.PI /180;
-			document.getElementById("info").innerHTML = "theta_rad = " + theta_rad;
-		});
-		
 		//watch position for outdoor
 		/*var watchID = navigator.geolocation.watchPosition(function(position) {
-			SetLocation("text",position);SetLocation("entity",position);
+			SetLocation("text");SetLocation("entity");
 		});*/
 		
-		//watch position for indoor (呼叫後端API，從GIPS server獲取定位軌跡)
+		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入全域物件position)
 		const MyApiURL = "https://35ac-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		jQuery(document).ready(function(){
 			setInterval(function() {
 				$.getJSON( MyApiURL, function( data ) {
 					var height = data.z + 26.728;
 					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
-					var position = {coords:{latitude: data.y, longitude: data.x, altitude: height}};
+					position = {coords:{latitude: data.y, longitude: data.x, altitude: height}};
 					console.log("position: " + position);
-					//position.coords.altitude = data.z + 26.728;
-					//position.coords.latitude = data.y;
-					//position.coords.longitude = data.x;
-					SetLocation("text",position);SetLocation("entity",position);
+					//SetLocation("text");SetLocation("entity");
 				});
 			}, 1000);
 		});
 		
+		//get azimuth
+		window.addEventListener('deviceorientation', function(event) {
+			theta = -(event.webkitCompassHeading-180-90);
+			theta_rad = theta * Math.PI /180;
+			SetLocation("text");SetLocation("entity");
+		});
+				
 		//設定各模型相對於所在即時位置的高及位置
-		function SetLocation(type,position){ //type: a實體類型, position: 用戶即時位置座標
+		function SetLocation(type){ //type: a實體類型
       var target = document.querySelectorAll('a-'+type);
       for(var j=0; j<target.length; j++){ 
         var H = data_h[j] - position.coords.altitude;
         var N = (data_n[j] - position.coords.latitude)*110751.075273;
-        var E = (data_e[j] - position.coords.longitude)*101751.561277; //各方向距離差(公尺)
+        var E = (data_e[j] - position.coords.longitude)*101751.561277; //WGS84下ENH方向距離差(公尺，暫不考慮地球曲率)
         var z = Math.cos(theta_rad)*E + Math.sin(theta_rad)*N;
-        var x = Math.cos(theta_rad)*N - Math.sin(theta_rad)*E; //換算至手機相機坐標系中(公尺)
+        var x = Math.cos(theta_rad)*N - Math.sin(theta_rad)*E; //換算至手機相機局部坐標系中(公尺)
 				
 				if (type=="text"){
           target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
