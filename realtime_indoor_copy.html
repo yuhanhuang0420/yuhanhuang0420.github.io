@@ -96,10 +96,11 @@
 	</a-scene>
 	
 	<script>
+		var x = 0;
 		setInterval(function() {
 			var target = document.querySelectorAll('a-entity');
 			var target_att = document.createAttribute('position');
-			var x += 0.5; 
+			x += 0.5; 
 			target_att.value = x+" 0 0";
 			target.setAttributeNode(target_att);
 		}, 1000);
