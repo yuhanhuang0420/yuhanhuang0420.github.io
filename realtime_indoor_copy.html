@@ -131,7 +131,7 @@
 		const MyApiURL = "https://b015-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		jQuery(document).ready(function(){
 			let orientation = theta_rad; //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
-			document.getElementById("info").innerHTML = "o: "+ orientation;
+			document.getElementById("info").innerHTML = "o: "+ o;
 			setInterval(function() {
 				$.getJSON( MyApiURL, function( data ) {
 					var height = data.z + 26.728;
