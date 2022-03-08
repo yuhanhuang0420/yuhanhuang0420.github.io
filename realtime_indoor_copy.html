@@ -25,7 +25,6 @@
 		rotation="0 0 0"
 		scale="1 1 1"
 		gltf-model="./assets/pin.gltf"
-		position="0 0 5"
 	></a-entity>
 	<!--2.經緯廳: gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;" position="0 27.033 0"
 	<a-text
@@ -97,6 +96,13 @@
 	</a-scene>
 	
 	<script>
+		setInterval(function() {
+			var target = document.querySelectorAll('a-entity');
+			var target_att = document.createAttribute('position');
+			var x += 0.5; 
+			target_att.value = x+" 0 0";
+			target.setAttributeNode(target_att);
+		}, 1000);
     /*//global variable
 		var position = new Object(); //用戶即時位置座標
 		var theta = 0; //手機-z軸向(朝前)相對於N軸向之順時針角度
