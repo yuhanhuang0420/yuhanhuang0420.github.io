@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>real time indoor</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+	<meta charset='utf-8'>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<title>real time indoor</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 </head>
 
 <body style="margin: 0px; overflow: hidden;">
 	<a-scene
 	vr-mode-ui="enabled: false"
 	embedded
-	arjs="sourceType: webcam; debugUIEnabled: false;" style="width:400px; height:300px;"
+	arjs="sourceType: webcam; debugUIEnabled: false;"
 	>
 	<!--1.一樓大門: gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;" position="0 26.728 0"-->
 	<a-text
@@ -94,7 +94,7 @@
 		
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
-	<div id="info"></div>
+	<!--<div id="info"></div>-->
 	<script>
 		/*var x = 0;
 		setInterval(function() {
@@ -106,9 +106,9 @@
 		}, 1000);*/
 		
 		//set a-entity data (e,n,h: a實體設定座標)
-    var data_e = [120.2199345, 120.2200520, 120.2200649, 120.2200666, 120.2202121, 120.2202138, 120.2200666];
-    var data_n = [22.9986416, 22.9987154, 22.9987299, 22.9987492, 22.9987189, 22.9987382, 22.9987492];
-    var data_h = [26.728, 27.033, 31.634, 31.634, 31.634, 31.634, 36.148];
+		var data_e = [120.2199345, 120.2200520, 120.2200649, 120.2200666, 120.2202121, 120.2202138, 120.2200666];
+		var data_n = [22.9986416, 22.9987154, 22.9987299, 22.9987492, 22.9987189, 22.9987382, 22.9987492];
+		var data_h = [26.728, 27.033, 31.634, 31.634, 31.634, 31.634, 36.148];
 		
 		//get azimuth
 		//window.addEventListener('deviceorientation', function(event) {
@@ -141,23 +141,23 @@
 				
 		//設定各模型相對於所在即時位置的高及位置
 		function SetLocation(type, degree, position){ //type: a實體類型
-      let target = document.querySelectorAll('a-'+type);
-      for(let j=0; j<target.length; j++){ 
-        let H = data_h[j] - position.coords.altitude;
-        let N = (data_n[j] - position.coords.latitude)*110751.075273;
-        let E = (data_e[j] - position.coords.longitude)*101751.561277; //WGS84下ENH方向距離差(公尺，暫不考慮地球曲率)
-        let z = Math.cos(degree)*E + Math.sin(degree)*N;
-        let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
-				
-				if (type=="text"){
-          target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
-          H = data_h[j] + 2.4 - position.coords.altitude;
-        }
+			let target = document.querySelectorAll('a-'+type);
+			for(let j=0; j<target.length; j++){ 
+				let H = data_h[j] - position.coords.altitude;
+				let N = (data_n[j] - position.coords.latitude)*110751.075273;
+				let E = (data_e[j] - position.coords.longitude)*101751.561277; //WGS84下ENH方向距離差(公尺，暫不考慮地球曲率)
+				let z = Math.cos(degree)*E + Math.sin(degree)*N;
+				let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
 
-        let target_att = document.createAttribute('position');
-        target_att.value = x+" "+H+" "+z;
-        target[j].setAttributeNode(target_att);
-      }
+				if (type=="text"){
+					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
+					H = data_h[j] + 2.4 - position.coords.altitude;
+				}
+
+				let target_att = document.createAttribute('position');
+				target_att.value = x+" "+H+" "+z;
+				target[j].setAttributeNode(target_att);
+			}
 		};
 		
 	</script>
