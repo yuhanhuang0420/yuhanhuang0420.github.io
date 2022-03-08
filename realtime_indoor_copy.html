@@ -136,20 +136,20 @@
 					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 					console.log("position: " + position);
-					SetLocation("text",theta_rad, position);SetLocation("entity",theta_rad, position);
+					SetLocation("text", position);SetLocation("entity", position);
 				});
 			}, 1000);
 		});
 				
 		//設定各模型相對於所在即時位置的高及位置
-		function SetLocation(type, degree, position){ //type: a實體類型
+		function SetLocation(type, position){ //type: a實體類型
 			let target = document.querySelectorAll('a-'+type);
 			for(let j=0; j<target.length; j++){ 
 				let H = data_h[j] - position.coords.altitude;
 				let N = (data_n[j] - position.coords.latitude)*110751.075273;
 				let E = (data_e[j] - position.coords.longitude)*101751.561277; //WGS84下ENH方向距離差(公尺，暫不考慮地球曲率)
-				let z = Math.cos(degree)*E + Math.sin(degree)*N;
-				let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
+				//let z = Math.cos(degree)*E + Math.sin(degree)*N;
+				//let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
 
 				if (type=="text"){
 					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
