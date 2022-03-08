@@ -118,6 +118,8 @@
 			//document.getElementById("info").innerHTML = "o: "+ DEG;
 		//});
 		//const orientation = theta_rad; 
+		const theta = -(0-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
+		const theta_rad = theta * Math.PI /180;
 		
 		//watch position for outdoor
 		//var watchID = navigator.geolocation.watchPosition(function( data ) {
@@ -134,7 +136,7 @@
 					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 					console.log("position: " + position);
-					SetLocation("text",0, position);SetLocation("entity",0, position);
+					SetLocation("text",theta_rad, position);SetLocation("entity",theta_rad, position);
 				});
 			}, 1000);
 		});
