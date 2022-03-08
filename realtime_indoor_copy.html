@@ -142,7 +142,7 @@
 		
 		//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
 		jQuery(document).ready(function(){
-			$.getJSON( TagTrack.json, function( e ) {
+			$.getJSON( "TagTrack.json", function( e ) {
 				let i = 0;
 				let lat = e.data.values[i][9].y;
 				let lon = e.data.values[i][9].x;
