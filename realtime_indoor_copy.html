@@ -128,7 +128,7 @@
 		//});
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入全域物件position)
-		const MyApiURL = "https://9114-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		const MyApiURL = "https://b015-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		jQuery(document).ready(function(){
 			let orientation = theta_rad; //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
 			document.getElementById("info").innerHTML = "o: "+ orientation;
