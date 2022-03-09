@@ -124,24 +124,30 @@
 		//watch position for outdoor
 		//var watchID = navigator.geolocation.watchPosition(function( data ) {
 			//position = data;
-			//SetLocation("text",orientation);SetLocation("entity",orientation);
+			//SetLocation("text",position);SetLocation("entity",position);
 		//});
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入全域物件position)
-		//const MyApiURL = "https://c388-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
-		/*jQuery(document).ready(function(){
+		const MyApiURL = "https://1dfb-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		jQuery(document).ready(function(){
+			$.getJSON( MyApiURL, function( data ) {
+				let height = data.z + 26.728;
+				let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+				console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+				SetLocation("text", position);SetLocation("entity", position);
+			});
 			setInterval(function() {
 				$.getJSON( MyApiURL, function( data ) {
 					let height = data.z + 26.728;
-					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					SetLocation("text", position);SetLocation("entity", position);
 				});
 			}, 1000);
-		});*/
+		});
 		
 		//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
-		jQuery(document).ready(function(){
+		/*jQuery(document).ready(function(){
 			$.getJSON( "TagTrack.json", function( e ) {
 				let i = 0;
 				let lat = e.data.values[i][9].y;
@@ -161,7 +167,7 @@
 					SetLocation("text", position);SetLocation("entity", position);
 				}, 1000);
 			});
-		});
+		});*/
 				
 		//設定各模型相對於所在即時位置的高及位置
 		function SetLocation(type, position){ //type: a實體類型
