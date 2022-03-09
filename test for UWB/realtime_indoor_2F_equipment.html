@@ -50,8 +50,8 @@
 		//});
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入全域物件position)
-		const MyApiURL = "https://2e39-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
-		const MyApiURL2 = "https://2e39-140-116-47-130.ngrok.io/gipsense/TrackAPI-2.php";
+		const MyApiURL = "https://c979-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		const MyApiURL2 = "https://c979-140-116-47-130.ngrok.io/gipsense/TrackAPI-2.php";
 		jQuery(document).ready(function(){
 			$.getJSON( MyApiURL, function( data ) {
 				$.getJSON( MyApiURL2, function( data2 ) {
