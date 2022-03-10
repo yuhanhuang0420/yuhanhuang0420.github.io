@@ -50,16 +50,15 @@
 		//});
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
-		const MyApiURL = "https://2a45-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
-		const MyApiURL2 = "https://2a45-140-116-47-130.ngrok.io/gipsense/TrackAPI-2.php";
+		const MyApiURL = "https://1ce6-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		const MyApiURL2 = "https://1ce6-140-116-47-130.ngrok.io/gipsense/TrackAPI-2.php";
 		jQuery(document).ready(function(){
 			$.getJSON( MyApiURL, function( data ) {
 				$.getJSON( MyApiURL2, function( data2 ) {
 					let height = 31.634;
 					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 					let EQUposition = {coords:{latitude: data2.y, longitude: data2.x, altitude: height}}; //設備即時位置座標
-					console.log("B217, x: "+ data.x +"y: "+ data.y +"z: "+ height);
-					console.log("BB76, x: "+ data2.x +"y: "+ data2.y +"z: "+ height);
+					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					SetLocation("text", position, EQUposition);SetLocation("entity", position, EQUposition);
 				});
 			});
@@ -69,8 +68,7 @@
 						let height = 31.634;
 						let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 						let EQUposition = {coords:{latitude: data2.y, longitude: data2.x, altitude: height}}; //設備即時位置座標
-						console.log("B217, x: "+ data.x +"y: "+ data.y +"z: "+ height);
-						console.log("BB76, x: "+ data2.x +"y: "+ data2.y +"z: "+ height);
+						console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 						SetLocation("text", position, EQUposition);SetLocation("entity", position, EQUposition);
 					});
 				});
