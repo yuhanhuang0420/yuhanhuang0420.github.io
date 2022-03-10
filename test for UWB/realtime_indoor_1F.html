@@ -119,7 +119,7 @@
 		//});
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
-		const MyApiURL = "https://2f71-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		const MyApiURL = "https://2a45-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		jQuery(document).ready(function(){
 			$.getJSON( MyApiURL, function( data ) {
 				let height = 26.728;
@@ -134,7 +134,7 @@
 					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					SetLocation("text", position);SetLocation("entity", position);
 				});
-			}, 1000);
+			}, 1500);
 		});
 				
 		//設定各模型相對於所在即時位置的高及位置
