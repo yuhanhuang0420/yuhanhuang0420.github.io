@@ -24,7 +24,7 @@
 	></a-text>
 	<a-entity
 		rotation="0 0 0"
-		scale="1 1 1"
+		scale="0.25 0.25 0.25"
 		gltf-model="../assets/ball_red.gltf"
 	></a-entity>
 		
@@ -87,7 +87,7 @@
 
 				if (type=="text"){
 					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
-					H = equpos.coords.altitude + 2.4 - position.coords.altitude;
+					H = equpos.coords.altitude + 1 - position.coords.altitude;
 				}
 
 				let target_att = document.createAttribute('position');
