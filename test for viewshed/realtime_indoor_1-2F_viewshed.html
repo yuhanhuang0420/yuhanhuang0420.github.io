@@ -162,21 +162,24 @@
 		
 		//遮蔽判斷
 		function CheckViewshed(type, height){
+			target_att.value = "opacity: 0.5; transparent: true";
+			if (height>=4){ //設為2F，實體no.1,2,7要變為遮蔽
+				SetOpacity("entity", 0);
+				SetOpacity("entity", 1);
+				SetOpacity("entity", 6);
+			}else{ //在1F，實體no.3,4,5,6變為遮蔽
+				SetOpacity("entity", 2);
+				SetOpacity("entity", 3);
+				SetOpacity("entity", 4);
+				SetOpacity("entity", 5);
+			}
+		};
+		function SetOpacity(type, num){
 			let target = document.querySelectorAll('a-'+type);
 			let target_att = document.createAttribute('material');
 			target_att.value = "opacity: 0.5; transparent: true";
-			if (height>=4){ //設為2F，實體no.1,2,7要變為遮蔽
-				target[0].setAttributeNode(target_att);
-				target[1].setAttributeNode(target_att);
-				target[6].setAttributeNode(target_att);
-			}else{ //在1F，實體no.3,4,5,6變為遮蔽
-				target[2].setAttributeNode(target_att);
-				target[3].setAttributeNode(target_att);
-				target[4].setAttributeNode(target_att);
-				target[5].setAttributeNode(target_att);
-			}
+			target[num].setAttributeNode(target_att);
 		};
-		
 	</script>
 </body>
 </html>
