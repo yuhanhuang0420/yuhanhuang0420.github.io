@@ -156,22 +156,21 @@
 				target_att.value = E+" "+H+" "+(-N);
 				target[j].setAttributeNode(target_att);
 			}
-			CheckViewshed("text", position.coords.altitude);
-			CheckViewshed("entity", position.coords.altitude);
+			CheckViewshed(position.coords.altitude);
 		};
 		
 		//遮蔽判斷
-		function CheckViewshed(type, height){
+		function CheckViewshed(height){
 			target_att.value = "opacity: 0.5; transparent: true";
 			if (height>=4){ //設為2F，實體no.1,2,7要變為遮蔽
-				SetOpacity("entity", 0);
-				SetOpacity("entity", 1);
-				SetOpacity("entity", 6);
+				SetOpacity("text", 0);
+				SetOpacity("text", 1);
+				SetOpacity("text", 6);
 			}else{ //在1F，實體no.3,4,5,6變為遮蔽
-				SetOpacity("entity", 2);
-				SetOpacity("entity", 3);
-				SetOpacity("entity", 4);
-				SetOpacity("entity", 5);
+				SetOpacity("text", 2);
+				SetOpacity("text", 3);
+				SetOpacity("text", 4);
+				SetOpacity("text", 5);
 			}
 		};
 		function SetOpacity(type, num){
