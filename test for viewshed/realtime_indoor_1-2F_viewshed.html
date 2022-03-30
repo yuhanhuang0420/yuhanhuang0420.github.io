@@ -153,7 +153,11 @@
 		};
 		function SetOpacity(type, num){
 			let target = document.querySelectorAll('a-'+type);
-			target[num].setAttribute('material', "opacity: 0.75; transparent: true");
+			if (type=="text"){
+				target[num].setAttribute('opacity', '0.25');
+			}else{
+				target[num].setAttribute('material', "opacity: 0.25; transparent: true");
+			}
 		};
 	</script>
 </body>
