@@ -121,7 +121,7 @@
 
 				if (type=="text"){
 					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
-					H = data_h[j] + 1 - position.coords.altitude;
+					H = data_h[j] + 0.75 - position.coords.altitude;
 				}
 
 				let target_att = document.createAttribute('position');
@@ -134,10 +134,17 @@
 		//遮蔽判斷
 		function CheckViewshed(height){
 			if (height>=4){ //設為2F，實體no.1,2,7要變為遮蔽
+				SetOpacity("text", 0);
+				SetOpacity("text", 1);
+				SetOpacity("text", 6);
 				SetOpacity("entity", 0);
 				SetOpacity("entity", 1);
 				SetOpacity("entity", 6);
 			}else{ //在1F，實體no.3,4,5,6變為遮蔽
+				SetOpacity("text", 2);
+				SetOpacity("text", 3);
+				SetOpacity("text", 4);
+				SetOpacity("text", 5);
 				SetOpacity("entity", 2);
 				SetOpacity("entity", 3);
 				SetOpacity("entity", 4);
@@ -146,7 +153,7 @@
 		};
 		function SetOpacity(type, num){
 			let target = document.querySelectorAll('a-'+type);
-			target[num].setAttribute('material', "opacity: 0.5; transparent: true");
+			target[num].setAttribute('material', "opacity: 0.75; transparent: true");
 		};
 	</script>
 </body>
