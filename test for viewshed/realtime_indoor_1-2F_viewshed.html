@@ -121,7 +121,7 @@
 
 				if (type=="text"){
 					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
-					H = data_h[j] + 0.75 - position.coords.altitude;
+					H = data_h[j] + 0.6 - position.coords.altitude;
 				}
 
 				let target_att = document.createAttribute('position');
@@ -154,9 +154,9 @@
 		function SetOpacity(type, num){
 			let target = document.querySelectorAll('a-'+type);
 			if (type=="text"){
-				target[num].setAttribute('opacity', '0.25');
+				target[num].setAttribute('opacity', '0.3');
 			}else{
-				target[num].setAttribute('material', "opacity: 0.25; transparent: true");
+				target[num].setAttribute('material', "opacity: 0.3; transparent: true");
 			}
 		};
 	</script>
