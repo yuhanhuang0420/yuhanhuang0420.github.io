@@ -1,6 +1,6 @@
 /*from https://proto.io/freebies/onoff/*/
 .onoffswitch {
-    position: relative; width: 55px;
+    /*position: relative;*/ width: 55px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
     z-index: 10;
 }
