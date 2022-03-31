@@ -96,6 +96,8 @@
 				console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 				SetLocation("text", position);SetLocation("entity", position);
 				CheckViewshed(position.coords.altitude);
+				SetOpacityValue("text", viewshed_list, 0.3); //預設遮蔽為開啟
+				SetOpacityValue("entity", viewshed_list, 0.3);
 			});
 			setInterval(function() {
 				$.getJSON( MyApiURL, function( data ) {
@@ -142,8 +144,6 @@
 		//遮蔽效果開關
 		function GetSwitch(){
 			let opacity_value = 0.3; //遮蔽不透明度預設值
-			SetOpacityValue("text", viewshed_list, opacity_value);
-			SetOpacityValue("entity", viewshed_list, opacity_value);
 			let checkbox = document.querySelector("input[name=onoffswitch]");
 			checkbox.addEventListener('change', function() {
 				if (this.checked) {
