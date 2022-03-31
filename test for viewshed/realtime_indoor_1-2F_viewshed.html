@@ -79,7 +79,7 @@
 		var data_h = [26.728, 27.033, 31.634, 31.634, 31.634, 31.634, 36.148];
 		
 		//遮蔽效果相關變數
-		let viewshed_list; //存放需考慮遮蔽的實體編號
+		let viewshed_list = []; //存放需考慮遮蔽的實體編號
 		
 		//watch position for outdoor
 		//var watchID = navigator.geolocation.watchPosition(function( data ) {
@@ -95,7 +95,7 @@
 				let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 				console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 				SetLocation("text", position);SetLocation("entity", position);
-				viewshed_list = CheckViewshed(position.coords.altitude);
+				CheckViewshed(position.coords.altitude);
 			});
 			setInterval(function() {
 				$.getJSON( MyApiURL, function( data ) {
@@ -103,11 +103,11 @@
 					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					SetLocation("text", position);SetLocation("entity", position);
-					viewshed_list = CheckViewshed(position.coords.altitude);
+					CheckViewshed(position.coords.altitude);
 				});
 			}, 2000);
-			GetSwitch(viewshed_list);
 		});
+		GetSwitch();
 				
 		//設定各模型相對於所在即時位置的高及位置
 		function SetLocation(type, position){ //type: a實體類型
@@ -132,20 +132,18 @@
 		
 		//遮蔽判斷
 		function CheckViewshed(height){
-			let list = [];
 			if (height>=4){ //設為2F，實體no.1,2,7要變為遮蔽
-				list = [0, 1, 6];
+				viewshed_list = [0, 1, 6];
 			}else{ //在1F，實體no.3,4,5,6變為遮蔽
-				list = [2, 3, 4, 5];
+				viewshed_list = [2, 3, 4, 5];
 			}
-			return list;
 		};
 		
 		//遮蔽效果開關
-		function GetSwitch(vlist){
+		function GetSwitch(){
 			let opacity_value = 0.3; //遮蔽不透明度預設值
-			SetOpacityValue("text", vlist, opacity_value);
-			SetOpacityValue("entity", vlist, opacity_value);
+			SetOpacityValue("text", viewshed_list, opacity_value);
+			SetOpacityValue("entity", viewshed_list, opacity_value);
 			let checkbox = document.querySelector("input[name=onoffswitch]");
 			checkbox.addEventListener('change', function() {
 				if (this.checked) {
@@ -155,8 +153,8 @@
 					console.log("Checkbox is not checked..");
 					opacity_value = 1;
 				}
-				SetOpacityValue("text", vlist, opacity_value);
-				SetOpacityValue("entity", vlist, opacity_value);
+				SetOpacityValue("text", viewshed_list, opacity_value);
+				SetOpacityValue("entity", viewshed_list, opacity_value);
 			});
 		};
 		
