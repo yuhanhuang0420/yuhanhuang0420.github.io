@@ -103,6 +103,7 @@
 				let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 				console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 				SetLocation("text", position);SetLocation("entity", position);
+				CheckViewshed(position.coords.altitude);
 			});
 			setInterval(function() {
 				$.getJSON( MyApiURL, function( data ) {
@@ -137,22 +138,22 @@
 		};
 		
 		//遮蔽判斷
+		let viewshed_list;
 		function CheckViewshed(height){
-			let viewshed_list;
 			if (height>=4){ //設為2F，實體no.1,2,7要變為遮蔽
 				viewshed_list = [0, 1, 6];
 			}else{ //在1F，實體no.3,4,5,6變為遮蔽
 				viewshed_list = [2, 3, 4, 5];
 			}
-			GetSwitch(viewshed_list);
 		};
+		GetSwitch(viewshed_list);
+		let opacity_value = 0.3;
+		SetOpacityValue("text", viewshed_list, opacity_value);
+		SetOpacityValue("entity", viewshed_list, opacity_value);
 		
 		//遮蔽效果開關
 		function GetSwitch(viewshed_list){
 			let checkbox = document.querySelector("input[name=onoffswitch]");
-			let opacity_value = 0.3;
-			SetOpacityValue("text", viewshed_list, opacity_value);
-			SetOpacityValue("entity", viewshed_list, opacity_value);
 			checkbox.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox is checked..");
