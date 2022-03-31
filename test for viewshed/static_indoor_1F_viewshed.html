@@ -80,6 +80,7 @@
 		
 		let position = {coords:{latitude: 22.9986638, longitude: 120.2199828, altitude: 26.728}};
 		SetLocation("text", position);SetLocation("entity", position);
+		GetSwitch();
 				
 		//設定各模型相對於所在即時位置的高及位置
 		function SetLocation(type, position){ //type: a實體類型
@@ -100,13 +101,14 @@
 				target_att.value = E+" "+H+" "+(-N);
 				target[j].setAttributeNode(target_att);
 			}
-			GetSwitch();
 		};
 		
 		function GetSwitch(){
 			let checkbox = document.querySelector("input[name=onoffswitch]");
 			let viewshed_list = [0, 1, 6];
 			let opacity_value = 0.3;
+			SetOpacityValue("text", viewshed_list, opacity_value);
+			SetOpacityValue("entity", viewshed_list, opacity_value);
 			checkbox.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox is checked..");
@@ -115,9 +117,9 @@
 					console.log("Checkbox is not checked..");
 					opacity_value = 1;
 				}
+				SetOpacityValue("text", viewshed_list, opacity_value);
+				SetOpacityValue("entity", viewshed_list, opacity_value);
 			});
-			SetOpacityValue("text", viewshed_list, opacity_value);
-			SetOpacityValue("entity", viewshed_list, opacity_value);
 		};
 		
 		function SetOpacityValue(type, num, value){
