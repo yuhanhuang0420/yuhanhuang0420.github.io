@@ -67,7 +67,7 @@
 		
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
-	<!--<div id="info"></div>-->
+	
 	<div class="onoffswitch">
 		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
 		<label class="onoffswitch-label" for="myonoffswitch"></label>
@@ -96,7 +96,7 @@
 		//});
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
-		const MyApiURL = "https://1a2e-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		const MyApiURL = "https://15d9-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		jQuery(document).ready(function(){
 			$.getJSON( MyApiURL, function( data ) {
 				let height = data.z + 26.728;
@@ -110,6 +110,7 @@
 					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					SetLocation("text", position);SetLocation("entity", position);
+					CheckViewshed(position.coords.altitude);
 				});
 			}, 2000);
 		});
@@ -133,35 +134,47 @@
 				target_att.value = E+" "+H+" "+(-N);
 				target[j].setAttributeNode(target_att);
 			}
-			CheckViewshed(position.coords.altitude);
 		};
 		
 		//遮蔽判斷
 		function CheckViewshed(height){
+			let viewshed_list;
 			if (height>=4){ //設為2F，實體no.1,2,7要變為遮蔽
-				SetOpacity("text", 0);
-				SetOpacity("text", 1);
-				SetOpacity("text", 6);
-				SetOpacity("entity", 0);
-				SetOpacity("entity", 1);
-				SetOpacity("entity", 6);
+				viewshed_list = [0, 1, 6];
 			}else{ //在1F，實體no.3,4,5,6變為遮蔽
-				SetOpacity("text", 2);
-				SetOpacity("text", 3);
-				SetOpacity("text", 4);
-				SetOpacity("text", 5);
-				SetOpacity("entity", 2);
-				SetOpacity("entity", 3);
-				SetOpacity("entity", 4);
-				SetOpacity("entity", 5);
+				viewshed_list = [2, 3, 4, 5];
 			}
+			GetSwitch(viewshed_list);
 		};
-		function SetOpacity(type, num){
+		
+		//遮蔽效果開關
+		function GetSwitch(viewshed_list){
+			let checkbox = document.querySelector("input[name=onoffswitch]");
+			let opacity_value = 0.3;
+			SetOpacityValue("text", viewshed_list, opacity_value);
+			SetOpacityValue("entity", viewshed_list, opacity_value);
+			checkbox.addEventListener('change', function() {
+				if (this.checked) {
+					console.log("Checkbox is checked..");
+					opacity_value = 0.3;
+				} else {
+					console.log("Checkbox is not checked..");
+					opacity_value = 1;
+				}
+				SetOpacityValue("text", viewshed_list, opacity_value);
+				SetOpacityValue("entity", viewshed_list, opacity_value);
+			});
+		};
+		
+		//遮蔽效果不透明度設定
+		function SetOpacityValue(type, num, value){
 			let target = document.querySelectorAll('a-'+type);
-			if (type=="text"){
-				target[num].setAttribute('opacity', '0.3');
-			}else{
-				target[num].setAttribute('material', "opacity: 0.3; transparent: true");
+			for(let j=0; j<num.length; j++){
+				if (type=="text"){
+					target[num[j]].setAttribute('opacity', value);
+				} else {
+					target[num[j]].setAttribute('material', "opacity: "+value+"; transparent: true");
+				}
 			}
 		};
 	</script>
