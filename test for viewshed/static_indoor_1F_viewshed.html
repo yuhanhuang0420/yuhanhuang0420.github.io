@@ -139,8 +139,14 @@
 		};
 		
 		function GetSwitch(){
-			let status = document.getElementsByName("onoffswitch");
-			console.log(status);
+			var checkbox = document.querySelector("input[name=onoffswitch]");
+			checkbox.addEventListener('change', function() {
+				if (this.checked) {
+				console.log("Checkbox is checked..");
+				} else {
+				console.log("Checkbox is not checked..");
+				}
+			});
 		};
 		GetSwitch();
 	</script>
