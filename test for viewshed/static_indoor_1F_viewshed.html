@@ -22,52 +22,52 @@
 		value="gate"
 		scale="1 1 1"
 	></a-text>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material="opacity: 0.5; transparent: true"></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
 	<!--2.經緯廳: gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;" position="0 27.033 0"-->
 	<a-text
 		value="Chin-Way Hall"
 		scale="1 1 1"
 	></a-text>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material="opacity: 0.5; transparent: true"></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
 	<!--3.大一教室: gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;" position="0 31.634 0"-->
 	<a-text
 		value="55250"
 		scale="1 1 1"
 		color="yellow"
 	></a-text>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material="opacity: 0.5; transparent: true; color: yellow"></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
 	<!--4.電腦教室: gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;" position="0 31.634 0"-->
 	<a-text
 		value="55208"
 		scale="1 1 1"
 		color="yellow"
 	></a-text>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material="opacity: 0.5; transparent: true; color: yellow"></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
 	<!--5.圖書室: gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;" position="0 31.634 0"-->
 	<a-text
 		value="55209"
 		scale="1 1 1"
 		color="yellow"
 	></a-text>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material="opacity: 0.5; transparent: true; color: yellow"></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
 	<!--6.55210實驗室: gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;" position="0 31.634 0"-->
 	<a-text
 		value="55210"
 		scale="1 1 1"
 		color="yellow"
 	></a-text>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material="opacity: 0.5; transparent: true; color: yellow"></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
 	<!--7.55316實驗室: gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;" position="0 36.148 0"-->
 	<a-text
 		value="Our lab"
 		scale="1 1 1"
 		color="red"
 	></a-text>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material="opacity: 0.5; transparent: true; color: red"></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>
 		
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
-	<!--<div id="info"></div>-->
+	
 	<div class="onoffswitch">
 		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
 		<label class="onoffswitch-label" for="myonoffswitch"></label>
@@ -77,42 +77,6 @@
 		var data_e = [120.2199345, 120.2200520, 120.2200649, 120.2200666, 120.2202121, 120.2202138, 120.2200666];
 		var data_n = [22.9986416, 22.9987154, 22.9987299, 22.9987492, 22.9987189, 22.9987382, 22.9987492];
 		var data_h = [26.728, 27.033, 31.634, 31.634, 31.634, 31.634, 36.148];
-		
-		//get azimuth
-		//window.addEventListener('deviceorientation', function(event) {
-			//const theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
-			//const theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
-			//const DEG = theta_rad; //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
-			//document.getElementById("info").innerHTML = "o: "+ DEG;
-		//});
-		//const orientation = theta_rad; 
-		//const theta = -(0-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度，假設朝向正北開啟，即ZX對齊EN
-		//const theta_rad = theta * Math.PI /180;
-		
-		//watch position for outdoor
-		//var watchID = navigator.geolocation.watchPosition(function( data ) {
-			//position = data;
-			//SetLocation("text",position);SetLocation("entity",position);
-		//});
-		
-		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
-		/*const MyApiURL = "https://1dfb-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
-		jQuery(document).ready(function(){
-			$.getJSON( MyApiURL, function( data ) {
-				let height = data.z + 26.728;
-				let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
-				console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
-				SetLocation("text", position);SetLocation("entity", position);
-			});
-			setInterval(function() {
-				$.getJSON( MyApiURL, function( data ) {
-					let height = data.z + 26.728;
-					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
-					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
-					SetLocation("text", position);SetLocation("entity", position);
-				});
-			}, 1000);
-		});*/
 		
 		let position = {coords:{latitude: 22.9986638, longitude: 120.2199828, altitude: 26.728}};
 		SetLocation("text", position);SetLocation("entity", position);
@@ -136,19 +100,36 @@
 				target_att.value = E+" "+H+" "+(-N);
 				target[j].setAttributeNode(target_att);
 			}
+			GetSwitch();
 		};
 		
 		function GetSwitch(){
-			var checkbox = document.querySelector("input[name=onoffswitch]");
+			let checkbox = document.querySelector("input[name=onoffswitch]");
+			let viewshed_list = [0, 1, 6];
+			let opacity_value = 0.3;
 			checkbox.addEventListener('change', function() {
 				if (this.checked) {
-				console.log("Checkbox is checked..");
+					console.log("Checkbox is checked..");
+					opacity_value = 0.3;
 				} else {
-				console.log("Checkbox is not checked..");
+					console.log("Checkbox is not checked..");
+					opacity_value = 1;
 				}
 			});
+			SetOpacityValue("text", viewshed_list, opacity_value);
+			SetOpacityValue("entity", viewshed_list, opacity_value);
 		};
-		GetSwitch();
+		
+		function SetOpacityValue(type, num, value){
+			let target = document.querySelectorAll('a-'+type);
+			for(let j=0; j<num.length; j++){
+				if (type=="text"){
+					target[num[j]].setAttribute('opacity', value);
+				} else {
+					target[num[j]].setAttribute('material', "opacity: "+value+"; transparent: true");
+				}
+			}
+		};
 	</script>
 </body>
 </html>
