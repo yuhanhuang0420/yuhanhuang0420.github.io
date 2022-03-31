@@ -78,16 +78,8 @@
 		var data_n = [22.9986416, 22.9987154, 22.9987299, 22.9987492, 22.9987189, 22.9987382, 22.9987492];
 		var data_h = [26.728, 27.033, 31.634, 31.634, 31.634, 31.634, 36.148];
 		
-		//get azimuth
-		//window.addEventListener('deviceorientation', function(event) {
-			//const theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
-			//const theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
-			//const DEG = theta_rad; //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
-			//document.getElementById("info").innerHTML = "o: "+ DEG;
-		//});
-		//const orientation = theta_rad; 
-		//const theta = -(0-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度，假設朝向正北開啟，即ZX對齊EN
-		//const theta_rad = theta * Math.PI /180;
+		//遮蔽效果相關變數
+		let viewshed_list; //存放需考慮遮蔽的實體編號
 		
 		//watch position for outdoor
 		//var watchID = navigator.geolocation.watchPosition(function( data ) {
@@ -103,7 +95,7 @@
 				let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 				console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 				SetLocation("text", position);SetLocation("entity", position);
-				CheckViewshed(position.coords.altitude);
+				viewshed_list = CheckViewshed(position.coords.altitude);
 			});
 			setInterval(function() {
 				$.getJSON( MyApiURL, function( data ) {
@@ -111,9 +103,10 @@
 					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					SetLocation("text", position);SetLocation("entity", position);
-					CheckViewshed(position.coords.altitude);
+					viewshed_list = CheckViewshed(position.coords.altitude);
 				});
 			}, 2000);
+			GetSwitch(viewshed_list);
 		});
 				
 		//設定各模型相對於所在即時位置的高及位置
@@ -138,21 +131,21 @@
 		};
 		
 		//遮蔽判斷
-		let viewshed_list;
 		function CheckViewshed(height){
+			let list = [];
 			if (height>=4){ //設為2F，實體no.1,2,7要變為遮蔽
-				viewshed_list = [0, 1, 6];
+				list = [0, 1, 6];
 			}else{ //在1F，實體no.3,4,5,6變為遮蔽
-				viewshed_list = [2, 3, 4, 5];
+				list = [2, 3, 4, 5];
 			}
+			return list;
 		};
-		GetSwitch(viewshed_list);
-		let opacity_value = 0.3;
-		SetOpacityValue("text", viewshed_list, opacity_value);
-		SetOpacityValue("entity", viewshed_list, opacity_value);
 		
 		//遮蔽效果開關
-		function GetSwitch(viewshed_list){
+		function GetSwitch(vlist){
+			let opacity_value = 0.3; //遮蔽不透明度預設值
+			SetOpacityValue("text", vlist, opacity_value);
+			SetOpacityValue("entity", vlist, opacity_value);
 			let checkbox = document.querySelector("input[name=onoffswitch]");
 			checkbox.addEventListener('change', function() {
 				if (this.checked) {
@@ -162,8 +155,8 @@
 					console.log("Checkbox is not checked..");
 					opacity_value = 1;
 				}
-				SetOpacityValue("text", viewshed_list, opacity_value);
-				SetOpacityValue("entity", viewshed_list, opacity_value);
+				SetOpacityValue("text", vlist, opacity_value);
+				SetOpacityValue("entity", vlist, opacity_value);
 			});
 		};
 		
