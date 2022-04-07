@@ -101,7 +101,7 @@
 		//遮蔽判斷
 		function CheckViewshed(p, poly){
 			let inorout = windingNumber(p, poly);
-			if (inorout = 'on' || inorout = 'in'){ //位置在圖書室內部，遮蔽關閉
+			if (inorout == 'on' || inorout == 'in'){ //位置在圖書室內部，遮蔽關閉
 				viewshed_list = [];
 			}else if (inorout = 'out'){ //位置在圖書室外部，遮蔽開啟
 				viewshed_list = [0];
