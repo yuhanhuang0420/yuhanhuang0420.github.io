@@ -30,12 +30,18 @@
 	</div>
 	<script>
 		//set a-entity data (e,n,h: a實體設定座標)
-		var data_e = [120.2202250];
-		var data_n = [22.9986611];
-		var data_h = [31.634];
+		let data_e = [120.2202250];
+		let data_n = [22.9986611];
+		let data_h = [31.634];
 		
 		//遮蔽效果相關變數
 		let viewshed_list = []; //存放需考慮遮蔽的實體編號
+		let viewshed_area = [{x: 120.2202833, y: 22.9986425},
+				     {x: 120.2201943, y: 22.9986494},
+				     {x: 120.2202003, y: 22.9987189},
+				     {x: 120.2202176, y: 22.9987188},
+				     {x: 120.2202188, y: 22.9987374},
+				     {x: 120.2202907, y: 22.9987312}];
 		
 		//watch position for outdoor
 		//var watchID = navigator.geolocation.watchPosition(function( data ) {
@@ -45,25 +51,29 @@
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
 		const MyApiURL = "https://3163-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
-		jQuery(document).ready(function(){
-			$.getJSON( MyApiURL, function( data ) {
-				let height = data.z + 26.728;
-				let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
-				console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+		//jQuery(document).ready(function(){
+			//$.getJSON( MyApiURL, function( data ) {
+				//let height = data.z + 26.728;
+				//let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+				//let point = {x: data.x, y: data.y};
+				//console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+				let position = {coords:{longitude: 120.2202089, latitude: 22.9987106, altitude: 32}};
+				let point = {x: 120.2202089, y: 22.9987106};
 				SetLocation("text", position);SetLocation("entity", position);
-				CheckViewshed(position.coords.altitude);
+				CheckViewshed(point, viewshed_area);
 				SetOpacityValue("text", viewshed_list, 0.3); //預設遮蔽為開啟
 				SetOpacityValue("entity", viewshed_list, 0.3);
-			});
-			setInterval(function() {
-				$.getJSON( MyApiURL, function( data ) {
-					let height = data.z + 26.728;
-					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
-					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
-					SetLocation("text", position);SetLocation("entity", position);
-					CheckViewshed(position.coords.altitude);
-				});
-			}, 2000);
+			//});
+			//setInterval(function() {
+				//$.getJSON( MyApiURL, function( data ) {
+					//let height = data.z + 26.728;
+					//let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+					//let point = {x: data.x, y: data.y};
+					//console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+					//SetLocation("text", position);SetLocation("entity", position);
+					//CheckViewshed(point, viewshed_area);
+				//});
+			//}, 2000);
 		});
 		GetSwitch();
 				
@@ -89,12 +99,48 @@
 		};
 		
 		//遮蔽判斷
-		function CheckViewshed(height){
-			if (height>=4){ //設為2F，實體no.1,2,7要變為遮蔽
-				viewshed_list = [0];
-			}else{ //在1F，實體no.3,4,5,6變為遮蔽
+		function CheckViewshed(p, poly){
+			let inorout = windingNumber(p, poly);
+			if (inorout = 'on' || inorout = 'in'){ //位置在圖書室內部，遮蔽關閉
 				viewshed_list = [];
+			}else if (inorout = 'out'){ //位置在圖書室外部，遮蔽開啟
+				viewshed_list = [0];
 			}
+		};
+		/**https://www.itread01.com/content/1547955205.html
+		* @description 迴轉數法判斷點是否在多邊形內部
+		* @param {Object} p 待判斷的點，格式：{ x: X座標, y: Y座標 }
+		* @param {Array} poly 多邊形頂點，陣列成員的格式同 p
+		* @return {String} 點 p 和多邊形 poly 的幾何關係
+		*/
+		function windingNumber(p, poly) {
+			var px = p.x,
+			py = p.y,
+			sum = 0;
+
+			for(var i = 0, l = poly.length, j = l - 1; i < l; j = i, i++) {
+				var sx = poly[i].x,
+				  sy = poly[i].y,
+				  tx = poly[j].x,
+				  ty = poly[j].y;
+
+				// 點與多邊形頂點重合或在多邊形的邊上
+				if((sx - px) * (px - tx) >= 0 && (sy - py) * (py - ty) >= 0 && (px - sx) * (ty - sy) === (py - sy) * (tx - sx)) {
+					return 'on'
+				}
+				// 點與相鄰頂點連線的夾角
+				var angle = Math.atan2(sy - py, sx - px) - Math.atan2(ty - py, tx - px);
+
+				// 確保夾角不超出取值範圍（-π 到 π）
+				if(angle >= Math.PI) {
+					angle = angle - Math.PI * 2;
+				} else if(angle <= -Math.PI) {
+					angle = angle + Math.PI * 2;
+				}
+				sum += angle;
+			}
+			// 計算迴轉數並判斷點和多邊形的幾何關係
+			return Math.round(sum / Math.PI) === 0 ? 'out' : 'in'
 		};
 		
 		//遮蔽效果開關
@@ -117,11 +163,13 @@
 		//遮蔽效果不透明度設定
 		function SetOpacityValue(type, num, value){
 			let target = document.querySelectorAll('a-'+type);
-			for(let j=0; j<num.length; j++){
-				if (type=="text"){
-					target[num[j]].setAttribute('opacity', value);
-				} else {
-					target[num[j]].setAttribute('gltf-model', "../assets/table_transparent05.gltf");
+			if (num.length != 0){
+				for(let j=0; j<num.length; j++){
+					if (type=="text"){
+						target[num[j]].setAttribute('opacity', value);
+					} else {
+						target[num[j]].setAttribute('gltf-model', "../assets/table_transparent05.gltf");
+					}
 				}
 			}
 		};
