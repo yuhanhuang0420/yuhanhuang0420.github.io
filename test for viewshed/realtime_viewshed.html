@@ -128,6 +128,7 @@
 				// 點與多邊形頂點重合或在多邊形的邊上
 				if((sx - px) * (px - tx) >= 0 && (sy - py) * (py - ty) >= 0 && (px - sx) * (ty - sy) === (py - sy) * (tx - sx)) {
 					return 'on'
+					console.log("on");
 				}
 				// 點與相鄰頂點連線的夾角
 				var angle = Math.atan2(sy - py, sx - px) - Math.atan2(ty - py, tx - px);
@@ -142,6 +143,7 @@
 			}
 			// 計算迴轉數並判斷點和多邊形的幾何關係
 			return Math.round(sum / Math.PI) === 0 ? 'out' : 'in'
+			console.log("out");
 		};
 		
 		//遮蔽效果開關
