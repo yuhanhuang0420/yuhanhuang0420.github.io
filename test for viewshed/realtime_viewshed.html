@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<title>real time indoor: viewshed(1F+2F)</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+	<link rel="stylesheet" href="../css/onoffswitch.css">
+</head>
+
+<body style="margin: 0px; overflow: hidden;">
+	<a-scene
+	vr-mode-ui="enabled: false"
+	embedded
+	arjs="sourceType: webcam; debugUIEnabled: false;"
+	>
+	<!--1.圖書室方桌OID3: 120.2202250°E 22.9986611°N 31.634m-->
+	<a-text value="table" scale="1 1 1"></a-text>
+	<a-entity gltf-model="../assets/table.gltf"></a-entity>
+		
+	<a-camera rotation-reader></a-camera>
+	</a-scene>
+	
+	<div class="onoffswitch">
+		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
+		<label class="onoffswitch-label" for="myonoffswitch"></label>
+	</div>
+	<script>
+		//set a-entity data (e,n,h: a實體設定座標)
+		var data_e = [120.2202250];
+		var data_n = [22.9986611];
+		var data_h = [31.634];
+		
+		//遮蔽效果相關變數
+		let viewshed_list = []; //存放需考慮遮蔽的實體編號
+		
+		//watch position for outdoor
+		//var watchID = navigator.geolocation.watchPosition(function( data ) {
+			//position = data;
+			//SetLocation("text",position);SetLocation("entity",position);
+		//});
+		
+		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
+		const MyApiURL = "https://3163-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		jQuery(document).ready(function(){
+			$.getJSON( MyApiURL, function( data ) {
+				let height = data.z + 26.728;
+				let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+				console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+				SetLocation("text", position);SetLocation("entity", position);
+				CheckViewshed(position.coords.altitude);
+				SetOpacityValue("text", viewshed_list, 0.3); //預設遮蔽為開啟
+				SetOpacityValue("entity", viewshed_list, 0.3);
+			});
+			setInterval(function() {
+				$.getJSON( MyApiURL, function( data ) {
+					let height = data.z + 26.728;
+					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+					SetLocation("text", position);SetLocation("entity", position);
+					CheckViewshed(position.coords.altitude);
+				});
+			}, 2000);
+		});
+		GetSwitch();
+				
+		//設定各模型相對於所在即時位置的高及位置
+		function SetLocation(type, position){ //type: a實體類型
+			let target = document.querySelectorAll('a-'+type);
+			for(let j=0; j<target.length; j++){ 
+				let H = data_h[j] - position.coords.altitude;
+				let N = (data_n[j] - position.coords.latitude)*110751.075273;
+				let E = (data_e[j] - position.coords.longitude)*101751.561277; //WGS84下ENH方向距離差(公尺，暫不考慮地球曲率)
+				//let z = Math.cos(degree)*E + Math.sin(degree)*N;
+				//let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
+
+				if (type=="text"){
+					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
+					H = data_h[j] + 1 - position.coords.altitude;
+				}
+
+				let target_att = document.createAttribute('position');
+				target_att.value = E+" "+H+" "+(-N);
+				target[j].setAttributeNode(target_att);
+			}
+		};
+		
+		//遮蔽判斷
+		function CheckViewshed(height){
+			if (height>=4){ //設為2F，實體no.1,2,7要變為遮蔽
+				viewshed_list = [0];
+			}else{ //在1F，實體no.3,4,5,6變為遮蔽
+				viewshed_list = [];
+			}
+		};
+		
+		//遮蔽效果開關
+		function GetSwitch(){
+			let opacity_value = 0.3; //遮蔽不透明度預設值
+			let checkbox = document.querySelector("input[name=onoffswitch]");
+			checkbox.addEventListener('change', function() {
+				if (this.checked) {
+					console.log("Checkbox is checked..");
+					opacity_value = 0.3;
+				} else {
+					console.log("Checkbox is not checked..");
+					opacity_value = 1;
+				}
+				SetOpacityValue("text", viewshed_list, opacity_value);
+				SetOpacityValue("entity", viewshed_list, opacity_value);
+			});
+		};
+		
+		//遮蔽效果不透明度設定
+		function SetOpacityValue(type, num, value){
+			let target = document.querySelectorAll('a-'+type);
+			for(let j=0; j<num.length; j++){
+				if (type=="text"){
+					target[num[j]].setAttribute('opacity', value);
+				} else {
+					target[num[j]].setAttribute('gltf-model', "../assets/table_transparent05.gltf");
+				}
+			}
+		};
+	</script>
+</body>
+</html>
