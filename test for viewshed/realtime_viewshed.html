@@ -28,6 +28,13 @@
 		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
 		<label class="onoffswitch-label" for="myonoffswitch"></label>
 	</div>
+	<div class="onoffswitch">
+		<input type="checkbox" name="onoffswitch2" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked style="top: 4px">
+		<label class="onoffswitch-label" for="myonoffswitch"></label>
+	</div>
+	<div style="background-color: rgba(255, 255, 255, 0.4); width: 100%; position:relative;">
+		<div name="info" style="position: absolute; bottom: 0px; right: 0px;"><div>
+	</div>
 	<script>
 		//set a-entity data (e,n,h: a實體設定座標)
 		let data_e = [120.2202250];
@@ -160,6 +167,17 @@
 				}
 				SetOpacityValue("text", viewshed_list, opacity_value);
 				SetOpacityValue("entity", viewshed_list, opacity_value);
+			});
+			
+			let checkbox2 = document.querySelector("input[name=onoffswitch2]");
+			checkbox2.addEventListener('change', function() {
+				if (this.checked) {
+					console.log("Checkbox2 is checked..");
+					document.querySelector("div[name=info]").innerHTML='this is attribute';
+				} else {
+					console.log("Checkbox2 is not checked..");
+					document.querySelector("div[name=info]").innerHTML='';
+				}
 			});
 		};
 		
