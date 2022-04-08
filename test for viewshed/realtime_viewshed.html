@@ -18,8 +18,8 @@
 	arjs="sourceType: webcam; debugUIEnabled: false;"
 	>
 	<!--1.圖書室方桌OID3: 120.2202250°E 22.9986611°N 31.634m-->
-	<a-text value="table is here!" scale="1 1 1" color="red" position="3 1 3" look-at="{x: 0, y: 0, z: 0}"></a-text>
-	<a-entity gltf-model="../assets/table_transparent05_3.gltf"></a-entity>
+	<a-text value="table is here!" scale="1 1 1" color="red"></a-text>
+	<a-entity gltf-model="../assets/table.gltf"></a-entity>
 		
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
@@ -57,9 +57,9 @@
 				//let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 				//let point = {x: data.x, y: data.y};
 				//console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
-				let position = {coords:{longitude: 120.2201977, latitude: 22.9987337, altitude: 32}};
+				let position = {coords:{longitude: 120.2201977, latitude: 22.9987337, altitude: 31.634}};
 				let point = {x: 120.2201977, y: 22.9987337};
-				/*SetLocation("text", position);*/SetLocation("entity", position);
+				SetLocation("text", position);SetLocation("entity", position);
 				CheckViewshed(point, viewshed_area);
 				SetOpacityValue("text", viewshed_list, 0.3); //預設遮蔽為開啟
 				SetOpacityValue("entity", viewshed_list, 0.3);
@@ -171,7 +171,7 @@
 					if (type=="text"){
 						target[num[j]].setAttribute('opacity', value);
 					} else {
-						//target[num[j]].setAttribute('gltf-model', "../assets/table_transparent05.gltf");
+						target[num[j]].setAttribute('gltf-model', "../assets/table_transparent05_3.gltf");
 						//target[num[j]].removeAttribute('gltf-model');
 						//let target_att = document.createAttribute('gltf-model');
 						//target_att.value = "../assets/table_transparent05.gltf";
