@@ -29,7 +29,7 @@
 		<label class="onoffswitch-label" for="myonoffswitch"></label>
 	</div>-->
 	<div class="onoffswitch" style="left: 0px">
-		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch2" tabindex="0" checked>
+		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch2" tabindex="0" checked>
 		<label class="onoffswitch-label" for="myonoffswitch"></label>
 	</div>
 	<div style="background-color: rgba(255, 255, 255, 0.4); width: 100%; position:relative;">
@@ -169,7 +169,7 @@
 				SetOpacityValue("entity", viewshed_list, opacity_value);
 			});*/
 			
-			let checkbox2 = document.querySelector("#myonoffswitch2");
+			let checkbox2 = document.querySelector("input[name=onoffswitch]");
 			checkbox2.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox2 is checked..");
