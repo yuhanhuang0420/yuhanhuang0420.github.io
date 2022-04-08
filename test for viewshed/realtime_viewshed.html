@@ -173,7 +173,9 @@
 					} else {
 						//target[num[j]].setAttribute('gltf-model', "../assets/table_transparent05.gltf");
 						target[num[j]].removeAttribute('gltf-model');
-						console.log("remove");
+						let target_att = document.createAttribute('gltf-model');
+						target_att.value = "../assets/table_transparent05.gltf";
+						target[num[j]].setAttributeNode(target_att);
 					}
 				}
 			}
