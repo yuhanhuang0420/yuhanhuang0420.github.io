@@ -170,17 +170,16 @@
 				for(let j=0; j<num.length; j++){
 					if (type=="text"){
 						target[num[j]].setAttribute('opacity', value);
-					} else {
-						//target[num[j]].setAttribute('gltf-model', "../assets/table_transparent05_3.gltf");
-						//target[num[j]].removeAttribute('gltf-model');
-						let target_att = document.createAttribute('gltf-model');
-						target_att.value = "../assets/table_transparent05_3.gltf";
-						target[num[j]].setAttributeNode(target_att);
-						/*target[num[j]].parentNode.removeChild(target[num[j]]);
-						let sceneEl = document .querySelector( 'a-scene' );
-						let entityEl = document .createElement( 'a-entity' );
-						entityEl.setAttribute('gltf-model', "../assets/table_transparent05.gltf"); 
-						sceneEl.appendChild(entityEl);*/
+					} else if (type=="entity"){
+						if (value<1){
+							let target_att = document.createAttribute('gltf-model');
+							target_att.value = "../assets/table_transparent05_3.gltf";
+							target[num[j]].setAttributeNode(target_att);
+						}else if (value==1){
+							let target_att = document.createAttribute('gltf-model');
+							target_att.value = "../assets/table.gltf";
+							target[num[j]].setAttributeNode(target_att);
+						}
 					}
 				}
 			}
