@@ -24,12 +24,12 @@
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
 	
-	<!--<div class="onoffswitch">
+	<div class="onoffswitch">
 		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
 		<label class="onoffswitch-label" for="myonoffswitch"></label>
-	</div> style="left: 0px"-->
-	<div class="onoffswitch">
-		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch2" tabindex="0" checked>
+	</div>
+	<div class="onoffswitch" style="left: 0px">
+		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch2" tabindex="0">
 		<label class="onoffswitch-label" for="myonoffswitch2"></label>
 	</div>
 	<div name="info" style="background-color: rgba(255, 255, 255, 0.4); width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>
@@ -154,7 +154,7 @@
 		//遮蔽效果開關
 		function GetSwitch(){
 			let opacity_value = 0.3; //遮蔽不透明度預設值
-			/*let checkbox = document.querySelector("#myonoffswitch");
+			let checkbox = document.querySelector("#myonoffswitch");
 			checkbox.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox is checked..");
@@ -165,7 +165,7 @@
 				}
 				SetOpacityValue("text", viewshed_list, opacity_value);
 				SetOpacityValue("entity", viewshed_list, opacity_value);
-			});*/
+			});
 			
 			let checkbox2 = document.querySelector("#myonoffswitch2");
 			checkbox2.addEventListener('change', function() {
