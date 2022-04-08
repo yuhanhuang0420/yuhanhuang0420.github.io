@@ -18,7 +18,7 @@
 	arjs="sourceType: webcam; debugUIEnabled: false;"
 	>
 	<!--1.圖書室方桌OID3: 120.2202250°E 22.9986611°N 31.634m-->
-	<a-text value="table" scale="1 1 1"></a-text>
+	<a-text value="table" scale="1 1 1" color="red"></a-text>
 	<a-entity gltf-model="../assets/table.gltf"></a-entity>
 		
 	<a-camera rotation-reader></a-camera>
@@ -171,7 +171,9 @@
 					if (type=="text"){
 						target[num[j]].setAttribute('opacity', value);
 					} else {
-						target[num[j]].setAttribute('gltf-model', "../assets/table_transparent05.gltf");
+						//target[num[j]].setAttribute('gltf-model', "../assets/table_transparent05.gltf");
+						target[num[j]].removeAttribute('gltf-model');
+						console.log("remove");
 					}
 				}
 			}
