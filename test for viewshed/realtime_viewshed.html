@@ -10,7 +10,7 @@
 	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 	<link rel="stylesheet" href="../css/onoffswitch.css">
 	<style type="text/css">
-		.switchtag{color:#ffffff; z-index:10; position:absolute; top: 10px; right:60px; font-family:monospace; font-size: smaller;}
+		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace; font-size: smaller;}
 		.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
 		.tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
 		  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
@@ -34,12 +34,12 @@
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
 	
-	<div class="switchtag">OCCL</div>
+	<div class="switchtag" style="top:10px;">OCCL</div>
 	<div class="onoffswitch">
 		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
 		<label class="onoffswitch-label" for="myonoffswitch"></label>
 	</div>
-	<div class="switchtag">INFO</div>
+	<div class="switchtag" style="top:40px;">INFO</div>
 	<div class="onoffswitch" style="top:40px;">
 		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch2" tabindex="0">
 		<label class="onoffswitch-label" for="myonoffswitch2"></label>
