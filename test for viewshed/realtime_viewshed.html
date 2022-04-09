@@ -9,6 +9,15 @@
 	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
 	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 	<link rel="stylesheet" href="../css/onoffswitch.css">
+	<style type="text/css">
+		.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
+		.tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+		  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+		.tg th{background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+		  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+		.tg .tg-2fdn{border-color:#9b9b9b;text-align:left;vertical-align:top}
+		.tg .tg-4ypd{background-color:#efefef;border-color:#9b9b9b;text-align:left;vertical-align:top}
+	</style>
 </head>
 
 <body style="margin: 0px; overflow: hidden;">
@@ -171,7 +180,8 @@
 			checkbox2.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox2 is checked..");
-					document.querySelector("div[name=info]").innerHTML='this is attribute';
+					//document.querySelector("div[name=info]").innerHTML='this is attribute';
+					document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px"><colgroup><col style="width: 151px"><col style="width: 224px"></colgroup><thead><tr><th class="tg-4ypd">OID</th><th class="tg-4ypd">3</th></tr></thead><tbody><tr><td class="tg-2fdn">BaseCategory</td><td class="tg-2fdn">SpecialtyEquipment</td></tr><tr><td class="tg-4ypd">Discipline</td><td class="tg-4ypd">Architectural</td></tr><tr><td class="tg-2fdn">BldgLevel</td><td class="tg-2fdn">2 floor</td></tr><tr><td class="tg-4ypd">OmniClassDescription</td><td class="tg-4ypd">General Furniture and Specialties</td></tr></tbody></table>';
 				} else {
 					console.log("Checkbox2 is not checked..");
 					document.querySelector("div[name=info]").innerHTML='';
