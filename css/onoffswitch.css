@@ -2,7 +2,7 @@
 .onoffswitch {
     /*position: relative;*/ width: 55px;
     position: absolute;
-    top: 2px;
+    top: 5px;
     right: 0;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
     z-index: 10;
