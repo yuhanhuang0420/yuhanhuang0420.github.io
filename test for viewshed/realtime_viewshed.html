@@ -84,10 +84,10 @@
 		SetLocation("text", position); SetLocation("entity", position);
 		CheckViewshed(point, viewshed_area);
 		SetOpacityValue("text", viewshed_list, 0.3); SetOpacityValue("entity", viewshed_list, 0.3); //預設遮蔽為開啟
-		setInterval(function() {
+		let clock = setInterval(function() {
 			i++;
 			if (i > track.length) {
-				clearInterval(clock());
+				clearInterval(clock);
 			}
 			lon = track[i].x;
 			lat = track[i].y;
