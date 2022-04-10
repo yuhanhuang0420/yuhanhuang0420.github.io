@@ -53,6 +53,7 @@
 		let data_h = [31.634];
 		
 		//遮蔽效果相關變數
+		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
 		let viewshed_list = []; //存放需考慮遮蔽的實體編號
 		let viewshed_area = [{"x": 120.2202833, "y": 22.9986425},
 				     {"x": 120.2201943, "y": 22.9986494},
@@ -83,7 +84,7 @@
 		let point = {x: lon, y: lat};
 		SetLocation("text", position); SetLocation("entity", position);
 		CheckViewshed(point, viewshed_area);
-		SetOpacityValue("text", viewshed_list, 0.3); SetOpacityValue("entity", viewshed_list, 0.3); //預設遮蔽為開啟
+		SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
 		let clock = setInterval(function() {
 			i++;
 			if (i > track.length) {
@@ -95,7 +96,7 @@
 			point = {x: lon, y: lat};
 			SetLocation("text", position); SetLocation("entity", position);
 			CheckViewshed(point, viewshed_area);
-			SetOpacityValue("text", viewshed_list, 0.3); SetOpacityValue("entity", viewshed_list, 0.3); //預設遮蔽為開啟
+			SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot); 
 		}, 2000);
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
@@ -195,20 +196,19 @@
 			//console.log("out");
 		};
 		
-		//遮蔽效果開關
+		//遮蔽效果及資訊表開關
 		function GetSwitch(){
-			let opacity_value = 0.3; //遮蔽不透明度預設值
 			let checkbox = document.querySelector("#myonoffswitch");
 			checkbox.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox is checked..");
-					opacity_value = 0.3;
+					viewshedornot = true;
 				} else {
 					console.log("Checkbox is not checked..");
-					opacity_value = 1;
+					viewshedornot = false;
 				}
-				SetOpacityValue("text", viewshed_list, opacity_value);
-				SetOpacityValue("entity", viewshed_list, opacity_value);
+				SetOpacityValue("text", viewshed_list, viewshedornot);
+				SetOpacityValue("entity", viewshed_list, viewshedornot);
 			});
 			
 			let checkbox2 = document.querySelector("#myonoffswitch2");
@@ -225,9 +225,9 @@
 		};
 		
 		//遮蔽效果不透明度設定
-		function SetOpacityValue(type, num, value){
+		function SetOpacityValue(type, num, trueorfalse){
 			let target = document.querySelectorAll('a-'+type);
-			if (num.length == 0){ //沒有實體需要設定透明度
+			if (num.length == 0 || trueorfalse == false){ //沒有實體需要設定透明度
 				for(let j=0; j<target.length; j++){
 					if (type=="text"){
 						target[j].setAttribute('opacity', 1);
@@ -237,20 +237,14 @@
 						target[j].setAttributeNode(target_att);
 					}
 				}
-			} else if (num.length != 0){ //從清單獲得需要設定透明度的實體編號，並依據開關與否改變透明度數值
+			} else if (num.length != 0){ //從清單獲得需要設定透明度的實體編號，並改變透明度數值
 				for(let j=0; j<num.length; j++){
 					if (type=="text"){
-						target[num[j]].setAttribute('opacity', value);
+						target[num[j]].setAttribute('opacity', 0.3);
 					} else if (type=="entity"){
-						if (value<1){
-							let target_att = document.createAttribute('gltf-model');
-							target_att.value = "../assets/table_transparent05_3.gltf";
-							target[num[j]].setAttributeNode(target_att);
-						}else if (value==1){
-							let target_att = document.createAttribute('gltf-model');
-							target_att.value = "../assets/table.gltf";
-							target[num[j]].setAttributeNode(target_att);
-						}
+						let target_att = document.createAttribute('gltf-model');
+						target_att.value = "../assets/table_transparent05_3.gltf";
+						target[num[j]].setAttributeNode(target_att);
 					}
 				}
 			}
