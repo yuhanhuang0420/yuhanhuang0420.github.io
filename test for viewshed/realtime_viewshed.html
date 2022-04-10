@@ -46,7 +46,11 @@
 	</div>
 	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>
 	
-	<script>
+	<script type="module">
+		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js';
+        	const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
+		console.log("D: "+d);
+		
 		//set a-entity data (e,n,h: a實體設定座標)
 		let data_e = [120.2202250];
 		let data_n = [22.9986611];
