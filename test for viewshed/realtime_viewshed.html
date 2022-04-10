@@ -45,6 +45,7 @@
 		<label class="onoffswitch-label" for="myonoffswitch2"></label>
 	</div>
 	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>
+	
 	<script>
 		//set a-entity data (e,n,h: a實體設定座標)
 		let data_e = [120.2202250];
@@ -53,18 +54,49 @@
 		
 		//遮蔽效果相關變數
 		let viewshed_list = []; //存放需考慮遮蔽的實體編號
-		let viewshed_area = [{x: 120.2202833, y: 22.9986425},
-				     {x: 120.2201943, y: 22.9986494},
-				     {x: 120.2202003, y: 22.9987189},
-				     {x: 120.2202176, y: 22.9987188},
-				     {x: 120.2202188, y: 22.9987374},
-				     {x: 120.2202907, y: 22.9987312}]; //圖書室平面範圍
+		let viewshed_area = [{"x": 120.2202833, "y": 22.9986425},
+				     {"x": 120.2201943, "y": 22.9986494},
+				     {"x": 120.2202003, "y": 22.9987189},
+				     {"x": 120.2202176, "y": 22.9987188},
+				     {"x": 120.2202188, "y": 22.9987374},
+				     {"x": 120.2202907, "y": 22.9987312}]; //圖書室平面範圍
+		
+		//測試用軌跡
+		let track = [{"x": 120.2201673, "y": 22.9987303},
+			     {"x": 120.2201933, "y": 22.9987361},
+			     {"x": 120.2201977, "y": 22.9987337},
+			     {"x": 120.2202089, "y": 22.9987106},
+			     {"x": 120.2202275, "y": 22.9986844}];
 		
 		//watch position for outdoor
 		//var watchID = navigator.geolocation.watchPosition(function( data ) {
 			//position = data;
 			//SetLocation("text",position);SetLocation("entity",position);
 		//});
+		
+		//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
+		let i = 0;
+		let lon = track[i].x;
+		let lat = track[i].y;
+		let alt = 31.634;
+		let position = {coords:{latitude: lat, longitude: lon, altitude: alt}}; //用戶即時位置座標
+		let point = {x: lon, y: lat};
+		SetLocation("text", position); SetLocation("entity", position);
+		CheckViewshed(point, viewshed_area);
+		SetOpacityValue("text", viewshed_list, 0.3); SetOpacityValue("entity", viewshed_list, 0.3); //預設遮蔽為開啟
+		setInterval(function() {
+			i++;
+			if (i > track.length) {
+				clearInterval(clock());
+			}
+			lon = track[i].x;
+			lat = track[i].y;
+			position = {coords:{latitude: lat, longitude: lon, altitude: alt}};
+			point = {x: lon, y: lat};
+			SetLocation("text", position); SetLocation("entity", position);
+			CheckViewshed(point, viewshed_area);
+			SetOpacityValue("text", viewshed_list, 0.3); SetOpacityValue("entity", viewshed_list, 0.3); //預設遮蔽為開啟
+		}, 2000);
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
 		const MyApiURL = "https://3163-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
@@ -74,12 +106,12 @@
 				//let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 				//let point = {x: data.x, y: data.y};
 				//console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
-				let position = {coords:{longitude: 120.2201977, latitude: 22.9987337, altitude: 31.634}};
-				let point = {x: 120.2201977, y: 22.9987337};
-				SetLocation("text", position);SetLocation("entity", position);
-				CheckViewshed(point, viewshed_area);
-				SetOpacityValue("text", viewshed_list, 0.3); //預設遮蔽為開啟
-				SetOpacityValue("entity", viewshed_list, 0.3);
+				///let position = {coords:{longitude: 120.2201977, latitude: 22.9987337, altitude: 31.634}};
+				///let point = {x: 120.2201977, y: 22.9987337};
+				///SetLocation("text", position);SetLocation("entity", position);
+				///CheckViewshed(point, viewshed_area);
+				///SetOpacityValue("text", viewshed_list, 0.3); //預設遮蔽為開啟
+				///SetOpacityValue("entity", viewshed_list, 0.3);
 			//});
 			//setInterval(function() {
 				//$.getJSON( MyApiURL, function( data ) {
