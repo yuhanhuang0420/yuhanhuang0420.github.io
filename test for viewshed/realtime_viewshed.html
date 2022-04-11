@@ -135,14 +135,14 @@
 			let target = document.querySelectorAll('a-'+type);
 			for(let j=0; j<target.length; j++){ 
 				let H = data_h[j] - position.coords.altitude;
-				//let user = new LatLon(position.coords.latitude, position.coords.longitude);
+				let user = new LatLon(position.coords.latitude, position.coords.longitude);
 				//let N = new LatLon(data_n[j], position.coords.longitude).distanceTo(user);
 				//let E = new LatLon(position.coords.latitude, data_e[j]).distanceTo(user);
 				//if (data_n[j]-position.coords.latitude < 0){ N = -N;}
 				//if (data_e[j]-position.coords.longitude < 0){ E = -E;}
 				let N = (data_n[j] - position.coords.latitude)*110751.057;
 				let E = (data_e[j] - position.coords.longitude)*102523.314; //WGS84下ENH方向距離差(公尺，暫不考慮地球曲率)
-				console.log("E: "+E+"; N:"+N);
+				console.log("user: "+user+";");
 				//let z = Math.cos(degree)*E + Math.sin(degree)*N;
 				//let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
 
