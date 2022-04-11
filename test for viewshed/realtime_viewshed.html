@@ -28,7 +28,7 @@
 	arjs="sourceType: webcam; debugUIEnabled: false;"
 	>
 	<!--1.圖書室方桌OID3: 120.2202250°E 22.9986611°N 31.634m-->
-	<a-text value="table is here!" scale="1 1 1" color="red"></a-text>
+	<a-text value="" scale="1 1 1" color="red"></a-text>
 	<a-entity gltf-model="../assets/table.gltf"></a-entity>
 		
 	<a-camera rotation-reader></a-camera>
@@ -67,9 +67,21 @@
 		
 		//測試用軌跡
 		let track = [{"x": 120.2201673, "y": 22.9987303},
+			     {"x": 120.2201673, "y": 22.9987303},
+			     {"x": 120.2201673, "y": 22.9987303},
+			     {"x": 120.2201673, "y": 22.9987303},
+			     {"x": 120.2201673, "y": 22.9987303},
+			     {"x": 120.2201803, "y": 22.9987332},
 			     {"x": 120.2201933, "y": 22.9987361},
+			     {"x": 120.2201955, "y": 22.9987349},
 			     {"x": 120.2201977, "y": 22.9987337},
+			     {"x": 120.2201977, "y": 22.9987337},
+			     {"x": 120.2201977, "y": 22.9987337},
+			     {"x": 120.2201977, "y": 22.9987337},
+			     {"x": 120.2201977, "y": 22.9987337},
+			     {"x": 120.2202033, "y": 22.9987222},
 			     {"x": 120.2202089, "y": 22.9987106},
+			     {"x": 120.2202182, "y": 22.9986975},
 			     {"x": 120.2202275, "y": 22.9986844}];
 		
 		//watch position for outdoor
@@ -85,6 +97,7 @@
 		let trackAlt = 31.634;
 		let position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}}; //用戶即時位置座標
 		let point = {x: trackLon, y: trackLat};
+		console.log("point = {lon: "+trackLon+", y: "+trackLat+"};");
 		SetLocation("text", position); SetLocation("entity", position);
 		CheckViewshed(point, viewshed_area);
 		SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
