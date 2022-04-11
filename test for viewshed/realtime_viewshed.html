@@ -83,7 +83,7 @@
 		let trackLon = track[i].x;
 		let trackLat = track[i].y;
 		let trackAlt = 31.634;
-		let position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trachAlt}}; //用戶即時位置座標
+		let position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}}; //用戶即時位置座標
 		let point = {x: trackLon, y: trackLat};
 		SetLocation("text", position); SetLocation("entity", position);
 		CheckViewshed(point, viewshed_area);
