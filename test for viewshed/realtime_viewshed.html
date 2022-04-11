@@ -97,6 +97,7 @@
 			lat = track[i].y;
 			position = {coords:{latitude: lat, longitude: lon, altitude: alt}};
 			point = {x: lon, y: lat};
+			console.log("point = {lon: "+lon+", y: "+lat};);
 			SetLocation("text", position); SetLocation("entity", position);
 			CheckViewshed(point, viewshed_area);
 			SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot); 
