@@ -80,11 +80,11 @@
 		
 		//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
 		let i = 0;
-		let lon = track[i].x;
-		let lat = track[i].y;
-		let alt = 31.634;
-		let position = {coords:{latitude: lat, longitude: lon, altitude: alt}}; //用戶即時位置座標
-		let point = {x: lon, y: lat};
+		let trackLon = track[i].x;
+		let trackLat = track[i].y;
+		let trackAlt = 31.634;
+		let position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trachAlt}}; //用戶即時位置座標
+		let point = {x: trackLon, y: trackLat};
 		SetLocation("text", position); SetLocation("entity", position);
 		CheckViewshed(point, viewshed_area);
 		SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
@@ -93,11 +93,11 @@
 			if (i > track.length) {
 				clearInterval(clock);
 			}
-			lon = track[i].x;
-			lat = track[i].y;
-			position = {coords:{latitude: lat, longitude: lon, altitude: alt}};
-			point = {x: lon, y: lat};
-			console.log("point = {lon: "+lon+", y: "+lat+"};");
+			trackLon = track[i].x;
+			trackLat = track[i].y;
+			position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}};
+			point = {x: trackLon, y: trackLat};
+			console.log("point = {lon: "+trackLon+", y: "+trackLat+"};");
 			SetLocation("text", position); SetLocation("entity", position);
 			CheckViewshed(point, viewshed_area);
 			SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot); 
