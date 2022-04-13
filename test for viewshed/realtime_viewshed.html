@@ -259,9 +259,10 @@
 					if (type=="text"){
 						target[j].setAttribute('opacity', 1);
 					} else if (type=="entity"){
-						let target_att = document.createAttribute('gltf-model');
-						target_att.value = "../assets/table.gltf";
-						target[j].setAttributeNode(target_att);
+						//let target_att = document.createAttribute('gltf-model');
+						//target_att.value = "../assets/table.gltf";
+						//target[j].setAttributeNode(target_att);
+						target[j].setAttribute('gltf-model',"../assets/table.gltf");
 					}
 				}
 			} else if (num.length != 0){ //從清單獲得需要設定透明度的實體編號，並改變透明度數值
