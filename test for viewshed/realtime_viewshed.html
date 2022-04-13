@@ -147,9 +147,10 @@
 		//設定各模型相對於所在即時位置的高及位置
 		function SetLocation(type, position){ //type: a實體類型
 			let target = document.querySelectorAll('a-'+type);
-			if (type=="entity"){target.length-=2;}
-			console.log(type+".length: "+target.length);
-			for(let j=0; j<target.length; j++){ 
+			let length = target.length;
+			if (type=="entity"){length = target.length - 2;}
+			console.log(type+".length: "+length);
+			for(let j=0; j<length; j++){ 
 				let H = data_h[j] - position.coords.altitude;
 				let data = {n:data_n[j], e:data_e[j]};
 				let user = new LatLon(position.coords.latitude, position.coords.longitude);
