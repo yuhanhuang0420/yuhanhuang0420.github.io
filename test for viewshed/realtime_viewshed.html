@@ -148,7 +148,7 @@
 		function SetLocation(type, position){ //type: a實體類型
 			let target = document.querySelectorAll('a-'+type);
 			let length = target.length;
-			if (type=="entity"){length = target.length - 2;}
+			//if (type=="entity"){length = target.length - 2;}
 			console.log(type+".length: "+length);
 			for(let j=0; j<length; j++){ 
 				let H = data_h[j] - position.coords.altitude;
