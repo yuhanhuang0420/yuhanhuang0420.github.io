@@ -149,7 +149,7 @@
 			let target = document.querySelectorAll('a-'+type);
 			for(let j=0; j<target.length; j++){ 
 				let H = data_h[j] - position.coords.altitude;
-				let n = data_n[j];
+				let n = data_n[j] -0;
 				let user = new LatLon(position.coords.latitude, position.coords.longitude);
 				let pointN = new LatLon(n, position.coords.longitude);
 				let pointE = new LatLon(position.coords.latitude, data_e[j]);
