@@ -91,7 +91,7 @@
 		//});
 		
 		//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
-		/*let i = 0;
+		let i = 0;
 		let trackLon = track[i].x;
 		let trackLat = track[i].y;
 		let trackAlt = 31.634;
@@ -114,11 +114,11 @@
 			SetLocation("text", position); SetLocation("entity", position);
 			CheckViewshed(point, viewshed_area);
 			SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot); 
-		}, 2000);*/
+		}, 2000);
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
 		const MyApiURL = "https://d588-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
-		jQuery(document).ready(function(){
+		/*jQuery(document).ready(function(){
 			$.getJSON( MyApiURL, function( data ) {
 				let height = 31.634;//data.z + 26.728;
 				let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
@@ -141,7 +141,7 @@
 					SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
 				});
 			}, 2000);
-		});
+		});*/
 		GetSwitch();
 				
 		//設定各模型相對於所在即時位置的高及位置
@@ -149,12 +149,15 @@
 			let target = document.querySelectorAll('a-'+type);
 			for(let j=0; j<target.length; j++){ 
 				let H = data_h[j] - position.coords.altitude;
-				//let user = new LatLon(position.coords.latitude, position.coords.longitude);
+				let user = new LatLon(position.coords.latitude, position.coords.longitude);
+				let pointN = new LatLon(data_n[j], position.coords.longitude);
+				let pointE = new LatLon(position.coords.latitude, data_e[j]);
+				console.log(typeof 'pointN');
 				//let N = new LatLon(data_n[j], position.coords.longitude).distanceTo(user);
 				//let E = new LatLon(position.coords.latitude, data_e[j]).distanceTo(user);
 				//if (data_n[j]-position.coords.latitude < 0){ N = -N;}
 				//if (data_e[j]-position.coords.longitude < 0){ E = -E;}
-				let N = (data_n[j] - position.coords.latitude)*110751.057;
+				let N = (data_n[j] - position.coords.latitude)*110744.070;
 				let E = (data_e[j] - position.coords.longitude)*102523.314; //WGS84下ENH方向距離差(公尺，暫不考慮地球曲率)
 				//console.log("N: "+N+"; E:"+E);
 				//let z = Math.cos(degree)*E + Math.sin(degree)*N;
