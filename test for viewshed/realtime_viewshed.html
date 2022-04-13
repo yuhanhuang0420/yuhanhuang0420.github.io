@@ -149,13 +149,13 @@
 			let target = document.querySelectorAll('a-'+type);
 			for(let j=0; j<target.length; j++){ 
 				let H = data_h[j] - position.coords.altitude;
-				let n = data_n[j] -0;
+				let data = {n:data_n[j], e:data_e[j]};
 				let user = new LatLon(position.coords.latitude, position.coords.longitude);
-				let pointN = new LatLon(n, position.coords.longitude);
-				let pointE = new LatLon(position.coords.latitude, data_e[j]);
-				console.log(typeof data_n[j]);
-				console.log(typeof n);
-				console.log(data_n[j]);
+				let pointN = new LatLon(data.n, position.coords.longitude);
+				let pointE = new LatLon(position.coords.latitude, data.e);
+				console.log(typeof pointE);
+				console.log(typeof data.n);
+				console.log(pointE);
 				//let N = new LatLon(data_n[j], position.coords.longitude).distanceTo(user);
 				//let E = new LatLon(position.coords.latitude, data_e[j]).distanceTo(user);
 				//if (data_n[j]-position.coords.latitude < 0){ N = -N;}
