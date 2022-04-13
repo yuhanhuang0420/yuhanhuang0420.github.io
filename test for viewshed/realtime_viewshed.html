@@ -150,7 +150,7 @@
 			for(let j=0; j<length; j++){ 
 				let H = data_h[j] - position.coords.altitude;
 				let N, E;
-				if ((type=="entity" && length<=target.length-2)||(type!="entity")){
+				if ((type=="entity" && j<=length-2)||(type!="entity")){
 					let user = new LatLon(position.coords.latitude, position.coords.longitude);
 					N = new LatLon(data_n[j], position.coords.longitude).distanceTo(user);
 					E = new LatLon(position.coords.latitude, data_e[j]).distanceTo(user);
