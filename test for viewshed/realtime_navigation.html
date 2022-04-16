@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<title>real time indoor: viewshed(1F+2F)</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+	<link rel="stylesheet" href="../css/onoffswitch.css">
+	<style type="text/css">
+		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace;}
+		.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
+		.tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+		  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+		.tg th{background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+		  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+		.tg .tg-2fdn{border-color:#9b9b9b;text-align:left;vertical-align:top}
+		.tg .tg-4ypd{background-color:#efefef;border-color:#9b9b9b;text-align:left;vertical-align:top}
+	</style>
+</head>
+
+<body style="margin: 0px; overflow: hidden;">
+	<a-scene
+	vr-mode-ui="enabled: false"
+	embedded
+	arjs="sourceType: webcam; debugUIEnabled: false;"
+	>
+	<!--1.起點-->
+	<a-text value="Start" scale="1 1 1" color="red"></a-text>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
+		
+	<a-camera rotation-reader></a-camera>
+	</a-scene>
+	
+	<div class="switchtag" style="top:10px;">OCCL</div>
+	<div class="onoffswitch">
+		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
+		<label class="onoffswitch-label" for="myonoffswitch"></label>
+	</div>
+	
+	<script type="module">
+		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
+        	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
+		
+		//set a-entity data (e,n,h: a實體設定座標)
+		let data_e = [120.2202250];
+		let data_n = [22.9986611];
+		let data_h = [31.634];
+		
+		//遮蔽效果相關變數
+		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
+		let viewshed_list = []; //存放需考慮遮蔽的實體編號
+		let viewshed_area = [{"x": 120.2202833, "y": 22.9986425},
+				     {"x": 120.2201943, "y": 22.9986494},
+				     {"x": 120.2202003, "y": 22.9987189},
+				     {"x": 120.2202176, "y": 22.9987188},
+				     {"x": 120.2202188, "y": 22.9987374},
+				     {"x": 120.2202907, "y": 22.9987312}]; //圖書室平面範圍
+		
+		//測試用軌跡
+		let track = [{"x": 120.2201673, "y": 22.9987303},
+			     {"x": 120.2201673, "y": 22.9987303},
+			     {"x": 120.2201673, "y": 22.9987303},
+			     {"x": 120.2201673, "y": 22.9987303},
+			     {"x": 120.2201673, "y": 22.9987303},
+			     {"x": 120.2201803, "y": 22.9987332},
+			     {"x": 120.2201933, "y": 22.9987361},
+			     {"x": 120.2201955, "y": 22.9987349},
+			     {"x": 120.2201977, "y": 22.9987337},
+			     {"x": 120.2201977, "y": 22.9987337},
+			     {"x": 120.2201977, "y": 22.9987337},
+			     {"x": 120.2201977, "y": 22.9987337},
+			     {"x": 120.2201977, "y": 22.9987337},
+			     {"x": 120.2202033, "y": 22.9987222},
+			     {"x": 120.2202089, "y": 22.9987106},
+			     {"x": 120.2202182, "y": 22.9986975},
+			     {"x": 120.2202275, "y": 22.9986844}];
+		
+		//watch position for outdoor
+		//var watchID = navigator.geolocation.watchPosition(function( data ) {
+			//position = data;
+			//SetLocation("text",position);SetLocation("entity",position);
+		//});
+		
+		//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
+		let i = 0;
+		let trackLon = track[i].x;
+		let trackLat = track[i].y;
+		let trackAlt = 32.934;
+		let position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}}; //用戶即時位置座標
+		let point = {x: trackLon, y: trackLat};
+		SetLocation("text", position); SetLocation("entity", position);
+		CheckViewshed(point, viewshed_area);
+		SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
+		let clock = setInterval(function() {
+			i++;
+			if (i > track.length) {
+				clearInterval(clock);
+			}
+			trackLon = track[i].x;
+			trackLat = track[i].y;
+			position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}};
+			point = {x: trackLon, y: trackLat};
+			SetLocation("text", position); SetLocation("entity", position);
+			CheckViewshed(point, viewshed_area);
+			SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot); 
+		}, 2000);
+		
+		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
+		const MyApiURL = "https://d588-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		/*jQuery(document).ready(function(){
+			$.getJSON( MyApiURL, function( data ) {
+				let height = 32.934;//data.z + 26.728;
+				let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+				let point = {x: data.x, y: data.y};
+				//console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+				///let position = {coords:{longitude: 120.2201977, latitude: 22.9987337, altitude: 31.634}};
+				///let point = {x: 120.2201977, y: 22.9987337};
+				SetLocation("text", position); SetLocation("entity", position);
+				CheckViewshed(point, viewshed_area);
+				SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
+			});
+			setInterval(function() {
+				$.getJSON( MyApiURL, function( data ) {
+					let height = 31.634;
+					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+					let point = {x: data.x, y: data.y};
+					//console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+					SetLocation("text", position);SetLocation("entity", position);
+					CheckViewshed(point, viewshed_area);
+					SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
+				});
+			}, 2000);
+		});*/
+		GetSwitch();
+				
+		//設定各模型相對於所在即時位置的高及位置
+		function SetLocation(type, position){ //type: a實體類型
+			let target = document.querySelectorAll('a-'+type);
+			let length = target.length;
+			console.log(type+".length: "+length);
+			for(let j=0; j<length; j++){ 
+				let H = data_h[j] - position.coords.altitude;
+				let N, E;
+				if ((type=="entity" && j<length-2)||(type!="entity")){
+					let user = new LatLon(position.coords.latitude, position.coords.longitude);
+					N = new LatLon(data_n[j], position.coords.longitude).distanceTo(user);
+					E = new LatLon(position.coords.latitude, data_e[j]).distanceTo(user);
+					if (data_n[j]-position.coords.latitude < 0){ N = -N;}
+					if (data_e[j]-position.coords.longitude < 0){ E = -E;}
+				}
+				//let data = {n:data_n[j], e:data_e[j]};
+				//let user = new LatLon(position.coords.latitude, position.coords.longitude);
+				//let N = new LatLon(data_n[j], position.coords.longitude).distanceTo(user);
+				//let E = new LatLon(position.coords.latitude, data_e[j]).distanceTo(user);
+				//if (data_n[j]-position.coords.latitude < 0){ N = -N;}
+				//if (data_e[j]-position.coords.longitude < 0){ E = -E;}
+				//let N = (data_n[j] - position.coords.latitude)*110744.070;
+				//let E = (data_e[j] - position.coords.longitude)*102523.314; //WGS84下ENH方向距離差(公尺，暫不考慮地球曲率)
+				console.log("N: "+N+"; E:"+E);
+				//let z = Math.cos(degree)*E + Math.sin(degree)*N;
+				//let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
+
+				if (type=="text"){
+					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
+					H = data_h[j] + 1 - position.coords.altitude;
+				}
+
+				let target_att = document.createAttribute('position');
+				target_att.value = E+" "+H+" "+(-N);
+				target[j].setAttributeNode(target_att);
+			}
+		};
+		
+		//遮蔽判斷
+		function CheckViewshed(p, poly){
+			let inorout = windingNumber(p, poly);
+			console.log('inorout: '+inorout);
+			if (inorout == 'on' || inorout == 'in'){ //位置在圖書室內部，遮蔽關閉
+				viewshed_list = [];
+			}else if (inorout = 'out'){ //位置在圖書室外部，遮蔽開啟
+				viewshed_list = [0];
+			}
+		};
+		/**https://www.itread01.com/content/1547955205.html
+		* @description 迴轉數法判斷點是否在多邊形內部
+		* @param {Object} p 待判斷的點，格式：{ x: X座標, y: Y座標 }
+		* @param {Array} poly 多邊形頂點，陣列成員的格式同 p
+		* @return {String} 點 p 和多邊形 poly 的幾何關係
+		*/
+		function windingNumber(p, poly) {
+			var px = p.x,
+			py = p.y,
+			sum = 0;
+
+			for(var i = 0, l = poly.length, j = l - 1; i < l; j = i, i++) {
+				var sx = poly[i].x,
+				  sy = poly[i].y,
+				  tx = poly[j].x,
+				  ty = poly[j].y;
+
+				// 點與多邊形頂點重合或在多邊形的邊上
+				if((sx - px) * (px - tx) >= 0 && (sy - py) * (py - ty) >= 0 && (px - sx) * (ty - sy) === (py - sy) * (tx - sx)) {
+					return 'on'
+				}
+				// 點與相鄰頂點連線的夾角
+				var angle = Math.atan2(sy - py, sx - px) - Math.atan2(ty - py, tx - px);
+
+				// 確保夾角不超出取值範圍（-π 到 π）
+				if(angle >= Math.PI) {
+					angle = angle - Math.PI * 2;
+				} else if(angle <= -Math.PI) {
+					angle = angle + Math.PI * 2;
+				}
+				sum += angle;
+			}
+			// 計算迴轉數並判斷點和多邊形的幾何關係
+			return Math.round(sum / Math.PI) === 0 ? 'out' : 'in'
+		};
+		
+		//遮蔽效果及資訊表開關
+		function GetSwitch(){
+			let checkbox = document.querySelector("#myonoffswitch");
+			checkbox.addEventListener('change', function() {
+				if (this.checked) {
+					console.log("Checkbox is checked..");
+					viewshedornot = true;
+				} else {
+					console.log("Checkbox is not checked..");
+					viewshedornot = false;
+				}
+				SetOpacityValue("text", viewshed_list, viewshedornot);
+				SetOpacityValue("entity", viewshed_list, viewshedornot);
+			});
+			
+			let checkbox2 = document.querySelector("#myonoffswitch2");
+			checkbox2.addEventListener('change', function() {
+				if (this.checked) {
+					console.log("Checkbox2 is checked..");
+					document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px"><colgroup><col style="width: 151px"><col style="width: 224px"></colgroup><thead><tr><th class="tg-4ypd">OID</th><th class="tg-4ypd">3</th></tr></thead><tbody><tr><td class="tg-2fdn">BaseCategory</td><td class="tg-2fdn">SpecialtyEquipment</td></tr><tr><td class="tg-4ypd">Discipline</td><td class="tg-4ypd">Architectural</td></tr><tr><td class="tg-2fdn">BldgLevel</td><td class="tg-2fdn">2 floor</td></tr><tr><td class="tg-4ypd">OmniClassDescription</td><td class="tg-4ypd">General Furniture and Specialties</td></tr></tbody></table>';
+				} else {
+					console.log("Checkbox2 is not checked..");
+					document.querySelector("div[name=info]").innerHTML='';
+				}
+			});
+		};
+		
+		//遮蔽效果不透明度設定
+		function SetOpacityValue(type, num, trueorfalse){
+			let target = document.querySelectorAll('a-'+type);
+			if (num.length == 0 || trueorfalse == false){ //沒有實體需要設定透明度
+				for(let j=0; j<target.length; j++){
+					if (type=="text"){
+						target[j].setAttribute('opacity', 1);
+					} else if (type=="entity" && j<target.length-2){
+						let target_att = document.createAttribute('gltf-model');
+						target_att.value = "../assets/table.gltf";
+						target[j].setAttributeNode(target_att);
+					}
+				}
+			} else if (num.length != 0){ //從清單獲得需要設定透明度的實體編號，並改變透明度數值
+				for(let j=0; j<num.length; j++){
+					if (type=="text"){
+						target[num[j]].setAttribute('opacity', 0.3);
+					} else if (type=="entity"){
+						let target_att = document.createAttribute('gltf-model');
+						target_att.value = "../assets/table_transparent05_3.gltf";
+						target[num[j]].setAttributeNode(target_att);
+					}
+				}
+			}
+		};
+	</script>
+</body>
+</html>
