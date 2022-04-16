@@ -58,13 +58,14 @@
 		//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
 		
 		//測試用軌跡
-		let track = [];
+		let track = new Array();
 		
 		//set a-entity data (e,n,h: a實體設定座標)
-		let data_e = [];
-		let data_n = [];
-		let data_h = [];
-		$.getJSON( "track.json", function( jsonData ) {
+		let data_e = new Array();
+		let data_n = new Array();
+		let data_h = new Array();
+		$.getJSON( "track.json", function( data ) {
+			let jsonData = JSON.parse(data);
 			for (let j=0; j<jsonData.length; j++){
 				track[j] = new Object(jsonData[j]);
 				data_e[j] = jsonData[j].x;
