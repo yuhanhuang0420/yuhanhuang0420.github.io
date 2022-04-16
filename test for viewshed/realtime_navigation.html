@@ -66,7 +66,7 @@
 		let data_h = [];
 		$.getJSON( "track.json", function( jsonData ) {
 			for (let j=0; j<jsonData.length; j++){
-				track[j] = jsonData[j];
+				track[j] = new Object(jsonData[j]);
 				data_e[j] = jsonData[j].x;
 				data_n[j] = jsonData[j].y;
 				data_h[j] = jsonData[j].z;
