@@ -41,14 +41,16 @@
 		let data_e = [];
 		let data_n = [];
 		let data_h = [];
-		$.getJSON( "track.json", function( data ) {
+		const jsonData= require("track.json"); 
+		console.log(jsonData);
+		/*$.getJSON( "track.json", function( data ) {
 			for (let j=0; j<data.length; j++){
 				data_e[j] = data[j].x;
 				data_n[j] = data[j].y;
 				data_h[j] = data[j].z;
 			}
 		});
-		console.log(data_e);
+		console.log(data_e);*/
 		
 		//遮蔽效果相關變數
 		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
