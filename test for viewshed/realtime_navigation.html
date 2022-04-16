@@ -57,23 +57,40 @@
 		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
 		//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
 		
-		//測試用軌跡
-		let track = new Array();
-		
-		//set a-entity data (e,n,h: a實體設定座標)
-		let data_e = new Array();
-		let data_n = new Array();
-		let data_h = new Array();
-		$.getJSON( "track.json", function( data ) {
-			let jsonData = JSON.parse(data);
+		$.getJSON( "track.json", function( jsonData ) {	
+			let track = new Array(); //測試用軌跡
+			let data_e = new Array(); //set a-entity data (e,n,h: a實體設定座標)
+			let data_n = new Array();
+			let data_h = new Array();
 			for (let j=0; j<jsonData.length; j++){
 				track[j] = new Object(jsonData[j]);
 				data_e[j] = jsonData[j].x;
 				data_n[j] = jsonData[j].y;
 				data_h[j] = jsonData[j].z;
 			}
+			let i = 0;
+			let trackLon = track[i].x;
+			let trackLat = track[i].y;
+			let trackAlt = track[i].z;
+			let position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}}; //用戶即時位置座標
+			let point = {x: trackLon, y: trackLat};
+			SetLocation("text", position, data_e, data_n, data_h); SetLocation("entity", position, data_e, data_n, data_h);
+			CheckViewshed(point, viewshed_area);
+			SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
+			let clock = setInterval(function() {
+				i++;
+				if (i > track.length) {
+					clearInterval(clock);
+				}
+				trackLon = track[i].x;
+				trackLat = track[i].y;
+				position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}};
+				point = {x: trackLon, y: trackLat};
+				SetLocation("text", position, data_e, data_n, data_h); SetLocation("entity", position, data_e, data_n, data_h);
+				CheckViewshed(point, viewshed_area);
+				SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot); 
+			}, 2000);
 		});
-		console.log(data_e[0]);
 		
 		//遮蔽效果相關變數
 		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
@@ -86,33 +103,10 @@
 				     {"x": 120.2202907, "y": 22.9987312}]; //圖書室平面範圍
 		
 		//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
-		let i = 0;
-		/*let trackLon = track[i].x;
-		let trackLat = track[i].y;
-		let trackAlt = track[i].z;
-		let position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}}; //用戶即時位置座標
-		let point = {x: trackLon, y: trackLat};
-		SetLocation("text", position); SetLocation("entity", position);
-		CheckViewshed(point, viewshed_area);
-		SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
-		let clock = setInterval(function() {
-			i++;
-			if (i > track.length) {
-				clearInterval(clock);
-			}
-			trackLon = track[i].x;
-			trackLat = track[i].y;
-			position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}};
-			point = {x: trackLon, y: trackLat};
-			SetLocation("text", position); SetLocation("entity", position);
-			CheckViewshed(point, viewshed_area);
-			SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot); 
-		}, 2000);
-		
 		GetSwitch();*/
 				
 		//設定各模型相對於所在即時位置的高及位置
-		function SetLocation(type, position){ //type: a實體類型
+		function SetLocation(type, position, data_e, data_n, data_h){ //type: a實體類型
 			let target = document.querySelectorAll('a-'+type);
 			let length = target.length;
 			console.log(type+".length: "+length);
