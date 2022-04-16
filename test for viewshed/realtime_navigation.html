@@ -72,7 +72,7 @@
 				data_h[j] = jsonData[j].z;
 			}
 		});
-		console.log(track);
+		console.log(track[0]);
 		
 		//遮蔽效果相關變數
 		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
@@ -86,7 +86,6 @@
 		
 		//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
 		let i = 0;
-		console.log(track[0]);
 		/*let trackLon = track[i].x;
 		let trackLat = track[i].y;
 		let trackAlt = track[i].z;
