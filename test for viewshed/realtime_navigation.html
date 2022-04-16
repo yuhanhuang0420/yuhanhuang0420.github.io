@@ -86,7 +86,8 @@
 		
 		//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
 		let i = 0;
-		let trackLon = track[i].x;
+		console.log(track[i].x);
+		/*let trackLon = track[i].x;
 		let trackLat = track[i].y;
 		let trackAlt = track[i].z;
 		let position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}}; //用戶即時位置座標
@@ -108,7 +109,7 @@
 			SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot); 
 		}, 2000);
 		
-		GetSwitch();
+		GetSwitch();*/
 				
 		//設定各模型相對於所在即時位置的高及位置
 		function SetLocation(type, position){ //type: a實體類型
