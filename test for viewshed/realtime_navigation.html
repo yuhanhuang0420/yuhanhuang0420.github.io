@@ -3,7 +3,7 @@
 <head>
 	<meta charset='utf-8'>
 	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-	<title>real time indoor: viewshed(1F+2F)</title>
+	<title>real time indoor: navigation(1F+2F)</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
@@ -11,13 +11,6 @@
 	<link rel="stylesheet" href="../css/onoffswitch.css">
 	<style type="text/css">
 		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace;}
-		.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
-		.tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
-		  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
-		.tg th{background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
-		  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-		.tg .tg-2fdn{border-color:#9b9b9b;text-align:left;vertical-align:top}
-		.tg .tg-4ypd{background-color:#efefef;border-color:#9b9b9b;text-align:left;vertical-align:top}
 	</style>
 </head>
 
@@ -42,12 +35,20 @@
 	
 	<script type="module">
 		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
-        	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
+		//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
 		
 		//set a-entity data (e,n,h: a實體設定座標)
-		let data_e = [120.2202250];
-		let data_n = [22.9986611];
-		let data_h = [31.634];
+		let data_e = [];
+		let data_n = [];
+		let data_h = [];
+		$.getJSON( "track.json", function( data ) {
+			for (let j=0; j<data.length; j++){
+				data_e[j] = data[j].x;
+				data_n[j] = data[j].y;
+				data_h[j] = data[j].z;
+			}
+		});
+		console.log(data_e);
 		
 		//遮蔽效果相關變數
 		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
@@ -233,17 +234,6 @@
 				}
 				SetOpacityValue("text", viewshed_list, viewshedornot);
 				SetOpacityValue("entity", viewshed_list, viewshedornot);
-			});
-			
-			let checkbox2 = document.querySelector("#myonoffswitch2");
-			checkbox2.addEventListener('change', function() {
-				if (this.checked) {
-					console.log("Checkbox2 is checked..");
-					document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px"><colgroup><col style="width: 151px"><col style="width: 224px"></colgroup><thead><tr><th class="tg-4ypd">OID</th><th class="tg-4ypd">3</th></tr></thead><tbody><tr><td class="tg-2fdn">BaseCategory</td><td class="tg-2fdn">SpecialtyEquipment</td></tr><tr><td class="tg-4ypd">Discipline</td><td class="tg-4ypd">Architectural</td></tr><tr><td class="tg-2fdn">BldgLevel</td><td class="tg-2fdn">2 floor</td></tr><tr><td class="tg-4ypd">OmniClassDescription</td><td class="tg-4ypd">General Furniture and Specialties</td></tr></tbody></table>';
-				} else {
-					console.log("Checkbox2 is not checked..");
-					document.querySelector("div[name=info]").innerHTML='';
-				}
 			});
 		};
 		
