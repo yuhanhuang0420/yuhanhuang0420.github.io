@@ -58,7 +58,7 @@
 		//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
 		
 		//測試用軌跡
-		let track = "";
+		let track = [];
 		
 		//set a-entity data (e,n,h: a實體設定座標)
 		let data_e = [];
@@ -88,7 +88,7 @@
 		let i = 0;
 		let trackLon = track[i].x;
 		let trackLat = track[i].y;
-		let trackAlt = 32.934;
+		let trackAlt = track[i].z;
 		let position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}}; //用戶即時位置座標
 		let point = {x: trackLon, y: trackLat};
 		SetLocation("text", position); SetLocation("entity", position);
