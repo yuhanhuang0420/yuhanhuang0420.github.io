@@ -23,6 +23,26 @@
 	<!--1.起點-->
 	<a-text value="Start" scale="1 1 1" color="red"></a-text>
 	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
 		
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
@@ -37,20 +57,21 @@
 		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
 		//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
 		
+		//測試用軌跡
+		let track = "";
+		
 		//set a-entity data (e,n,h: a實體設定座標)
 		let data_e = [];
 		let data_n = [];
 		let data_h = [];
-		const jsonData= require("track.json"); 
-		console.log(jsonData);
-		/*$.getJSON( "track.json", function( data ) {
-			for (let j=0; j<data.length; j++){
-				data_e[j] = data[j].x;
-				data_n[j] = data[j].y;
-				data_h[j] = data[j].z;
+		$.getJSON( "track.json", function( jsonData ) {
+			for (let j=0; j<jsonData.length; j++){
+				track = jsonData;
+				data_e[j] = jsonData[j].x;
+				data_n[j] = jsonData[j].y;
+				data_h[j] = jsonData[j].z;
 			}
 		});
-		console.log(data_e);*/
 		
 		//遮蔽效果相關變數
 		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
@@ -61,31 +82,6 @@
 				     {"x": 120.2202176, "y": 22.9987188},
 				     {"x": 120.2202188, "y": 22.9987374},
 				     {"x": 120.2202907, "y": 22.9987312}]; //圖書室平面範圍
-		
-		//測試用軌跡
-		let track = [{"x": 120.2201673, "y": 22.9987303},
-			     {"x": 120.2201673, "y": 22.9987303},
-			     {"x": 120.2201673, "y": 22.9987303},
-			     {"x": 120.2201673, "y": 22.9987303},
-			     {"x": 120.2201673, "y": 22.9987303},
-			     {"x": 120.2201803, "y": 22.9987332},
-			     {"x": 120.2201933, "y": 22.9987361},
-			     {"x": 120.2201955, "y": 22.9987349},
-			     {"x": 120.2201977, "y": 22.9987337},
-			     {"x": 120.2201977, "y": 22.9987337},
-			     {"x": 120.2201977, "y": 22.9987337},
-			     {"x": 120.2201977, "y": 22.9987337},
-			     {"x": 120.2201977, "y": 22.9987337},
-			     {"x": 120.2202033, "y": 22.9987222},
-			     {"x": 120.2202089, "y": 22.9987106},
-			     {"x": 120.2202182, "y": 22.9986975},
-			     {"x": 120.2202275, "y": 22.9986844}];
-		
-		//watch position for outdoor
-		//var watchID = navigator.geolocation.watchPosition(function( data ) {
-			//position = data;
-			//SetLocation("text",position);SetLocation("entity",position);
-		//});
 		
 		//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
 		let i = 0;
@@ -111,32 +107,6 @@
 			SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot); 
 		}, 2000);
 		
-		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
-		const MyApiURL = "https://d588-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
-		/*jQuery(document).ready(function(){
-			$.getJSON( MyApiURL, function( data ) {
-				let height = 32.934;//data.z + 26.728;
-				let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
-				let point = {x: data.x, y: data.y};
-				//console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
-				///let position = {coords:{longitude: 120.2201977, latitude: 22.9987337, altitude: 31.634}};
-				///let point = {x: 120.2201977, y: 22.9987337};
-				SetLocation("text", position); SetLocation("entity", position);
-				CheckViewshed(point, viewshed_area);
-				SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
-			});
-			setInterval(function() {
-				$.getJSON( MyApiURL, function( data ) {
-					let height = 31.634;
-					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
-					let point = {x: data.x, y: data.y};
-					//console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
-					SetLocation("text", position);SetLocation("entity", position);
-					CheckViewshed(point, viewshed_area);
-					SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
-				});
-			}, 2000);
-		});*/
 		GetSwitch();
 				
 		//設定各模型相對於所在即時位置的高及位置
@@ -154,14 +124,6 @@
 					if (data_n[j]-position.coords.latitude < 0){ N = -N;}
 					if (data_e[j]-position.coords.longitude < 0){ E = -E;}
 				}
-				//let data = {n:data_n[j], e:data_e[j]};
-				//let user = new LatLon(position.coords.latitude, position.coords.longitude);
-				//let N = new LatLon(data_n[j], position.coords.longitude).distanceTo(user);
-				//let E = new LatLon(position.coords.latitude, data_e[j]).distanceTo(user);
-				//if (data_n[j]-position.coords.latitude < 0){ N = -N;}
-				//if (data_e[j]-position.coords.longitude < 0){ E = -E;}
-				//let N = (data_n[j] - position.coords.latitude)*110744.070;
-				//let E = (data_e[j] - position.coords.longitude)*102523.314; //WGS84下ENH方向距離差(公尺，暫不考慮地球曲率)
 				console.log("N: "+N+"; E:"+E);
 				//let z = Math.cos(degree)*E + Math.sin(degree)*N;
 				//let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
