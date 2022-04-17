@@ -15,36 +15,32 @@
 </head>
 
 <body style="margin: 0px; overflow: hidden;">
-	<a-scene
-	vr-mode-ui="enabled: false"
-	embedded
-	arjs="sourceType: webcam; debugUIEnabled: false;"
-	>
-	<!--1.起點-->
-	<a-text value="Start" scale="1 1 1" color="red"></a-text>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" mater.ial=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>
-		
-	<a-camera rotation-reader></a-camera>
+	<a-scene embedded vr-mode-ui="enabled: false" arjs="sourceType: webcam; debugUIEnabled: false;">
+		<!--1.起點-->
+		<a-text value="Start" scale="1 1 1" color="red"></a-text>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material=""></a-entity>
+		<a-entity geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>
+
+		<a-camera rotation-reader></a-camera>
 	</a-scene>
 	
 	<div class="switchtag" style="top:10px;">OCCL</div>
@@ -136,18 +132,22 @@
 		};
 		
 		//遮蔽判斷
-		function CheckViewshed(height,p, poly){
+		function CheckViewshed(height, p, poly){
 			if(height<31.634){
 				viewshed_list = [10,11,12,13,14,15,16,17,18,19,20]; //位置在一樓大廳或樓梯，二樓走廊、圖書室遮蔽
+				console.log("In 1F lobby"+viewshed_list);
 			}else if (height>=31.634){
 				if (windingNumber(p, poly.lobbyRoom_2F) == 'on' || windingNumber(p, poly.lobbyRoom_2F) == 'in'){
 					viewshed_list = [14,15,16,17,18,19,20]; //位置在二樓大廳內部，二樓部分走廊、圖書室遮蔽
+					console.log("In 2F lobby"+viewshed_list);
 				}
 				else if (windingNumber(p, poly.corridorRoom_2F) == 'on' || windingNumber(p, poly.corridorRoom_2F) == 'in'){
 					viewshed_list = [0,1,2,3,4,5,6,7,18,19,20]; //位置在二樓走廊內部，一樓大廳、樓梯、圖書室遮蔽
+					console.log("In 2F corridor"+viewshed_list);
 				}
 				else if (windingNumber(p, poly.readingRoom_2F) == 'on' || windingNumber(p, poly.readingRoom_2F) == 'in'){
 					viewshed_list = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]; //位置在圖書室內部，圖書室外部全部遮蔽
+					console.log("In reading room"+viewshed_list);
 				}
 			}
 		};
@@ -204,22 +204,22 @@
 		};
 		
 		//遮蔽效果不透明度設定
-		function SetOpacityValue(type, num, trueorfalse){
+		function SetOpacityValue(type, list, trueorfalse){
 			let target = document.querySelectorAll('a-'+type);
-			if (num.length == 0 || trueorfalse == false){ //沒有實體需要設定透明度
+			if (list.length == 0 || trueorfalse == false){ //沒有實體需要設定透明度
 				for(let j=0; j<target.length; j++){
 					if (type=="text"){
 						target[j].setAttribute('opacity', 1);
 					} else if (type=="entity" && j<target.length-2){
-						target[j].setAttribute('material', "opacity: "+1+"; transparent: true");
+						target[j].setAttribute('material', "opacity: 1; transparent: true");
 					}
 				}
-			} else if (num.length != 0){ //從清單獲得需要設定透明度的實體編號，並改變透明度數值
-				for(let j=0; j<num.length; j++){
+			} else if (list.length != 0){ //從清單獲得需要設定透明度的實體編號，並改變透明度數值
+				for(let j=0; j<list.length; j++){
 					/*if (type=="text"){
-						target[num[j]].setAttribute('opacity', 0.3);
+						target[list[j]].setAttribute('opacity', 0.3);
 					} else*/ if (type=="entity"){
-						target[num[j]].setAttribute('material', "opacity: "+0.3+"; transparent: true");
+						target[list[j]].setAttribute('material', "opacity: 0.3; transparent: true");
 					}
 				}
 			}
