@@ -87,7 +87,7 @@
 			let position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}}; //用戶即時位置座標
 			let point = {x: trackLon, y: trackLat};
 			SetLocation("text", position, data_e, data_n, data_h); SetLocation("entity", position, data_e, data_n, data_h);
-			CheckViewshed(trackAlt, point, viewshed_area);
+			CheckViewshed(track[i].z, point, viewshed_area);
 			SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
 			let clock = setInterval(function() {
 				i++;
@@ -100,7 +100,7 @@
 				position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}};
 				point = {x: trackLon, y: trackLat};
 				SetLocation("text", position, data_e, data_n, data_h); SetLocation("entity", position, data_e, data_n, data_h);
-				CheckViewshed(trackAlt, point, viewshed_area);
+				CheckViewshed(track[i].z, point, viewshed_area);
 				SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot); 
 			}, 10000);
 		});
