@@ -206,15 +206,14 @@
 		//遮蔽效果不透明度設定
 		function SetOpacityValue(type, list, trueorfalse){
 			let target = document.querySelectorAll('a-'+type);
-			if (list.length == 0 || trueorfalse == false){ //沒有實體需要設定透明度
-				for(let j=0; j<target.length; j++){
-					if (type=="text"){
-						target[j].setAttribute('opacity', 1);
-					} else if (type=="entity" && j<target.length-2){
-						target[j].setAttribute('material', "opacity: 1; transparent: true");
-					}
+			for(let j=0; j<target.length; j++){ //先重置所有實體之透明度
+				if (type=="text"){
+					target[j].setAttribute('opacity', 1);
+				} else if (type=="entity" && j<target.length-2){
+					target[j].setAttribute('material', "opacity: 1; transparent: true");
 				}
-			} else if (list.length != 0){ //從清單獲得需要設定透明度的實體編號，並改變透明度數值
+			}
+			if (trueorfalse == true && list.length != 0){ //當遮蔽開關開啟時，從清單獲得需要設定透明度的實體編號，並改變透明度數值
 				for(let j=0; j<list.length; j++){
 					/*if (type=="text"){
 						target[list[j]].setAttribute('opacity', 0.3);
