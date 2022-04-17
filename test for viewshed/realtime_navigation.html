@@ -216,9 +216,9 @@
 				}
 			} else if (num.length != 0){ //從清單獲得需要設定透明度的實體編號，並改變透明度數值
 				for(let j=0; j<num.length; j++){
-					if (type=="text"){
+					/*if (type=="text"){
 						target[num[j]].setAttribute('opacity', 0.3);
-					} else if (type=="entity"){
+					} else*/ if (type=="entity"){
 						target[num[j]].setAttribute('material', "opacity: "+0.3+"; transparent: true");
 					}
 				}
