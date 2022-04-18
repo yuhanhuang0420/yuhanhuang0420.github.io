@@ -65,40 +65,63 @@
 				     {"x": 120.2202176, "y": 22.9987188},{"x": 120.2202188, "y": 22.9987374},{"x": 120.2202907, "y": 22.9987312}]}; //圖書室平面範圍
 		
 		//導引軌跡點測試
-		$.getJSON( "track.json", function( jsonData ) {	
-			let track = new Array(); //測試用軌跡
-			let data_e = new Array(); //set a-entity data (e,n,h: a實體設定座標)
-			let data_n = new Array();
-			let data_h = new Array();
-			for (let j=0; j<jsonData.length; j++){
-				track[j] = new Object(jsonData[j]);
-				data_e[j] = jsonData[j].x;
-				data_n[j] = jsonData[j].y;
-				data_h[j] = jsonData[j].z;
-			}
-			let i = 0; //每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
-			let trackLon = track[i].x;
-			let trackLat = track[i].y;
-			let trackAlt = track[i].z + 1.3;
-			let position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}}; //用戶即時位置座標
-			let point = {x: trackLon, y: trackLat};
-			SetLocation("text", position, data_e, data_n, data_h); SetLocation("entity", position, data_e, data_n, data_h);
-			CheckViewshed(track[i].z, point, viewshed_area);
-			SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
-			let clock = setInterval(function() {
-				i++;
-				if (i > track.length) {
-					clearInterval(clock);
+		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
+		const MyApiURL = "https://5a70-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		jQuery(document).ready(function(){
+			$.getJSON( "track.json", function( jsonData ) { 
+				let track = new Array(); //測試用軌跡
+				let data_e = new Array(); //set a-entity data (e,n,h: a實體設定座標)
+				let data_n = new Array();
+				let data_h = new Array();
+				for (let j=0; j<jsonData.length; j++){
+					track[j] = new Object(jsonData[j]);
+					data_e[j] = jsonData[j].x;
+					data_n[j] = jsonData[j].y;
+					data_h[j] = jsonData[j].z;
 				}
-				trackLon = track[i].x;
-				trackLat = track[i].y;
-				trackAlt = track[i].z + 1.3;
-				position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}};
-				point = {x: trackLon, y: trackLat};
+				$.getJSON( MyApiURL, function( data ) {
+					let height = data.z + 26.728;
+					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+					let point = {x: data.x, y: data.y};
+					SetLocation("text", position, data_e, data_n, data_h); SetLocation("entity", position, data_e, data_n, data_h);
+					CheckViewshed(height, point, viewshed_area);
+					SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
+				});
+				setInterval(function() {
+					$.getJSON( MyApiURL, function( data ) {
+						let height = data.z + 26.728;
+						let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+						let point = {x: data.x, y: data.y};
+						//console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+						SetLocation("text", position, data_e, data_n, data_h));SetLocation("entity", position, data_e, data_n, data_h));
+						CheckViewshed(height, point, viewshed_area);
+						SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
+					});
+				}, 2000);
+				/*let i = 0; //每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
+				let trackLon = track[i].x;
+				let trackLat = track[i].y;
+				let trackAlt = track[i].z + 1.3;
+				let position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}}; //用戶即時位置座標
+				let point = {x: trackLon, y: trackLat};
 				SetLocation("text", position, data_e, data_n, data_h); SetLocation("entity", position, data_e, data_n, data_h);
 				CheckViewshed(track[i].z, point, viewshed_area);
-				SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot); 
-			}, 10000);
+				SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
+				let clock = setInterval(function() {
+					i++;
+					if (i > track.length) {
+						clearInterval(clock);
+					}
+					trackLon = track[i].x;
+					trackLat = track[i].y;
+					trackAlt = track[i].z + 1.3;
+					position = {coords:{latitude: trackLat, longitude: trackLon, altitude: trackAlt}};
+					point = {x: trackLon, y: trackLat};
+					SetLocation("text", position, data_e, data_n, data_h); SetLocation("entity", position, data_e, data_n, data_h);
+					CheckViewshed(track[i].z, point, viewshed_area);
+					SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot); 
+				}, 10000);*/
+			});
 		});
 		
 		GetSwitch();
