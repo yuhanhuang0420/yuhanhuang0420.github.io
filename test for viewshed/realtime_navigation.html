@@ -93,7 +93,7 @@
 						let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 						let point = {x: data.x, y: data.y};
 						//console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
-						SetLocation("text", position, data_e, data_n, data_h));SetLocation("entity", position, data_e, data_n, data_h));
+						SetLocation("text", position, data_e, data_n, data_h);SetLocation("entity", position, data_e, data_n, data_h);
 						CheckViewshed(height, point, viewshed_area);
 						SetOpacityValue("text", viewshed_list, viewshedornot); SetOpacityValue("entity", viewshed_list, viewshedornot);
 					});
