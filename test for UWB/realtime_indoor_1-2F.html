@@ -105,16 +105,13 @@
 		var data_h = [26.728, 27.033, 31.634, 31.634, 31.634, 31.634, 36.148];
 		
 		//get azimuth
-		//let theta, theta_rad;
+		let head, theta, theta_rad;
 		window.addEventListener('deviceorientation', function(event) {
-			const head = event.webkitCompassHeading;
-			const theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
-			const theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
+			head = event.webkitCompassHeading;
+			theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
+			theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
 			//document.getElementById("info").innerHTML = "head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
 		}, {once: true}); //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
-		//const orientation = theta_rad; 
-		//const theta = -(0-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度，假設朝向正北開啟，即ZX對齊EN
-		//const theta_rad = theta * Math.PI /180;
 		document.getElementById("info").innerHTML = "head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
 		
 		//watch position for outdoor
