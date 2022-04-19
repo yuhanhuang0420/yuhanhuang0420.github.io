@@ -152,7 +152,7 @@
 		});
 				
 		//設定各模型相對於所在即時位置的高及位置
-		function SetLocation(type, position, theta_rad){ //type: a實體類型
+		function SetLocation(type, position, degree){ //type: a實體類型
 			let target = document.querySelectorAll('a-'+type);
 			let length = target.length;
 			for(let j=0; j<length; j++){ 
