@@ -108,9 +108,8 @@
 		window.addEventListener('deviceorientation', function(event) {
 			const theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
 			const theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
-			const DEG = theta_rad; //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
-			document.getElementById("info").innerHTML = "o: "+ DEG;
-		}, {once: true});
+			document.getElementById("info").innerHTML = "theta: "+ theta+ "theta_rad: "+ theta_rad;
+		}, {once: true}); //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
 		//const orientation = theta_rad; 
 		//const theta = -(0-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度，假設朝向正北開啟，即ZX對齊EN
 		//const theta_rad = theta * Math.PI /180;
