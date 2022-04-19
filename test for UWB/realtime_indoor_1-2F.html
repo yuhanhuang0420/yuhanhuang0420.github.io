@@ -95,7 +95,10 @@
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
 	<!--<div id="info"></div>-->
-	<script>
+	<script type="module">
+		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
+        	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
+		
 		//set a-entity data (e,n,h: a實體設定座標)
 		var data_e = [120.2199345, 120.2200520, 120.2200649, 120.2200666, 120.2202121, 120.2202138, 120.2200666];
 		var data_n = [22.9986416, 22.9987154, 22.9987299, 22.9987492, 22.9987189, 22.9987382, 22.9987492];
@@ -119,7 +122,7 @@
 		//});
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
-		const MyApiURL = "https://b8af-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		const MyApiURL = "https://9d74-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		jQuery(document).ready(function(){
 			$.getJSON( MyApiURL, function( data ) {
 				let height = data.z + 26.728;
@@ -140,12 +143,17 @@
 		//設定各模型相對於所在即時位置的高及位置
 		function SetLocation(type, position){ //type: a實體類型
 			let target = document.querySelectorAll('a-'+type);
-			for(let j=0; j<target.length; j++){ 
+			let length = target.length;
+			for(let j=0; j<length; j++){ 
 				let H = data_h[j] - position.coords.altitude;
-				let N = (data_n[j] - position.coords.latitude)*110751.075273;
-				let E = (data_e[j] - position.coords.longitude)*101751.561277; //WGS84下ENH方向距離差(公尺，暫不考慮地球曲率)
-				//let z = Math.cos(degree)*E + Math.sin(degree)*N;
-				//let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
+				let N, E;
+				if ((type=="entity" && j<length-2)||(type!="entity")){
+					let user = new LatLon(position.coords.latitude, position.coords.longitude);
+					N = new LatLon(data_n[j], position.coords.longitude).distanceTo(user);
+					E = new LatLon(position.coords.latitude, data_e[j]).distanceTo(user);
+					if (data_n[j]-position.coords.latitude < 0){ N = -N;}
+					if (data_e[j]-position.coords.longitude < 0){ E = -E;}
+				}
 
 				if (type=="text"){
 					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
