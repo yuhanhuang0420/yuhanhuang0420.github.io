@@ -106,16 +106,6 @@
 		var data_n = [22.9986416, 22.9987154, 22.9987299, 22.9987492, 22.9987189, 22.9987382, 22.9987492];
 		var data_h = [26.728, 27.033, 31.634, 31.634, 31.634, 31.634, 36.148];
 		
-		//get azimuth
-		let head, theta, theta_rad;
-		window.addEventListener('deviceorientation', function(event) {
-			head = event.webkitCompassHeading;
-			theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
-			theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
-			//document.getElementById("info").innerHTML = "head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
-		}, {once: true}); //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
-		document.getElementById("info").innerHTML = "head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
-		
 		//watch position for outdoor
 		//var watchID = navigator.geolocation.watchPosition(function( data ) {
 			//position = data;
@@ -123,7 +113,7 @@
 		//});
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
-		const MyApiURL = "https://ec74-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		const MyApiURL = "https://3164-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		jQuery(document).ready(function(){
 			//get azimuth
 			let head, theta, theta_rad;
