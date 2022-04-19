@@ -123,24 +123,34 @@
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
 		const MyApiURL = "https://ec74-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		jQuery(document).ready(function(){
-			$.getJSON( MyApiURL, function( data ) {
-				let height = data.z + 26.728;
-				let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
-				console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
-				SetLocation("text", position);SetLocation("entity", position);
-			});
-			setInterval(function() {
+			//get azimuth
+			let head, theta, theta_rad;
+			window.addEventListener('deviceorientation', function(event) {
+				head = event.webkitCompassHeading;
+				theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
+				theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
+				document.getElementById("info").innerHTML = "1.head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
 				$.getJSON( MyApiURL, function( data ) {
 					let height = data.z + 26.728;
 					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
-					SetLocation("text", position);SetLocation("entity", position);
+					SetLocation("text", position, theta_rad);SetLocation("entity", position, theta_rad);
+					document.getElementById("info").innerHTML = "2.head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
 				});
-			}, 2000);
+				setInterval(function() {
+					$.getJSON( MyApiURL, function( data ) {
+						let height = data.z + 26.728;
+						let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+						console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+						SetLocation("text", position, theta_rad);SetLocation("entity", position, theta_rad);
+						document.getElementById("info").innerHTML = "3.head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
+					});
+				}, 2000);
+			}, {once: true}); //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
 		});
 				
 		//設定各模型相對於所在即時位置的高及位置
-		function SetLocation(type, position){ //type: a實體類型
+		function SetLocation(type, position, theta_rad){ //type: a實體類型
 			let target = document.querySelectorAll('a-'+type);
 			let length = target.length;
 			for(let j=0; j<length; j++){ 
@@ -158,9 +168,11 @@
 					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
 					H = data_h[j] + 1 - position.coords.altitude;
 				}
+				let z = Math.cos(degree)*E + Math.sin(degree)*N;
+				let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
 
 				let target_att = document.createAttribute('position');
-				target_att.value = E+" "+H+" "+(-N);
+				target_att.value = x+" "+H+" "+z;
 				target[j].setAttributeNode(target_att);
 			}
 		};
