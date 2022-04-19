@@ -95,6 +95,8 @@
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
 	<div id="info" style="position:absolute; left:0px; top:0px; z-index:10;"></div>
+	<div id="info2" style="position:absolute; left:0px; top:10px; z-index:10;"></div>
+	<div id="info3" style="position:absolute; left:0px; top:20px; z-index:10;"></div>
 	<script type="module">
 		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
         	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
@@ -135,7 +137,7 @@
 					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					SetLocation("text", position, theta_rad);SetLocation("entity", position, theta_rad);
-					document.getElementById("info").innerHTML = "2.head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
+					document.getElementById("info2").innerHTML = "2.head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
 				});
 				setInterval(function() {
 					$.getJSON( MyApiURL, function( data ) {
@@ -143,7 +145,7 @@
 						let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 						console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 						SetLocation("text", position, theta_rad);SetLocation("entity", position, theta_rad);
-						document.getElementById("info").innerHTML = "3.head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
+						document.getElementById("info3").innerHTML = "3.head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
 					});
 				}, 2000);
 			}, {once: true}); //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
