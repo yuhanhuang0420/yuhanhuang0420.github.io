@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<title>real time indoor: total(1F+2F)</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+</head>
+
+<body style="margin: 0px; overflow: hidden;">
+	<a-scene
+	vr-mode-ui="enabled: false"
+	embedded
+	arjs="sourceType: webcam; debugUIEnabled: false;"
+	>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-entity geometry="primitive: box" material=""></a-entity>
+	<a-camera rotation-reader></a-camera>
+	</a-scene>
+	<div id="info" style="position:absolute; left:0px; top:0px; z-index:10;"></div>
+	
+	<script type="module">
+		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
+        	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
+		
+		//set a-entity data (e,n,h: a實體設定座標)
+		var data_e = [120.2199345, 120.2200520, 120.2200649, 120.2200666, 120.2202121, 120.2202138, 120.2200666];
+		var data_n = [22.9986416, 22.9987154, 22.9987299, 22.9987492, 22.9987189, 22.9987382, 22.9987492];
+		var data_h = [26.728, 27.033, 31.634, 31.634, 31.634, 31.634, 36.148];
+		
+		//watch position for outdoor
+		//var watchID = navigator.geolocation.watchPosition(function( data ) {
+			//position = data;
+			//SetLocation("text",position);SetLocation("entity",position);
+		//});
+		
+		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
+		const MyApiURL = "https://3164-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		jQuery(document).ready(function(){
+			//get azimuth
+			let head, theta, theta_rad;
+			window.addEventListener('deviceorientation', function(event) {
+				head = event.webkitCompassHeading;
+				theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
+				theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
+				document.getElementById("info").innerHTML = "1.head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
+				$.getJSON( MyApiURL, function( data ) {
+					let height = data.z + 26.728;
+					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+					SetLocation("text", position, theta_rad);SetLocation("entity", position, theta_rad);
+				});
+				setInterval(function() {
+					$.getJSON( MyApiURL, function( data ) {
+						let height = data.z + 26.728;
+						let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
+						console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
+						SetLocation("text", position, theta_rad);SetLocation("entity", position, theta_rad);
+					});
+				}, 2000);
+			}, {once: true}); //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
+		});
+				
+		//設定各模型相對於所在即時位置的高及位置
+		function SetLocation(type, position, degree){ //type: a實體類型
+			let target = document.querySelectorAll('a-'+type);
+			let length = target.length;
+			for(let j=0; j<length; j++){ 
+				let H = data_h[j] - position.coords.altitude;
+				let N, E;
+				if ((type=="entity" && j<length-2)||(type!="entity")){
+					let user = new LatLon(position.coords.latitude, position.coords.longitude);
+					N = new LatLon(data_n[j], position.coords.longitude).distanceTo(user);
+					E = new LatLon(position.coords.latitude, data_e[j]).distanceTo(user);
+					if (data_n[j]-position.coords.latitude < 0){ N = -N;}
+					if (data_e[j]-position.coords.longitude < 0){ E = -E;}
+				}
+
+				if (type=="text"){
+					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
+					H = data_h[j] + 1 - position.coords.altitude;
+				}
+				let z = Math.cos(degree)*E + Math.sin(degree)*N;
+				let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
+
+				let target_att = document.createAttribute('position');
+				target_att.value = x+" "+H+" "+z;
+				target[j].setAttributeNode(target_att);
+			}
+		};
+		
+	</script>
+</body>
+</html>
