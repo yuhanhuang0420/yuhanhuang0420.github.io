@@ -69,7 +69,7 @@
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
 				let head = event.webkitCompassHeading;
 				let theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
-				let theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
+				let theta_rad = 0; //theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
 				document.getElementById("info").innerHTML = "1.head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
 				/*$.getJSON( MyApiURL, function( data ) { //取得第一筆即時定位資訊並設定實體位置
 					let height = data.z + 26.728;
