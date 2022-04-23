@@ -141,19 +141,19 @@
 		//遮蔽判斷
 		function CheckViewshed(height, p, poly){ //height: 用戶所在高程, p: 用戶所在平面位置座標, poly: 判斷in/out的空間地面polygon
 			if(height<31.634){
-				viewshed_list = [10,11,12,13,14,15,16,17,18,19,20]; //位置在一樓大廳或樓梯，二樓走廊、圖書室遮蔽
+				viewshed_list = [4,5,6,7,8,9,10,11,12,13]; //位置在一樓大廳或樓梯，二樓走廊、圖書室遮蔽
 				console.log("In 1F lobby"+viewshed_list);
 			}else if (height>=31.634){
 				if (windingNumber(p, poly.lobbyRoom_2F) == 'on' || windingNumber(p, poly.lobbyRoom_2F) == 'in'){
-					viewshed_list = [14,15,16,17,18,19,20]; //位置在二樓大廳內部，二樓部分走廊、圖書室遮蔽
+					viewshed_list = [0,1,2,3,12,13]; //位置在二樓大廳內部，二樓部分走廊、圖書室遮蔽
 					console.log("In 2F lobby"+viewshed_list);
 				}
 				else if (windingNumber(p, poly.corridorRoom_2F) == 'on' || windingNumber(p, poly.corridorRoom_2F) == 'in'){
-					viewshed_list = [0,1,2,3,4,5,6,7,18,19,20]; //位置在二樓走廊內部，一樓大廳、樓梯、圖書室遮蔽
+					viewshed_list = [0,1,2,3,13]; //位置在二樓走廊內部，一樓大廳、樓梯、圖書室遮蔽
 					console.log("In 2F corridor"+viewshed_list);
 				}
 				else if (windingNumber(p, poly.readingRoom_2F) == 'on' || windingNumber(p, poly.readingRoom_2F) == 'in'){
-					viewshed_list = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]; //位置在圖書室內部，圖書室外部全部遮蔽
+					viewshed_list = [0,1,2,3,4,5,6,7,8,9,10,11,12]; //位置在圖書室內部，圖書室外部全部遮蔽
 					console.log("In reading room"+viewshed_list);
 				}
 			}
