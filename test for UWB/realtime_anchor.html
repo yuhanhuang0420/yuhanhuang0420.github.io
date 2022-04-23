@@ -100,7 +100,6 @@
 					trackAlt = track[i].z + 1.3;
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: trackAlt}};
 					point = {x: track[i].x, y: track[i].y};
-					conso;e.log("update");
 					SetLocation("entity", position, theta_rad);
 					CheckViewshed(track[i].z, point, viewshed_area);
 					SetOpacityValue("entity", viewshed_list, viewshedornot); 
