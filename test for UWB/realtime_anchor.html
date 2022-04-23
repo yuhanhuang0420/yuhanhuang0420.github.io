@@ -8,31 +8,37 @@
 	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
 	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+	<link rel="stylesheet" href="../css/onoffswitch.css">
+	<style type="text/css">
+		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace;}
+	</style>
 </head>
 
 <body style="margin: 0px; overflow: hidden;">
-	<a-scene
-	vr-mode-ui="enabled: false"
-	embedded
-	arjs="sourceType: webcam; debugUIEnabled: false;"
-	>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-entity geometry="primitive: box" material=""></a-entity>
-	<a-camera rotation-reader></a-camera>
+	<a-scene embedded vr-mode-ui="enabled: false" arjs="sourceType: webcam; debugUIEnabled: false;">
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-entity geometry="primitive: box" material=""></a-entity>
+		<a-camera rotation-reader></a-camera>
 	</a-scene>
-	<div id="info" style="position:absolute; left:0px; top:0px; z-index:10;"></div>
+	
+	<div class="switchtag" style="top:10px;">OCCL</div>
+	<div class="onoffswitch">
+		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
+		<label class="onoffswitch-label" for="myonoffswitch"></label>
+	</div>
+	<div id="info" style="position:absolute; left:0px; bottom:0px; z-index:10;"></div>
 	
 	<script type="module">
 		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
