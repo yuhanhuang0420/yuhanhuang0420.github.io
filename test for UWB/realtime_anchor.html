@@ -39,45 +39,70 @@
         	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
 		
 		//set a-entity data (e,n,h: a實體設定座標)
-		var data_e = [120.2199345, 120.2200520, 120.2200649, 120.2200666, 120.2202121, 120.2202138, 120.2200666];
-		var data_n = [22.9986416, 22.9987154, 22.9987299, 22.9987492, 22.9987189, 22.9987382, 22.9987492];
-		var data_h = [26.728, 27.033, 31.634, 31.634, 31.634, 31.634, 36.148];
+		var data_e = [120.219905, 120.219905, 120.220041, 120.220046, 120.21999, 120.220009, 120.220001, 120.220059, 120.220048, 120.220069, 120.220191, 120.2202, 120.220279, 120.220286];
+		var data_n = [22.998648, 22.998733, 22.99864, 22.998722, 22.998644, 22.998658, 22.998745, 22.998663, 22.998743, 22.998801, 22.998734, 22.998809, 22.998648, 22.998729];
+		var data_h = [30.606, 30.606, 30.606, 30.606, 35.136, 35.136, 35.136, 35.136, 35.136, 35.136, 35.136, 35.136, 35.136, 35.136];
 		
-		//watch position for outdoor
-		//var watchID = navigator.geolocation.watchPosition(function( data ) {
-			//position = data;
-			//SetLocation("text",position);SetLocation("entity",position);
-		//});
+		//遮蔽效果相關變數
+		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
+		let viewshed_list = []; //存放需考慮遮蔽的實體編號
+		let viewshed_area = {"lobbyRoom_1F":[{"x": 120.220042,"y": 22.998635},{"x": 120.2199,"y": 22.998646},{"x": 120.219902,"y": 22.998671},
+				      {"x": 120.2199,"y": 22.998671},{"x": 120.219906,"y": 22.998735},{"x": 120.22005,"y": 22.998727}], //一樓大廳平面範圍
+				     "lobbyRoom_2F":[{"x": 120.219984,"y": 22.99864},{"x": 120.219997,"y": 22.998753},{"x": 120.220034,"y": 22.99875},
+				      {"x": 120.22004,"y": 22.998817},{"x": 120.220058,"y": 22.998816},{"x": 120.220042,"y": 22.998636}], //二樓大廳平面範圍
+				     "corridorRoom_2F":[{"x":120.220055,"y":22.998749},{"x":120.220054,"y":22.998732},{"x":120.220217,"y":22.998718},{"x":120.220219,"y":22.998737}],
+				     "readingRoom_2F":[{"x": 120.2202833, "y": 22.9986425},{"x": 120.2201943, "y": 22.9986494},{"x": 120.2202003, "y": 22.9987189},
+				     {"x": 120.2202176, "y": 22.9987188},{"x": 120.2202188, "y": 22.9987374},{"x": 120.2202907, "y": 22.9987312}]}; //圖書室平面範圍
+		
+		//測試用軌跡
+		let track = [{"x":120.219912,"y":22.998651,"z":26.728},{"x":120.219913,"y":22.998665,"z":26.728},{"x":120.21992,"y":22.998677,"z":26.728},{"x":120.219926,"y":22.998689,"z":26.728},{"x":120.219928,"y":22.998716,"z":28.182},{"x":120.219962,"y":22.998714,"z":29.817},{"x":120.219988,"y":22.998713,"z":31.452},{"x":120.220005,"y":22.998719,"z":31.634},{"x":120.220023,"y":22.998729,"z":31.634},{"x":120.220048,"y":22.998739,"z":31.634},{"x":120.220072,"y":22.99874,"z":31.634},{"x":120.220084,"y":22.998739,"z":31.634},{"x":120.220101,"y":22.998737,"z":31.634},{"x":120.220116,"y":22.998736,"z":31.634},{"x":120.220148,"y":22.998735,"z":31.634},{"x":120.220161,"y":22.998732,"z":31.634},{"x":120.220197,"y":22.99873,"z":31.634},{"x":120.220207,"y":22.998722,"z":31.634},{"x":120.220209,"y":22.998703,"z":31.634},{"x":120.220208,"y":22.998689,"z":31.634},{"x":120.220213,"y":22.998667,"z":31.634}];
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
 		const MyApiURL = "https://3164-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		jQuery(document).ready(function(){
-			//get azimuth
-			let head, theta, theta_rad;
-			window.addEventListener('deviceorientation', function(event) {
-				head = event.webkitCompassHeading;
-				theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
-				theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
+			window.addEventListener('deviceorientation', function(event) { //get azimuth
+				let head = event.webkitCompassHeading;
+				let theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
+				let theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
 				document.getElementById("info").innerHTML = "1.head: "+head+"theta: "+ theta+ "theta_rad: "+ theta_rad;
-				$.getJSON( MyApiURL, function( data ) {
+				/*$.getJSON( MyApiURL, function( data ) { //取得第一筆即時定位資訊並設定實體位置
 					let height = data.z + 26.728;
 					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 					console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					SetLocation("text", position, theta_rad);SetLocation("entity", position, theta_rad);
 				});
-				setInterval(function() {
+				setInterval(function() { //定時更新即時定位資訊並設定實體位置
 					$.getJSON( MyApiURL, function( data ) {
 						let height = data.z + 26.728;
 						let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 						console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 						SetLocation("text", position, theta_rad);SetLocation("entity", position, theta_rad);
 					});
-				}, 2000);
-			}, {once: true}); //取得網頁就緒當下之方位角，不隨每一秒的位置更新重複執行
+				}, 2000);*/
+				let i = 0; //每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
+				let trackAlt = track[i].z + 1.3;
+				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: trackAlt}}; //用戶即時位置座標
+				let point = {x: track[i].x, y: track[i].y};
+				SetLocation("entity", position, theta_rad);
+				CheckViewshed(track[i].z, point, viewshed_area);
+				SetOpacityValue("entity", viewshed_list, viewshedornot);
+				let clock = setInterval(function() {
+					i++;
+					if (i > track.length) {
+						clearInterval(clock);
+					}
+					trackAlt = track[i].z + 1.3;
+					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: trackAlt}};
+					point = {x: track[i].x, y: track[i].y};
+					SetLocation("entity", position, theta_rad);
+					CheckViewshed(track[i].z, point, viewshed_area);
+					SetOpacityValue("entity", viewshed_list, viewshedornot); 
+				}, 10000);
+			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
 				
 		//設定各模型相對於所在即時位置的高及位置
-		function SetLocation(type, position, degree){ //type: a實體類型
+		function SetLocation(type, position, degree){ //type: a實體類型, position: 用戶位置座標, degree: 開啟當下，用戶所持裝置方位角
 			let target = document.querySelectorAll('a-'+type);
 			let length = target.length;
 			for(let j=0; j<length; j++){ 
@@ -104,6 +129,100 @@
 			}
 		};
 		
+		GetSwitch();
+		
+		//遮蔽判斷
+		function CheckViewshed(height, p, poly){ //height: 用戶所在高程, p: 用戶所在平面位置座標, poly: 判斷in/out的空間地面polygon
+			if(height<31.634){
+				viewshed_list = [10,11,12,13,14,15,16,17,18,19,20]; //位置在一樓大廳或樓梯，二樓走廊、圖書室遮蔽
+				console.log("In 1F lobby"+viewshed_list);
+			}else if (height>=31.634){
+				if (windingNumber(p, poly.lobbyRoom_2F) == 'on' || windingNumber(p, poly.lobbyRoom_2F) == 'in'){
+					viewshed_list = [14,15,16,17,18,19,20]; //位置在二樓大廳內部，二樓部分走廊、圖書室遮蔽
+					console.log("In 2F lobby"+viewshed_list);
+				}
+				else if (windingNumber(p, poly.corridorRoom_2F) == 'on' || windingNumber(p, poly.corridorRoom_2F) == 'in'){
+					viewshed_list = [0,1,2,3,4,5,6,7,18,19,20]; //位置在二樓走廊內部，一樓大廳、樓梯、圖書室遮蔽
+					console.log("In 2F corridor"+viewshed_list);
+				}
+				else if (windingNumber(p, poly.readingRoom_2F) == 'on' || windingNumber(p, poly.readingRoom_2F) == 'in'){
+					viewshed_list = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]; //位置在圖書室內部，圖書室外部全部遮蔽
+					console.log("In reading room"+viewshed_list);
+				}
+			}
+		};
+		/**https://www.itread01.com/content/1547955205.html
+		* @description 迴轉數法判斷點是否在多邊形內部
+		* @param {Object} p 待判斷的點，格式：{ x: X座標, y: Y座標 }
+		* @param {Array} poly 多邊形頂點，陣列成員的格式同 p
+		* @return {String} 點 p 和多邊形 poly 的幾何關係
+		*/
+		function windingNumber(p, poly) {
+			var px = p.x,
+			py = p.y,
+			sum = 0;
+
+			for(var i = 0, l = poly.length, j = l - 1; i < l; j = i, i++) {
+				var sx = poly[i].x,
+				  sy = poly[i].y,
+				  tx = poly[j].x,
+				  ty = poly[j].y;
+
+				// 點與多邊形頂點重合或在多邊形的邊上
+				if((sx - px) * (px - tx) >= 0 && (sy - py) * (py - ty) >= 0 && (px - sx) * (ty - sy) === (py - sy) * (tx - sx)) {
+					return 'on'
+				}
+				// 點與相鄰頂點連線的夾角
+				var angle = Math.atan2(sy - py, sx - px) - Math.atan2(ty - py, tx - px);
+
+				// 確保夾角不超出取值範圍（-π 到 π）
+				if(angle >= Math.PI) {
+					angle = angle - Math.PI * 2;
+				} else if(angle <= -Math.PI) {
+					angle = angle + Math.PI * 2;
+				}
+				sum += angle;
+			}
+			// 計算迴轉數並判斷點和多邊形的幾何關係
+			return Math.round(sum / Math.PI) === 0 ? 'out' : 'in'
+		};
+		
+		//遮蔽效果開關
+		function GetSwitch(){
+			let checkbox = document.querySelector("#myonoffswitch");
+			checkbox.addEventListener('change', function() {
+				if (this.checked) {
+					console.log("Checkbox is checked..");
+					viewshedornot = true;
+				} else {
+					console.log("Checkbox is not checked..");
+					viewshedornot = false;
+				}
+				SetOpacityValue("text", viewshed_list, viewshedornot);
+				SetOpacityValue("entity", viewshed_list, viewshedornot);
+			});
+		};
+		
+		//遮蔽效果不透明度設定
+		function SetOpacityValue(type, list, trueorfalse){
+			let target = document.querySelectorAll('a-'+type);
+			for(let j=0; j<target.length; j++){ //先重置所有實體之透明度
+				if (type=="text"){
+					target[j].setAttribute('opacity', 1);
+				} else if (type=="entity" && j<target.length-2){
+					target[j].setAttribute('material', "opacity: 1; transparent: true");
+				}
+			}
+			if (trueorfalse == true && list.length != 0){ //當遮蔽開關開啟時，從清單獲得需要設定透明度的實體編號，並改變透明度數值
+				for(let j=0; j<list.length; j++){
+					if (type=="text"){
+						target[list[j]].setAttribute('opacity', 0.3);
+					} else if (type=="entity"){
+						target[list[j]].setAttribute('material', "opacity: 0.3; transparent: true");
+					}
+				}
+			}
+		};
 	</script>
 </body>
 </html>
