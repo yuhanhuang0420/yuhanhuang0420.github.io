@@ -25,7 +25,10 @@
 					// redirect to custom URL e.g. google.com
 					//window.location = 'https://www.google.com/';
 					document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px"><colgroup><col style="width: 151px"><col style="width: 224px"></colgroup><thead><tr><th class="tg-4ypd">OID</th><th class="tg-4ypd">3</th></tr></thead><tbody><tr><td class="tg-2fdn">BaseCategory</td><td class="tg-2fdn">SpecialtyEquipment</td></tr><tr><td class="tg-4ypd">Discipline</td><td class="tg-4ypd">Architectural</td></tr><tr><td class="tg-2fdn">BldgLevel</td><td class="tg-2fdn">2 floor</td></tr><tr><td class="tg-4ypd">OmniClassDescription</td><td class="tg-4ypd">General Furniture and Specialties</td></tr></tbody></table>';
-				})
+				});
+				this.el.sceneEl.addEventListener('markerLost', () => {
+					document.querySelector("div[name=info]").innerHTML='';
+				});
 			}
 		});
 	</script>
