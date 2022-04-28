@@ -101,7 +101,7 @@
 				}, 4000);*/
 				let i = 0; //每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
 				let point = {x: 120.219905, y: 22.998648}; //用戶即時平面位置座標
-				let position = {coords:{latitude: 22.998648, longitude: 120.219905, altitude: userHeight}}; //用戶即時位置座標
+				let position = {coords:{latitude: 22.9986932, longitude: 120.2200171, altitude: userHeight}}; //用戶即時位置座標
 				let EQUpoint = {x: track[i].x, y: track[i].y}; //設備即時平面位置座標
 				let EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: height}}; //設備即時位置座標
 				SetLocation("text", position, EQUposition, theta_rad);SetLocation("entity", position, EQUposition, theta_rad);
