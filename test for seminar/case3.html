@@ -28,16 +28,8 @@
 	arjs="sourceType: webcam; debugUIEnabled: false;"
 	>
 	<!--設備位置-->
-	<a-text
-		value="not yet returned"
-		scale="1 1 1"
-		color="red"
-	></a-text>
-	<a-entity
-		rotation="0 0 0"
-		scale="0.25 0.25 0.25"
-		gltf-model="../assets/ball_red.gltf"
-	></a-entity>
+	<a-text value="not yet returned" scale="1 1 1" color="red"></a-text>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>
 		
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
