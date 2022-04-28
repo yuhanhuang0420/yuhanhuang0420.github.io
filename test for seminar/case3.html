@@ -3,7 +3,7 @@
 <head>
 	<meta charset='utf-8'>
 	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-	<title>2F equipment (31.634)</title>
+	<title>Case 3</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
@@ -181,13 +181,13 @@
 		function CheckViewshed(p, ep, poly){ //h: 用戶所在高程, eh: 設備所在高程, p: 用戶所在平面位置座標, ep: 設備所在平面位置座標, poly: 判斷in/out的空間地面polygon
 			if (windingNumber(p, poly.lobbyRoom_2F) == 'on' || windingNumber(p, poly.lobbyRoom_2F) == 'in'){ //用戶位置在二樓大廳內部
 				if (windingNumber(ep, poly.lobbyRoom_2F) == 'out'){ //設備位置不在二樓大廳內部
-					viewshed_list = [0]; }
+					viewshed_list = [0]; console.log("In lobbyRoom_2F");}
 			}else if (windingNumber(p, poly.corridorRoom_2F) == 'on' || windingNumber(p, poly.corridorRoom_2F) == 'in'){ //用戶位置在二樓走廊內部
 				if (windingNumber(ep, poly.corridorRoom_2F) == 'out'){ //設備位置不在二樓走廊內部
-					viewshed_list = [0]; }
+					viewshed_list = [0]; console.log("In corridorRoom_2F");}
 			}else if (windingNumber(p, poly.readingRoom_2F) == 'on' || windingNumber(p, poly.readingRoom_2F) == 'in'){ //用戶位置在圖書室內部
 				if (windingNumber(ep, poly.readingRoom_2F) == 'out'){ //設備位置不在圖書室內部
-					viewshed_list = [0]; }
+					viewshed_list = [0]; console.log("In readingRoom_2F");}
 			}
 			
 		};
