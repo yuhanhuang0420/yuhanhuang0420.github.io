@@ -103,18 +103,16 @@
 				let point = {x: 120.219905, y: 22.998648};
 				SetLocation("text", position, EQUposition, theta_rad);SetLocation("entity", position, EQUposition, theta_rad);
 				CheckViewshed(28.028, point, viewshed_area);
-				SetOpacityValue("entity", viewshed_list, viewshedornot);
+				SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
 				let clock = setInterval(function() {
 					i++;
 					if (i > track.length) {
 						clearInterval(clock);
 					}
-					trackAlt = track[i].z + 1.3;
-					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: trackAlt}};
-					point = {x: track[i].x, y: track[i].y};
-					SetLocation("entity", position, theta_rad);
-					CheckViewshed(track[i].z, point, viewshed_area);
-					SetOpacityValue("entity", viewshed_list, viewshedornot); 
+					EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //設備即時位置座標
+					SetLocation("text", position, EQUposition, theta_rad);SetLocation("entity", position, EQUposition, theta_rad);
+					CheckViewshed(28.028, point, viewshed_area);
+					SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot); 
 				}, 5000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
