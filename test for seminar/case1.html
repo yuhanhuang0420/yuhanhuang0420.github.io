@@ -3,10 +3,10 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<title>Case 2</title>
+	<title>Case 1</title>
 	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 	<link rel="stylesheet" href="../css/onoffswitch.css">
 	<style type="text/css">
 		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace;}
@@ -24,6 +24,7 @@
 	<a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
 		<a-entity camera></a-entity>
 	</a-scene>
-	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>							    
+	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>
+	<script>document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px"><colgroup><col style="width: 151px"><col style="width: 224px"></colgroup><thead><tr><th class="tg-4ypd">OID</th><th class="tg-4ypd">3</th></tr></thead><tbody><tr><td class="tg-2fdn">BaseCategory</td><td class="tg-2fdn">SpecialtyEquipment</td></tr><tr><td class="tg-4ypd">Discipline</td><td class="tg-4ypd">Architectural</td></tr><tr><td class="tg-2fdn">BldgLevel</td><td class="tg-2fdn">2 floor</td></tr><tr><td class="tg-4ypd">OmniClassDescription</td><td class="tg-4ypd">General Furniture and Specialties</td></tr></tbody></table>';</script>
 </body>
 </html>
