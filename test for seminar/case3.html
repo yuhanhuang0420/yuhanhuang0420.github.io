@@ -109,7 +109,7 @@
 				SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
 				let clock = setInterval(function() {
 					i++;
-					if (i > track.length) {
+					if (i = track.length) {
 						clearInterval(clock);
 					}
 					EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: height}}; //設備即時位置座標
@@ -180,14 +180,17 @@
 		//遮蔽判斷
 		function CheckViewshed(p, ep, poly){ //h: 用戶所在高程, eh: 設備所在高程, p: 用戶所在平面位置座標, ep: 設備所在平面位置座標, poly: 判斷in/out的空間地面polygon
 			if (windingNumber(p, poly.lobbyRoom_2F) == 'on' || windingNumber(p, poly.lobbyRoom_2F) == 'in'){ //用戶位置在二樓大廳內部
+				console.log("you're in lobbyRoom_2F");
 				if (windingNumber(ep, poly.lobbyRoom_2F) == 'out'){ //設備位置不在二樓大廳內部
-					viewshed_list = [0]; console.log("In lobbyRoom_2F");}
+					viewshed_list = [0]; console.log("outside lobbyRoom_2F");}
 			}else if (windingNumber(p, poly.corridorRoom_2F) == 'on' || windingNumber(p, poly.corridorRoom_2F) == 'in'){ //用戶位置在二樓走廊內部
+				console.log("you're in corridorRoom_2F");
 				if (windingNumber(ep, poly.corridorRoom_2F) == 'out'){ //設備位置不在二樓走廊內部
-					viewshed_list = [0]; console.log("In corridorRoom_2F");}
+					viewshed_list = [0]; console.log("outside corridorRoom_2F");}
 			}else if (windingNumber(p, poly.readingRoom_2F) == 'on' || windingNumber(p, poly.readingRoom_2F) == 'in'){ //用戶位置在圖書室內部
+				console.log("you're in readingRoom_2F");
 				if (windingNumber(ep, poly.readingRoom_2F) == 'out'){ //設備位置不在圖書室內部
-					viewshed_list = [0]; console.log("In readingRoom_2F");}
+					viewshed_list = [0]; console.log("outside readingRoom_2F");}
 			}
 			
 		};
