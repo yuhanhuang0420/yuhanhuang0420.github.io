@@ -138,8 +138,8 @@
 					let user = new LatLon(position.coords.latitude, position.coords.longitude);
 					N = new LatLon(equpos.coords.latitude, position.coords.longitude).distanceTo(user);
 					E = new LatLon(position.coords.latitude, equpos.coords.longitude).distanceTo(user);
-					if (data_n[j]-position.coords.latitude < 0){ N = -N;}
-					if (data_e[j]-position.coords.longitude < 0){ E = -E;}
+					if (equpos.coords.latitude-position.coords.latitude < 0){ N = -N;}
+					if (equpos.coords.longitude-position.coords.longitude < 0){ E = -E;}
 				}
 
 				if (type=="text"){
