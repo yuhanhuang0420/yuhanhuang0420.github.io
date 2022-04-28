@@ -3,7 +3,7 @@
 <head>
 	<meta charset='utf-8'>
 	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-	<title>real time indoor: 2F equipment (31.634)</title>
+	<title>2F equipment (31.634)</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
@@ -79,10 +79,11 @@
 					$.getJSON( MyApiURL2, function( data2 ) {
 						let point = {x: data.x, y: data.y}; //用戶即時平面位置座標
 						let position = {coords:{latitude: data.y, longitude: data.x, altitude: userHeight}}; //用戶即時位置座標
+						let EQUpoint = {x: data2.x, y: data2.y}; //設備即時平面位置座標
 						let EQUposition = {coords:{latitude: data2.y, longitude: data2.x, altitude: height}}; //設備即時位置座標
 						SetLocation("text", position, EQUposition, theta_rad);SetLocation("entity", position, EQUposition, theta_rad);
-						CheckViewshed(height, point, viewshed_area);
-						SetOpacityValue("entity", viewshed_list, viewshedornot);
+						CheckViewshed(point, EQUpoint, viewshed_area);
+						SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
 					});
 				});
 				setInterval(function() {
@@ -90,29 +91,32 @@
 						$.getJSON( MyApiURL2, function( data2 ) {
 							let point = {x: data.x, y: data.y}; //用戶即時平面位置座標
 							let position = {coords:{latitude: data.y, longitude: data.x, altitude: userHeight}}; //用戶即時位置座標
+							let EQUpoint = {x: data2.x, y: data2.y}; //設備即時平面位置座標
 							let EQUposition = {coords:{latitude: data2.y, longitude: data2.x, altitude: height}}; //設備即時位置座標
 							SetLocation("text", position, EQUposition, theta_rad);SetLocation("entity", position, EQUposition, theta_rad);
-							CheckViewshed(height, point, viewshed_area);
-							SetOpacityValue("entity", viewshed_list, viewshedornot);
+							CheckViewshed(point, EQUpoint, viewshed_area);
+							SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
 						});
 					});
 				}, 4000);*/
 				let i = 0; //每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
-				let position = {coords:{latitude: 22.998648, longitude: 120.219905, altitude: 28.028}}; //用戶即時位置座標
-				let EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //設備即時位置座標
-				let point = {x: 120.219905, y: 22.998648};
+				let point = {x: 120.219905, y: 22.998648}; //用戶即時平面位置座標
+				let position = {coords:{latitude: 22.998648, longitude: 120.219905, altitude: userHeight}}; //用戶即時位置座標
+				let EQUpoint = {x: track[i].x, y: track[i].y}; //設備即時平面位置座標
+				let EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: height}}; //設備即時位置座標
 				SetLocation("text", position, EQUposition, theta_rad);SetLocation("entity", position, EQUposition, theta_rad);
-				CheckViewshed(28.028, point, viewshed_area);
+				CheckViewshed(point, EQUpoint, viewshed_area);
 				SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
 				let clock = setInterval(function() {
 					i++;
 					if (i > track.length) {
 						clearInterval(clock);
 					}
-					EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //設備即時位置座標
+					EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: height}}; //設備即時位置座標
+					EQUpoint = {x: track[i].x, y: track[i].y};
 					SetLocation("text", position, EQUposition, theta_rad);SetLocation("entity", position, EQUposition, theta_rad);
-					CheckViewshed(28.028, point, viewshed_area);
-					SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot); 
+					CheckViewshed(point, EQUpoint, viewshed_area);
+					SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
 				}, 5000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
@@ -174,24 +178,18 @@
 		};
 		
 		//遮蔽判斷
-		function CheckViewshed(height, p, poly){ //height: 用戶所在高程, p: 用戶所在平面位置座標, poly: 判斷in/out的空間地面polygon
-			if(height<31.634){
-				viewshed_list = [4,5,6,7,8,9,10,11,12,13]; //位置在一樓大廳或樓梯，二樓走廊、圖書室遮蔽
-				console.log("In 1F lobby"+viewshed_list);
-			}else if (height>=31.634){
-				if (windingNumber(p, poly.lobbyRoom_2F) == 'on' || windingNumber(p, poly.lobbyRoom_2F) == 'in'){
-					viewshed_list = [0,1,2,3,12,13]; //位置在二樓大廳內部，二樓部分走廊、圖書室遮蔽
-					console.log("In 2F lobby"+viewshed_list);
-				}
-				else if (windingNumber(p, poly.corridorRoom_2F) == 'on' || windingNumber(p, poly.corridorRoom_2F) == 'in'){
-					viewshed_list = [0,1,2,3,13]; //位置在二樓走廊內部，一樓大廳、樓梯、圖書室遮蔽
-					console.log("In 2F corridor"+viewshed_list);
-				}
-				else if (windingNumber(p, poly.readingRoom_2F) == 'on' || windingNumber(p, poly.readingRoom_2F) == 'in'){
-					viewshed_list = [0,1,2,3,4,5,6,7,8,9,10,11,12]; //位置在圖書室內部，圖書室外部全部遮蔽
-					console.log("In reading room"+viewshed_list);
-				}
+		function CheckViewshed(p, ep, poly){ //h: 用戶所在高程, eh: 設備所在高程, p: 用戶所在平面位置座標, ep: 設備所在平面位置座標, poly: 判斷in/out的空間地面polygon
+			if (windingNumber(p, poly.lobbyRoom_2F) == 'on' || windingNumber(p, poly.lobbyRoom_2F) == 'in'){ //用戶位置在二樓大廳內部
+				if (windingNumber(ep, poly.lobbyRoom_2F) == 'on' || windingNumber(ep, poly.lobbyRoom_2F) == 'in'){ //設備位置也在二樓大廳內部
+					viewshed_list = []; } else{ viewshed_list = [0]; }
+			}else if (windingNumber(p, poly.corridorRoom_2F) == 'on' || windingNumber(p, poly.corridorRoom_2F) == 'in'){ //用戶位置在二樓走廊內部
+				if (windingNumber(ep, poly.corridorRoom_2F) == 'on' || windingNumber(ep, poly.corridorRoom_2F) == 'in'){ //設備位置也在二樓走廊內部
+					viewshed_list = []; } else{ viewshed_list = [0]; }
+			}else if (windingNumber(p, poly.readingRoom_2F) == 'on' || windingNumber(p, poly.readingRoom_2F) == 'in'){ //用戶位置在圖書室內部
+				if (windingNumber(ep, poly.readingRoom_2F) == 'on' || windingNumber(ep, poly.readingRoom_2F) == 'in'){ //設備位置也在圖書室內部
+					viewshed_list = []; } else{ viewshed_list = [0]; }
 			}
+			
 		};
 		/**https://www.itread01.com/content/1547955205.html
 		* @description 迴轉數法判斷點是否在多邊形內部
