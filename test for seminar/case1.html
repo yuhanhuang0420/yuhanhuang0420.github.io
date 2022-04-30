@@ -24,7 +24,20 @@
 	<a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
 		<a-entity camera></a-entity>
 	</a-scene>
+	
+	<select id="list">
+		<option class="drop-down">55209-Reading Room</option>
+		<option class="drop-down">55250-Classroom</option>
+	</select>
 	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>
-	<script>document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px"><colgroup><col style="width: 151px"><col style="width: 224px"></colgroup><thead><tr><th class="tg-4ypd">OID</th><th class="tg-4ypd">3</th></tr></thead><tbody><tr><td class="tg-2fdn">BaseCategory</td><td class="tg-2fdn">SpecialtyEquipment</td></tr><tr><td class="tg-4ypd">Discipline</td><td class="tg-4ypd">Architectural</td></tr><tr><td class="tg-2fdn">BldgLevel</td><td class="tg-2fdn">2 floor</td></tr><tr><td class="tg-4ypd">OmniClassDescription</td><td class="tg-4ypd">General Furniture and Specialties</td></tr></tbody></table>';</script>
+	<script>
+		document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px"><colgroup><col style="width: 151px"><col style="width: 224px"></colgroup><thead><tr><th class="tg-4ypd">Type</th><th class="tg-4ypd">Chair</th></tr></thead><tbody><tr><td class="tg-2fdn">ID</td><td class="tg-2fdn">001</td></tr><tr><td class="tg-4ypd">PurchaseDate</td><td class="tg-4ypd">30 Apr 2018</td></tr><tr><td class="tg-2fdn">BldgLevel</td><td class="tg-2fdn">2 floor</td></tr><tr><td class="tg-4ypd">Room</td><td class="tg-4ypd">55209-Reading Room</td></tr></tbody></table>';
+		let elem = document.querySelectorAll(".drop-down");
+		elem.forEach(element=>{
+			element.addEventListener("click", e =>{
+				console.log(e.target.innerHTML);
+			});
+		});
+	</script>
 </body>
 </html>
