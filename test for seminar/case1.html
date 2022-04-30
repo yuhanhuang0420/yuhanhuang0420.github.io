@@ -34,7 +34,7 @@
 		document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px"><colgroup><col style="width: 151px"><col style="width: 224px"></colgroup><thead><tr><th class="tg-4ypd">Type</th><th class="tg-4ypd">Chair</th></tr></thead><tbody><tr><td class="tg-2fdn">ID</td><td class="tg-2fdn">001</td></tr><tr><td class="tg-4ypd">PurchaseDate</td><td class="tg-4ypd">30 Apr 2018</td></tr><tr><td class="tg-2fdn">BldgLevel</td><td class="tg-2fdn">2 floor</td></tr><tr><td class="tg-4ypd">Room</td><td class="tg-4ypd">55209-Reading Room</td></tr></tbody></table>';
 		let elem = document.querySelector("#list").addEventListener("click", function () {
 			alert("Hi there!");
-			console.log(elem.options[elem.selectedIndex].text);
+			console.log(this.options[this.selectedIndex].text);
 		});
 		
 	</script>
