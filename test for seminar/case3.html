@@ -107,11 +107,8 @@
 				SetLocation("text", position, EQUposition, theta_rad);SetLocation("entity", position, EQUposition, theta_rad);
 				CheckViewshed(point, EQUpoint, viewshed_area);
 				SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
-				let clock = setInterval(function() {
+				setInterval(function() {
 					i++;
-					if (i = track.length) {
-						clearInterval(clock);
-					}
 					console.log("i: "+i);
 					EQUpoint = {x: track[i].x, y: track[i].y}; //設備即時平面位置座標
 					EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: height}}; //設備即時位置座標
