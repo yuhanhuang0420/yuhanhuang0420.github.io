@@ -22,21 +22,11 @@
 		AFRAME.registerComponent('markerhandler', {
 			init: function () {
 				this.el.addEventListener('markerFound', () => {
-					if (this.el.id=="1"){
-						document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px; height: 200px; overflow:auto;"><colgroup><col style="width: 112px"><col style="width: 112px"><col style="width: 150px"></colgroup><thead><tr  style="font-weight:bold"><th class="tg-4ypd" style="font-weight:bold">Type</th><th class="tg-4ypd">ID</th><th class="tg-4ypd">PurchaseDate</th></tr></thead><tbody><tr><td class="tg-2fdn">Chair</td><td class="tg-2fdn">R01</td><td class="tg-2fdn">30 Apr 2019</td></tr><tr><td class="tg-4ypd">Chair</td><td class="tg-4ypd">R02</td><td class="tg-4ypd">30 Apr 2019</td></tr><tr><td class="tg-4ypd">Chair</td><td class="tg-4ypd">R03</td><td class="tg-4ypd">01 Aug 2019</td></tr><tr><td class="tg-2fdn">Chair</td><td class="tg-2fdn">R04</td><td class="tg-2fdn">01 Aug 2019</td></tr><tr><td class="tg-4ypd">Chair</td><td class="tg-4ypd">R05</td><td class="tg-4ypd">01 Aug 2019</td></tr></tbody></table>';
-					}else if (this.el.id=="2"){
-						document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px"><colgroup><col style="width: 151px"><col style="width: 224px"></colgroup><thead><tr><th class="tg-4ypd">OID</th><th class="tg-4ypd">3</th></tr></thead><tbody><tr><td class="tg-2fdn">BaseCategory</td><td class="tg-2fdn">SpecialtyEquipment</td></tr><tr><td class="tg-4ypd">Discipline</td><td class="tg-4ypd">Architectural</td></tr><tr><td class="tg-2fdn">BldgLevel</td><td class="tg-2fdn">2 floor</td></tr><tr><td class="tg-4ypd">OmniClassDescription</td><td class="tg-4ypd">General Furniture and Specialties</td></tr></tbody></table>';
+					if (this.el.id=="55209"){
+						document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px; height: 200px; overflow:auto;"><colgroup><col style="width: 112px"><col style="width: 112px"><col style="width: 150px"></colgroup><thead><tr><th class="tg-4ypd" style="font-weight:bold">Type</th><th class="tg-4ypd" style="font-weight:bold">ID</th><th class="tg-4ypd" style="font-weight:bold">PurchaseDate</th></tr></thead><tbody><tr><td class="tg-2fdn">Chair</td><td class="tg-2fdn">R01</td><td class="tg-2fdn">30 Apr 2019</td></tr><tr><td class="tg-4ypd">Chair</td><td class="tg-4ypd">R02</td><td class="tg-4ypd">30 Apr 2019</td></tr><tr><td class="tg-4ypd">Chair</td><td class="tg-4ypd">R03</td><td class="tg-4ypd">01 Aug 2019</td></tr><tr><td class="tg-2fdn">Chair</td><td class="tg-2fdn">R04</td><td class="tg-2fdn">01 Aug 2019</td></tr><tr><td class="tg-4ypd">Chair</td><td class="tg-4ypd">R05</td><td class="tg-4ypd">01 Aug 2019</td></tr></tbody></table>';
+					}else if (this.el.id=="R01"){
+						document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px"><colgroup><col style="width: 151px"><col style="width: 224px"></colgroup><thead><tr><th class="tg-4ypd">Type</th><th class="tg-4ypd">Chair</th></tr></thead><tbody><tr><td class="tg-2fdn">ID</td><td class="tg-2fdn">R01</td></tr><tr><td class="tg-4ypd">PurchaseDate</td><td class="tg-4ypd">30 Apr 2019</td></tr><tr><td class="tg-2fdn">BldgLevel</td><td class="tg-2fdn">2 floor</td></tr><tr><td class="tg-4ypd">Room</td><td class="tg-4ypd">55209-Reading Room</td></tr></tbody></table>';
 					}
-				});
-				this.el.sceneEl.addEventListener('markerLost', () => {
-					document.querySelector("div[name=info]").innerHTML='';
-				});
-			}
-		});
-		AFRAME.registerComponent('chair', {
-			init: function () {
-				this.el.sceneEl.addEventListener('markerFound', () => {
-					document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px"><colgroup><col style="width: 151px"><col style="width: 224px"></colgroup><thead><tr><th class="tg-4ypd">OID</th><th class="tg-4ypd">3</th></tr></thead><tbody><tr><td class="tg-2fdn">BaseCategory</td><td class="tg-2fdn">SpecialtyEquipment</td></tr><tr><td class="tg-4ypd">Discipline</td><td class="tg-4ypd">Architectural</td></tr><tr><td class="tg-2fdn">BldgLevel</td><td class="tg-2fdn">2 floor</td></tr><tr><td class="tg-4ypd">OmniClassDescription</td><td class="tg-4ypd">General Furniture and Specialties</td></tr></tbody></table>';
 				});
 				this.el.sceneEl.addEventListener('markerLost', () => {
 					document.querySelector("div[name=info]").innerHTML='';
@@ -48,10 +38,10 @@
 <!--latitude: 23.0024088; longitude: 120.2136363;-->
 <body style="margin: 0; overflow: hidden;">
 	<a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_9_3">
-		<a-marker markerhandler type="barcode" value="1" id="1">
+		<a-marker markerhandler type="barcode" value="1" id="55209">
 			<a-text value="Reading room" scale="0.8 0.8 0.8" align="center" position="0 0 0" look-at="[camera]"></a-text>
 		</a-marker>
-		<a-marker markerhandler type="hiro" id="2">
+		<a-marker markerhandler type="hiro" id="R01">
 			<a-text value="Chair R01" scale="0.8 0.8 0.8" align="center" position="0 0 0" look-at="[camera]"></a-text>
 		</a-marker>
 		<a-entity camera></a-entity>
