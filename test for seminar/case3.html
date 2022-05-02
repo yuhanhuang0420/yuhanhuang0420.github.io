@@ -65,8 +65,8 @@
 		let track = [{"x":120.220005,"y":22.998719,"z":31.634},{"x":120.220023,"y":22.998729,"z":31.634},{"x":120.220048,"y":22.998739,"z":31.634},{"x":120.220072,"y":22.99874,"z":31.634},{"x":120.220084,"y":22.998739,"z":31.634},{"x":120.220101,"y":22.998737,"z":31.634},{"x":120.220116,"y":22.998736,"z":31.634},{"x":120.220148,"y":22.998735,"z":31.634},{"x":120.220161,"y":22.998732,"z":31.634},{"x":120.220197,"y":22.99873,"z":31.634},{"x":120.220207,"y":22.998722,"z":31.634},{"x":120.220209,"y":22.998703,"z":31.634},{"x":120.220208,"y":22.998689,"z":31.634},{"x":120.220213,"y":22.998667,"z":31.634}];
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
-		const MyApiURL = "https://e412-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
-		const MyApiURL2 = "https://e412-140-116-47-130.ngrok.io/gipsense/TrackAPI-2.php";
+		const MyApiURL = "https://7b2f-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		const MyApiURL2 = "https://7b2f-140-116-47-130.ngrok.io/gipsense/TrackAPI-2.php";
 		jQuery(document).ready(function(){
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
 				let head = event.webkitCompassHeading;
