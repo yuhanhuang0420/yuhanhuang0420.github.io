@@ -28,7 +28,7 @@
 	arjs="sourceType: webcam; debugUIEnabled: false;"
 	>
 	<!--設備位置-->
-	<a-text value="not yet returned to 55209" scale="1 1 1" color="red"></a-text>
+	<a-text value="not yet returned to 55209" scale="1 1 1" align="center" color="red"></a-text>
 	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>
 		
 	<a-camera rotation-reader></a-camera>
@@ -136,7 +136,7 @@
 
 				if (type=="text"){
 					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
-					H = equpos.coords.altitude + 1 - position.coords.altitude;
+					H = equpos.coords.altitude + 0.5 - position.coords.altitude;
 				}
 				let z = Math.cos(degree)*E + Math.sin(degree)*N;
 				let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
