@@ -129,10 +129,10 @@
 					let N, E;
 					if ((type=="entity" && j<target.length-2)||(type!="entity")){
 						let user = new LatLon(position.coords.latitude, position.coords.longitude);
-						N = new LatLon(addpos[j].x, position.coords.longitude).distanceTo(user);
-						E = new LatLon(position.coords.latitude, addpos[j].y).distanceTo(user);
-						if (addpos[j].x-position.coords.latitude < 0){ N = -N;}
-						if (addpos[j].y-position.coords.longitude < 0){ E = -E;}
+						E = new LatLon(position.coords.latitude, addpos[j].x).distanceTo(user);
+						N = new LatLon(addpos[j].y, position.coords.longitude).distanceTo(user);
+						if (addpos[j].x-position.coords.longitude < 0){ E = -E;}
+						if (addpos[j].y-position.coords.latitude < 0){ N = -N;}
 					}
 
 					if (type=="text"){
