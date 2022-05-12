@@ -153,7 +153,9 @@
 				console.log("Button is clicked..");
 				let newEntity = document.createElement('a-entity');
 				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
-				document.querySelector('a-scene').appendChild(newEntity);
+				let reference = document.querySelectorAll('a-entity');
+				let referenceNode = reference[reference.length-2];
+				document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
 			});
 		};
 		
