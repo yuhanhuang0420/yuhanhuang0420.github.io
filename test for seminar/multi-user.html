@@ -151,8 +151,11 @@
 			let button = document.querySelector("#addpointbutton");
 			button.addEventListener('click', function() {
 				console.log("Button is clicked..");
+				let newEntity = document.createElement('a-entity');
+				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
+				document.querySelector('a-scene').appendChild(newEntity);
 			});
-		}
+		};
 		
 		//遮蔽效果開關
 		function GetSwitch(){
