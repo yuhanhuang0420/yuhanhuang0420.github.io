@@ -22,9 +22,9 @@
 	embedded
 	arjs="sourceType: webcam; debugUIEnabled: false;"
 	>
-	<!--設備位置-->
+	<!--設備位置
 	<a-text value="not yet returned to 55209" scale="1 1 1" align="center" color="red"></a-text>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>
+	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>-->
 		
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
@@ -45,6 +45,10 @@
 	<script type="module">
 		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
         	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
+		
+		//用戶新增的點位座標們
+		let curentPoint; //當下所在座標值，隨定位更新而改變
+		let pointData = []; //按下新增點位按鈕時，將當下所在座標值新增入陣列
 		
 		//遮蔽效果相關變數
 		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
@@ -96,43 +100,41 @@
 					});
 				}, 4000);*/
 				let i = 0; //每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
-				let point = {x: 120.2200171, y: 22.9986932}; //用戶即時平面位置座標
-				let position = {coords:{latitude: 22.9986932, longitude: 120.2200171, altitude: userHeight}}; //用戶即時位置座標
-				let EQUpoint = {x: track[i].x, y: track[i].y}; //設備即時平面位置座標
-				let EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: height}}; //設備即時位置座標
-				SetLocation("text", position, EQUposition, theta_rad);SetLocation("entity", position, EQUposition, theta_rad);
-				CheckViewshed(point, EQUpoint, viewshed_area);
-				SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
+				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
+				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
+				curentPoint = {x: track[i].x, y: track[i].y, z: height};
+				SetLocation("text", position, pointData, theta_rad);SetLocation("entity", position, pointData, theta_rad);
+				//CheckViewshed(point, EQUpoint, viewshed_area);
+				//SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
 				setInterval(function() {
 					i++;
 					console.log("i: "+i);
-					EQUpoint = {x: track[i].x, y: track[i].y}; //設備即時平面位置座標
-					EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: height}}; //設備即時位置座標
-					SetLocation("text", position, EQUposition, theta_rad);SetLocation("entity", position, EQUposition, theta_rad);
-					CheckViewshed(point, EQUpoint, viewshed_area);
-					SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
+					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
+					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
+					curentPoint = {x: track[i].x, y: track[i].y, z: height};
+					SetLocation("text", position, pointData, theta_rad);SetLocation("entity", position, pointData, theta_rad);
 				}, 5000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
 				
 		//設定各模型相對於所在即時位置的高及位置
-		function SetLocation(type, position, equpos, degree){ //type: a實體類型, position: 用戶位置座標, equpos: 設備座標, degree: 開啟當下，用戶所持裝置方位角
+		function SetLocation(type, position, addpos, degree){ //type: a實體類型, position: 用戶位置座標, equpos: 設備座標, degree: 開啟當下，用戶所持裝置方位角
 			let target = document.querySelectorAll('a-'+type);
 			let length = target.length;
 			for(let j=0; j<length; j++){ 
-				let H = equpos.coords.altitude - position.coords.altitude;
+				let H = addpos[j].z - position.coords.altitude;
 				let N, E;
 				if ((type=="entity" && j<length-2)||(type!="entity")){
 					let user = new LatLon(position.coords.latitude, position.coords.longitude);
-					N = new LatLon(equpos.coords.latitude, position.coords.longitude).distanceTo(user);
-					E = new LatLon(position.coords.latitude, equpos.coords.longitude).distanceTo(user);
-					if (equpos.coords.latitude-position.coords.latitude < 0){ N = -N;}
-					if (equpos.coords.longitude-position.coords.longitude < 0){ E = -E;}
+					N = new LatLon(addpos[j].x, position.coords.longitude).distanceTo(user);
+					E = new LatLon(position.coords.latitude, addpos[j].y).distanceTo(user);
+					if (addpos[j].x-position.coords.latitude < 0){ N = -N;}
+					if (addpos[j].y-position.coords.longitude < 0){ E = -E;}
 				}
 
 				if (type=="text"){
 					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
-					H = equpos.coords.altitude + 0.5 - position.coords.altitude;
+					H = addpos[j].z + 0.5 - position.coords.altitude;
 				}
 				let z = Math.cos(degree)*E + Math.sin(degree)*N;
 				let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
@@ -156,6 +158,7 @@
 				let reference = document.querySelectorAll('a-entity');
 				let referenceNode = reference[reference.length-2];
 				document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
+				pointData.push(curentPoint);
 			});
 		};
 		
