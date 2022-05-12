@@ -109,6 +109,9 @@
 				setInterval(function() {
 					i++;
 					console.log("i: "+i);
+					if (i = track.length +1){
+						i = 0;
+					};
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 					curentPoint = {x: track[i].x, y: track[i].y, z: height};
@@ -121,27 +124,29 @@
 		function SetLocation(type, position, addpos, degree){ //type: a實體類型, position: 用戶位置座標, equpos: 設備座標, degree: 開啟當下，用戶所持裝置方位角
 			let target = document.querySelectorAll('a-'+type);
 			let length = target.length;
-			for(let j=0; j<length; j++){ 
-				let H = addpos[j].z - position.coords.altitude;
-				let N, E;
-				if ((type=="entity" && j<length-2)||(type!="entity")){
-					let user = new LatLon(position.coords.latitude, position.coords.longitude);
-					N = new LatLon(addpos[j].x, position.coords.longitude).distanceTo(user);
-					E = new LatLon(position.coords.latitude, addpos[j].y).distanceTo(user);
-					if (addpos[j].x-position.coords.latitude < 0){ N = -N;}
-					if (addpos[j].y-position.coords.longitude < 0){ E = -E;}
-				}
+			if (target.length!=0 && addpos!=0){
+				for(let j=0; j<length; j++){ 
+					let H = addpos[j].z - position.coords.altitude;
+					let N, E;
+					if ((type=="entity" && j<length-2)||(type!="entity")){
+						let user = new LatLon(position.coords.latitude, position.coords.longitude);
+						N = new LatLon(addpos[j].x, position.coords.longitude).distanceTo(user);
+						E = new LatLon(position.coords.latitude, addpos[j].y).distanceTo(user);
+						if (addpos[j].x-position.coords.latitude < 0){ N = -N;}
+						if (addpos[j].y-position.coords.longitude < 0){ E = -E;}
+					}
 
-				if (type=="text"){
-					target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
-					H = addpos[j].z + 0.5 - position.coords.altitude;
-				}
-				let z = Math.cos(degree)*E + Math.sin(degree)*N;
-				let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
+					if (type=="text"){
+						target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
+						H = addpos[j].z + 0.5 - position.coords.altitude;
+					}
+					let z = Math.cos(degree)*E + Math.sin(degree)*N;
+					let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
 
-				let target_att = document.createAttribute('position');
-				target_att.value = x+" "+H+" "+z;
-				target[j].setAttributeNode(target_att);
+					let target_att = document.createAttribute('position');
+					target_att.value = x+" "+H+" "+z;
+					target[j].setAttributeNode(target_att);
+				}
 			}
 		};
 		
