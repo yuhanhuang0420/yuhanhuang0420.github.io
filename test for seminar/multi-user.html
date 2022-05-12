@@ -103,7 +103,7 @@
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 				curentPoint = {x: track[i].x, y: track[i].y, z: height};
-				SetLocation("text", position, pointData, theta_rad);SetLocation("entity", position, pointData, theta_rad);
+				//SetLocation("entity", position, pointData, theta_rad);
 				//CheckViewshed(point, EQUpoint, viewshed_area);
 				//SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
 				setInterval(function() {
@@ -115,7 +115,7 @@
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 					curentPoint = {x: track[i].x, y: track[i].y, z: height};
-					SetLocation("text", position, pointData, theta_rad);SetLocation("entity", position, pointData, theta_rad);
+					//SetLocation("entity", position, pointData, theta_rad);
 				}, 5000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
@@ -163,7 +163,7 @@
 				let referenceNode = reference[reference.length-2];
 				document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
 				pointData.push(curentPoint);
-				console.log(pointData);
+				console.log('curentPoint:'+curentPoint+'pointData:'+pointData);
 			});
 		};
 		
