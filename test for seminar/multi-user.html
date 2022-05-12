@@ -123,12 +123,11 @@
 		//設定各模型相對於所在即時位置的高及位置
 		function SetLocation(type, position, addpos, degree){ //type: a實體類型, position: 用戶位置座標, equpos: 設備座標, degree: 開啟當下，用戶所持裝置方位角
 			let target = document.querySelectorAll('a-'+type);
-			let length = target.length;
-			if (target.length!=0 && addpos!=0){
-				for(let j=0; j<length; j++){ 
+			if (target.length!=0 && addpos.length!=0){
+				for(let j=0; j<addpos.length; j++){ 
 					let H = addpos[j].z - position.coords.altitude;
 					let N, E;
-					if ((type=="entity" && j<length-2)||(type!="entity")){
+					if ((type=="entity" && j<target.length-2)||(type!="entity")){
 						let user = new LatLon(position.coords.latitude, position.coords.longitude);
 						N = new LatLon(addpos[j].x, position.coords.longitude).distanceTo(user);
 						E = new LatLon(position.coords.latitude, addpos[j].y).distanceTo(user);
@@ -164,6 +163,7 @@
 				let referenceNode = reference[reference.length-2];
 				document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
 				pointData.push(curentPoint);
+				console.log(pointData);
 			});
 		};
 		
