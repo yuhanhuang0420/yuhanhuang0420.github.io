@@ -3,22 +3,16 @@
 <head>
 	<meta charset='utf-8'>
 	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-	<title>Case 3</title>
+	<title>Multi-user</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
 	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 	<link rel="stylesheet" href="../css/onoffswitch.css">
 	<link rel="stylesheet" href="../css/addbutton.css">
+	<link rel="stylesheet" href="../css/attributetable.css">
 	<style type="text/css">
 		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace;}
-		.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
-		.tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
-		  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
-		.tg th{background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
-		  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-		.tg .tg-2fdn{border-color:#9b9b9b;text-align:left;vertical-align:top}
-		.tg .tg-4ypd{background-color:#efefef;border-color:#9b9b9b;text-align:left;vertical-align:top}
 	</style>
 </head>
 
@@ -45,7 +39,7 @@
 		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch2" tabindex="0">
 		<label class="onoffswitch-label" for="myonoffswitch2"></label>
 	</div>
-	<a class="button" style="position: absolute; bottom: 0px; left: 48%; z-index: 10;" href="#">+</a>
+	<a class="button" id="addpointbutton" style="position: absolute; bottom: 0px; left: 48%; z-index: 10;">+</a>
 	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>
 	
 	<script type="module">
@@ -149,7 +143,16 @@
 			}
 		};
 		
+		AddPoint();
 		GetSwitch();
+		
+		//新增資料點
+		function AddPoint(){
+			let button = document.querySelector("#addpointbutton");
+			button.addEventListener('click', function() {
+				console.log("Button is clicked..");
+			});
+		}
 		
 		//遮蔽效果開關
 		function GetSwitch(){
