@@ -17,16 +17,8 @@
 </head>
 
 <body style="margin: 0px; overflow: hidden;">
-	<a-scene
-	vr-mode-ui="enabled: false"
-	embedded
-	arjs="sourceType: webcam; debugUIEnabled: false;"
-	>
-	<!--設備位置
-	<a-text value="not yet returned to 55209" scale="1 1 1" align="center" color="red"></a-text>
-	<a-entity geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>-->
-		
-	<a-camera rotation-reader></a-camera>
+	<a-scene embedded vr-mode-ui="enabled: false" arjs="sourceType: webcam; debugUIEnabled: false;">	
+		<a-camera rotation-reader></a-camera>
 	</a-scene>
 	
 	<div class="switchtag" style="top:10px;">OCCL</div>
@@ -49,6 +41,11 @@
 		//用戶新增的點位座標們
 		let curentPoint; //當下所在座標值，隨定位更新而改變
 		let pointData = []; //按下新增點位按鈕時，將當下所在座標值新增入陣列
+		let getPointData = window.setInterval(function(){ //定時將用戶新增點位座標的陣列傳回server
+			$.post("https://de76-111-255-23-148.ngrok.io/gipsense/pointDataAPI.php", { PointData: JSON.stringify(pointData) }, function(data) {
+				console.log('pointData:'+data);
+			});
+		},1000);
 		
 		//遮蔽效果相關變數
 		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
