@@ -41,11 +41,6 @@
 		//用戶新增的點位座標們
 		let curentPoint; //當下所在座標值，隨定位更新而改變
 		let pointData = []; //按下新增點位按鈕時，將當下所在座標值新增入陣列
-		/*let getPointData = window.setInterval(function(){ //定時將用戶新增點位座標的陣列傳回server
-			$.post("https://de76-111-255-23-148.ngrok.io/gipsense/pointDataAPI.php", { PointData: JSON.stringify(pointData) }, function(data) {
-				console.log('pointData:'+data);
-			});
-		},1000);*/
 		
 		//遮蔽效果相關變數
 		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
@@ -113,10 +108,6 @@
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 					curentPoint = {x: track[i].x, y: track[i].y, z: height};
 					SetLocation("entity", position, pointData, theta_rad);
-					$.post("https://90fa-111-255-23-148.ngrok.io/gipsense/pointDataAPI.php", { PointData: JSON.stringify(pointData) }, function(data) {
-						console.log('success');
-						console.log(data);
-					});
 				}, 5000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
@@ -165,6 +156,9 @@
 				document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
 				pointData.push(curentPoint);
 				console.log(curentPoint);console.log(pointData);
+				$.post("https://90fa-111-255-23-148.ngrok.io/gipsense/addPointDataAPI.php", { newPointData: JSON.stringify(curentPoint) },function(data){
+					alert(data);
+				});
 			});
 		};
 		
