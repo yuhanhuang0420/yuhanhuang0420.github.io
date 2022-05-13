@@ -60,6 +60,7 @@
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
 		const MyApiURL = "https://c54d-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		const MyApiURL2 = "https://c54d-140-116-47-130.ngrok.io/gipsense/TrackAPI-2.php";
+		const addPointDataAPI = "https://90fa-111-255-23-148.ngrok.io/gipsense/addPointDataAPI.php";
 		jQuery(document).ready(function(){
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
 				let head = event.webkitCompassHeading;
@@ -157,10 +158,10 @@
 				document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
 				pointData.push(curentPoint);
 				console.log(curentPoint);console.log(pointData);
-				$.post("https://90fa-111-255-23-148.ngrok.io/gipsense/addPointDataAPI.php", { newPointData: JSON.stringify(curentPoint) },function(data){
+				$.post(addPointDataAPI, { newPointData: JSON.stringify(curentPoint) },function(data){
 					DBpointData = data;
-					console.log(DBpointData);
 				}, "json");
+				console.log(DBpointData);
 			});
 		};
 		
