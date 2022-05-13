@@ -113,7 +113,7 @@
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 					curentPoint = {x: track[i].x, y: track[i].y, z: height};
 					SetLocation("entity", position, pointData, theta_rad);
-					$.post("https://de76-111-255-23-148.ngrok.io/gipsense/pointDataAPI.php", { PointData: JSON.stringify(pointData) }, function(data) {
+					$.post("https://90fa-111-255-23-148.ngrok.io/gipsense/pointDataAPI.php", { PointData: JSON.stringify(pointData) }, function(data) {
 						console.log('success');
 						console.log(data);
 					});
