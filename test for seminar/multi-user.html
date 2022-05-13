@@ -114,7 +114,8 @@
 					curentPoint = {x: track[i].x, y: track[i].y, z: height};
 					SetLocation("entity", position, pointData, theta_rad);
 					$.post("https://de76-111-255-23-148.ngrok.io/gipsense/pointDataAPI.php", { PointData: JSON.stringify(pointData) }, function(data) {
-						console.log('pointData:'+data);
+						console.log('success');
+						console.log(data);
 					});
 				}, 5000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
