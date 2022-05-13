@@ -160,7 +160,7 @@
 				$.post("https://90fa-111-255-23-148.ngrok.io/gipsense/addPointDataAPI.php", { newPointData: JSON.stringify(curentPoint) },function(data){
 					DBpointData = data;
 					console.log(DBpointData);
-				}, "xml");
+				}, "json");
 			});
 		};
 		
