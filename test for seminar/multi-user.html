@@ -41,6 +41,7 @@
 		//用戶新增的點位座標們
 		let curentPoint; //當下所在座標值，隨定位更新而改變
 		let pointData = []; //按下新增點位按鈕時，將當下所在座標值新增入陣列
+		let DBpointData;
 		
 		//遮蔽效果相關變數
 		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
@@ -157,8 +158,9 @@
 				pointData.push(curentPoint);
 				console.log(curentPoint);console.log(pointData);
 				$.post("https://90fa-111-255-23-148.ngrok.io/gipsense/addPointDataAPI.php", { newPointData: JSON.stringify(curentPoint) },function(data){
-					alert(data);
+					DBpointData = data;
 				});
+				console.log(DBpointData);
 			});
 		};
 		
