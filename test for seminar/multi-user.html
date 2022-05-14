@@ -55,7 +55,7 @@
 		let DBpointData; //從後端獲取的全部點位(多用戶新增)
 		let showDBdataornot = false; //是否展示資料庫中所有資料(預設關閉)
 		$.post(addPointDataAPI, { newPointData: '' },function(data){
-			DBpointData = data.slice(1, -2); //獲取開啟應用當下資料庫中點位資料
+			DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
 			console.log(DBpointData);
 		}, "json");
 		
