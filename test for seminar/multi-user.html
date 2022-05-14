@@ -50,14 +50,14 @@
 		const addPointDataAPI = "https://9ecf-111-255-247-253.ngrok.io/gipsense/addPointDataAPI.php";
 		
 		//用戶新增的點位座標們
-		let curentPoint; //當下所在座標值，隨定位更新而改變
+		let currentPoint; //當下所在座標值，隨定位更新而改變
 		let pointData = []; //按下新增點位按鈕時，將當下所在座標值新增入陣列
 		let DBpointData; //從後端獲取的全部點位(多用戶新增)
 		let showDBdataornot = false; //是否展示資料庫中所有資料(預設關閉)
-		$.post(addPointDataAPI, { newPointData: '' },function(data){
+		/*$.post(addPointDataAPI, { newPointData: '' },function(data){
 			DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
 			console.log(DBpointData);
-		}, "json");
+		}, "json");*/
 		
 		//遮蔽效果相關變數
 		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
@@ -87,7 +87,7 @@
 				let i = 0; //每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
-				curentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
+				currentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
 				SetLocation("entity", position, pointData, theta_rad);
 				if (showDBdataornot == true) {
 					for(let j=0; j<DBpointData.length; j++){
@@ -108,7 +108,7 @@
 					};
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
-					curentPoint = {x: track[i].x, y: track[i].y, z: height};
+					currentPoint = {x: track[i].x, y: track[i].y, z: height};
 					SetLocation("entity", position, pointData, theta_rad);
 					if (showDBdataornot == true) {
 						for(let j=0; j<DBpointData.length; j++){
@@ -167,11 +167,11 @@
 				let reference = document.querySelectorAll('a-entity');
 				let referenceNode = reference[reference.length-2];
 				document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
-				pointData.push(curentPoint);
+				pointData.push(currentPoint);
 				console.log(curentPoint);console.log(pointData);
-				$.post(addPointDataAPI, { newPointData: JSON.stringify(curentPoint) },function(data){
-					//DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取新增後的資料庫中點位資料
-					console.log(data);
+				$.post(addPointDataAPI, { newPointData: JSON.stringify(currentPoint) },function(data){
+					DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取新增後的資料庫中點位資料
+					console.log(DBpointData);
 				}, "json");
 			});
 		};
