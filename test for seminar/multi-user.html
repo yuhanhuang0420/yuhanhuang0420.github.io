@@ -31,8 +31,8 @@
 		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch2" tabindex="0">
 		<label class="onoffswitch-label" for="myonoffswitch2"></label>
 	</div>
-	<div class="switchtag" style="top:80px;">DATA</div>
-	<div class="onoffswitch" style="top:80px;">
+	<div class="switchtag" style="top:60px;">DATA</div>
+	<div class="onoffswitch" style="top:60px;">
 		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch3" tabindex="0">
 		<label class="onoffswitch-label" for="myonoffswitch3"></label>
 	</div>
@@ -90,12 +90,15 @@
 				curentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
 				SetLocation("entity", position, pointData, theta_rad);
 				if (showDBdataornot == true) {
-					/*for(let j=0; j<DBpointData.length; j++)
-					let newEntity = document.createElement('a-entity');
-					newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
-					let reference = document.querySelectorAll('a-entity');
-					let referenceNode = reference[reference.length-2];
-					document.querySelector('a-scene').insertBefore(newEntity, referenceNode);*/
+					for(let j=0; j<DBpointData.length; j++){
+						let newEntity = document.createElement('a-entity');
+						newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
+						newEntity.setAttribute('material','color: red');
+						let reference = document.querySelectorAll('a-entity');
+						let referenceNode = reference[reference.length-2];
+						document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
+					}
+					SetLocation("entity", position, DBpointData, theta_rad);
 				}
 				setInterval(function() {
 					i++;
@@ -107,6 +110,17 @@
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 					curentPoint = {x: track[i].x, y: track[i].y, z: height};
 					SetLocation("entity", position, pointData, theta_rad);
+					if (showDBdataornot == true) {
+						for(let j=0; j<DBpointData.length; j++){
+							let newEntity = document.createElement('a-entity');
+							newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
+							newEntity.setAttribute('material','color: red');
+							let reference = document.querySelectorAll('a-entity');
+							let referenceNode = reference[reference.length-2];
+							document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
+						}
+						SetLocation("entity", position, DBpointData, theta_rad);
+					}
 				}, 5000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
@@ -125,7 +139,6 @@
 						if (addpos[j].x-position.coords.longitude < 0){ E = -E;}
 						if (addpos[j].y-position.coords.latitude < 0){ N = -N;}
 					}
-
 					if (type=="text"){
 						target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
 						H = addpos[j].z + 0.5 - position.coords.altitude;
@@ -157,8 +170,8 @@
 				pointData.push(curentPoint);
 				console.log(curentPoint);console.log(pointData);
 				$.post(addPointDataAPI, { newPointData: JSON.stringify(curentPoint) },function(data){
-					//DBpointData = data;
-					//console.log(DBpointData);
+					DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取新增後的資料庫中點位資料
+					console.log(DBpointData);
 				}, "json");
 			});
 		};
