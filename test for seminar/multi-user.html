@@ -168,7 +168,7 @@
 				let referenceNode = reference[reference.length-2];
 				document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
 				pointData.push(currentPoint);
-				console.log(curentPoint);console.log(pointData);
+				console.log(currentPoint);console.log(pointData);
 				$.post(addPointDataAPI, { newPointData: JSON.stringify(currentPoint) },function(data){
 					DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取新增後的資料庫中點位資料
 					console.log(DBpointData);
