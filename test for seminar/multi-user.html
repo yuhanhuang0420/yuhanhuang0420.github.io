@@ -170,8 +170,8 @@
 				pointData.push(curentPoint);
 				console.log(curentPoint);console.log(pointData);
 				$.post(addPointDataAPI, { newPointData: JSON.stringify(curentPoint) },function(data){
-					DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取新增後的資料庫中點位資料
-					console.log(DBpointData);
+					//DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取新增後的資料庫中點位資料
+					console.log(data);
 				}, "json");
 			});
 		};
