@@ -55,7 +55,8 @@
 		let DBpointData; //從後端獲取的全部點位(多用戶新增)
 		let showDBdataornot = false; //是否展示資料庫中所有資料(預設關閉)
 		$.post(addPointDataAPI, { newPointData: '' },function(data){
-			DBpointData = data; //獲取開啟應用當下資料庫中點位資料
+			DBpointData = data.slice(1, -2); //獲取開啟應用當下資料庫中點位資料
+			console.log(DBpointData);
 		}, "json");
 		
 		//遮蔽效果相關變數
@@ -89,12 +90,12 @@
 				curentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
 				SetLocation("entity", position, pointData, theta_rad);
 				if (showDBdataornot == true) {
-					for(let j=0; j<DBpointData.length; j++)
+					/*for(let j=0; j<DBpointData.length; j++)
 					let newEntity = document.createElement('a-entity');
 					newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
 					let reference = document.querySelectorAll('a-entity');
 					let referenceNode = reference[reference.length-2];
-					document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
+					document.querySelector('a-scene').insertBefore(newEntity, referenceNode);*/
 				}
 				setInterval(function() {
 					i++;
@@ -156,9 +157,9 @@
 				pointData.push(curentPoint);
 				console.log(curentPoint);console.log(pointData);
 				$.post(addPointDataAPI, { newPointData: JSON.stringify(curentPoint) },function(data){
-					DBpointData = data;
+					//DBpointData = data;
+					//console.log(DBpointData);
 				}, "json");
-				console.log(DBpointData);
 			});
 		};
 		
