@@ -85,20 +85,12 @@
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 				currentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
 				SetLocation("entity", position, pointData, theta_rad, "user");
-				let DBpointDataLength;
-				let newEntity = document.createElement('a-entity');
-				newEntity.setAttribute('class','DB');
-				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25;');
-				newEntity.setAttribute('material','color: white;');
+				
 				$.post(addPointDataAPI, { newPointData: '' },function(data){
 					DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
 					console.log(DBpointData);
 					DBpointDataLength = DBpointData.length;
-					for(let j=0; j<DBpointDataLength; j++){
-						let reference = document.querySelectorAll('a-entity');
-						let referenceNode = reference[reference.length-2];
-						document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
-					}
+					AddEntity(DBpointDataLength);
 					SetLocation("entity", position, DBpointData, theta_rad, "DB");
 				}, "json");
 				
@@ -114,11 +106,7 @@
 							DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
 							console.log(DBpointData);
 							let addLength = DBpointData.length - DBpointDataLength; //增加更新後多的entity數量
-							for(let j=0; j<addLength; j++){
-								let reference = document.querySelectorAll('a-entity');
-								let referenceNode = reference[reference.length-2];
-								document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
-							}
+							AddEntity(addLength);
 							SetLocation("entity", position, DBpointData, theta_rad, "DB");
 						}, "json");
 					};
@@ -154,11 +142,25 @@
 			}
 		};
 		
+		//新增與DB資料筆數相符數量的entity
+		function AddEntity(length){
+			for(let j=0; j<length; j++){
+				let DBpointDataLength;
+				let newEntity = document.createElement('a-entity');
+				newEntity.setAttribute('class','DB');
+				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25;');
+				newEntity.setAttribute('material','color: white;');
+				let reference = document.querySelectorAll('a-entity');
+				let referenceNode = reference[reference.length-2];
+				document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
+			}
+		}
+		
 	//---用戶互動UI功能---
 		AddPoint();
 		GetSwitch();
 		
-		//新增資料點
+		//新增資料點按鈕
 		function AddPoint(){
 			let button = document.querySelector("#addpointbutton");
 			button.addEventListener('click', function() {
