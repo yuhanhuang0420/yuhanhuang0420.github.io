@@ -84,14 +84,15 @@
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 				currentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
-				SetLocation("entity", position, pointData, theta_rad, "user");
+				SetLocation("entity", theta_rad, position, pointData, "user");
 				
+				let DBpointDataLength;
 				$.post(addPointDataAPI, { newPointData: '' },function(data){
 					DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
 					console.log(DBpointData);
 					DBpointDataLength = DBpointData.length;
 					AddEntity(DBpointDataLength);
-					SetLocation("entity", position, DBpointData, theta_rad, "DB");
+					SetLocation("entity", theta_rad, position, DBpointData, "DB");
 				}, "json");
 				
 				setInterval(function() {
@@ -100,34 +101,32 @@
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 					currentPoint = {x: track[i].x, y: track[i].y, z: height};
-					SetLocation("entity", position, pointData, theta_rad, "user");
+					SetLocation("entity", theta_rad, position, pointData, "user");
 					if (showDBdataornot == true) {
 						$.post(addPointDataAPI, { newPointData: '' },function(data){
 							DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
 							console.log(DBpointData);
 							let addLength = DBpointData.length - DBpointDataLength; //增加更新後多的entity數量
 							AddEntity(addLength);
-							SetLocation("entity", position, DBpointData, theta_rad, "DB");
+							SetLocation("entity", theta_rad, position, DBpointData, "DB");
 						}, "json");
 					};
-				}, 5000);
+				}, 10000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
 				
 		//設定各模型相對於所在即時位置的高及位置
-		function SetLocation(type, position, addpos, degree, classtype){ //type: a實體類型, position: 用戶位置座標, addpos: 新增座標, degree: 開啟當下，用戶所持裝置方位角
+		function SetLocation(type, degree, position, addpos, classtype){ //type: 實體類型, degree: 開啟當下，用戶所持裝置方位角, position: 用戶位置座標, addpos: 新增座標
 			let target = document.querySelectorAll('a-'+type+'.'+classtype);
 			if (target.length!=0 && addpos.length!=0){
 				for(let j=0; j<addpos.length; j++){ 
 					let H = addpos[j].z - position.coords.altitude;
-					let N, E;
-					if ((type=="entity" && j<target.length)||(type!="entity")){
-						let user = new LatLon(position.coords.latitude, position.coords.longitude);
-						E = new LatLon(position.coords.latitude, addpos[j].x).distanceTo(user);
-						N = new LatLon(addpos[j].y, position.coords.longitude).distanceTo(user);
-						if (addpos[j].x-position.coords.longitude < 0){ E = -E;}
-						if (addpos[j].y-position.coords.latitude < 0){ N = -N;}
-					}
+					let E, N;
+					let user = new LatLon(position.coords.latitude, position.coords.longitude);
+					E = new LatLon(position.coords.latitude, addpos[j].x).distanceTo(user);
+					N = new LatLon(addpos[j].y, position.coords.longitude).distanceTo(user);
+					if (addpos[j].x-position.coords.longitude < 0){ E = -E;}
+					if (addpos[j].y-position.coords.latitude < 0){ N = -N;}
 					if (type=="text"){
 						target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
 						H = addpos[j].z + 0.5 - position.coords.altitude;
@@ -145,7 +144,6 @@
 		//新增與DB資料筆數相符數量的entity
 		function AddEntity(length){
 			for(let j=0; j<length; j++){
-				let DBpointDataLength;
 				let newEntity = document.createElement('a-entity');
 				newEntity.setAttribute('class','DB');
 				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25;');
