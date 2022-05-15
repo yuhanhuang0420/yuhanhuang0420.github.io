@@ -84,7 +84,7 @@
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 				currentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
-				let DBpointDataLength;
+				let DBpointDataLength = 0;
 				$.post(addPointDataAPI, { newPointData: '' },function(data){
 					DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
 					console.log(DBpointData);
