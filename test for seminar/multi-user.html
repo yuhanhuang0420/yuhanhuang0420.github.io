@@ -44,13 +44,13 @@
         	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
 		
 	//---全域變數---
-		//API網址
-		const MyApiURL = "https://c54d-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
-		const MyApiURL2 = "https://c54d-140-116-47-130.ngrok.io/gipsense/TrackAPI-2.php";
-		const addPointDataAPI = "https://b2be-1-173-172-223.ngrok.io/gipsense/addPointDataAPI.php";
+		//API網址 (80 port: ngrok http 80)
+		const TrackAPI = "https://c54d-140-116-47-130.ngrok.io/gipsense/TrackAPI.php";
+		const TrackAPI2 = "https://c54d-140-116-47-130.ngrok.io/gipsense/TrackAPI-2.php";
+		const addPointDataAPI = "https://ff8a-1-173-172-223.ngrok.io/gipsense/addPointDataAPI.php";
 		
 		//用戶新增的點位座標們
-		let currentPoint; //當下所在座標值，隨定位更新而改變
+		let currentPoint; //記錄當下所在座標值，隨定位更新而改變
 		let pointData = []; //按下新增點位按鈕時，將當下所在座標值新增入陣列
 		let DBpointData; //從後端獲取的全部點位(多用戶新增)
 		let showDBdataornot = true; //是否展示資料庫中所有資料(預設開啟)
@@ -73,14 +73,14 @@
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
 		jQuery(document).ready(function(){
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
-				let head = event.webkitCompassHeading;
+				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定)
 				let theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
 				let theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
 				if (head == undefined){ theta_rad = 270 * Math.PI /180; } //無羅盤資料則預設朝向正北
 				let height = 31.634;
 				let userHeight = height + 1.3;
 				
-				let i = 0; //每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
+				let i = 0; //(測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 				currentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
@@ -94,14 +94,13 @@
 					SetLocation("entity", theta_rad, position, pointData, "user");
 				}, "json");
 				
-				setInterval(function() {
-					i++; console.log("i: "+i);
-					if (i == track.length){ i = 0; };
+				setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
+					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
-					currentPoint = {x: track[i].x, y: track[i].y, z: height};
+					currentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
 					$.post(addPointDataAPI, { newPointData: '' },function(data){
-						DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
+						DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取資料庫中最新的點位資料
 						console.log(DBpointData);
 						let addLength = DBpointData.length - DBpointDataLength; //增加更新後多的entity數量
 						DBpointDataLength = DBpointData.length; //更新DB資料長度
@@ -141,11 +140,13 @@
 		
 		//新增與DB資料筆數相符數量的entity
 		function AddEntity(length){
+			let opacity = 0.5; //(預設開啟)
+			if (showDBdataornot == false){ opacity = 0; };
 			for(let j=0; j<length; j++){
 				let newEntity = document.createElement('a-entity');
 				newEntity.setAttribute('class','DB');
 				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25;');
-				newEntity.setAttribute('material','color: white;');
+				newEntity.setAttribute('material','color: white; opacity: '+opacity+'; transparent: true');
 				let reference = document.querySelectorAll('a-entity');
 				let referenceNode = reference[reference.length-pointData.length-2];
 				document.querySelector('a-scene').insertBefore(newEntity, referenceNode); //確保entity新增在AR.js環境設定entity之前
@@ -204,13 +205,13 @@
 					console.log("Checkbox3 is checked..");
 					showDBdataornot = true;
 					for(let j=0; j<target.length; j++){ //重置所有實體之透明度
-						target[j].setAttribute('material', "opacity: 0.5; transparent: true");
+						target[j].setAttribute('material', "opacity: 0.5; transparent: true;");
 					}
 				} else {
 					console.log("Checkbox3 is not checked..");
 					showDBdataornot = false;
 					for(let j=0; j<target.length; j++){ //重置所有實體之透明度
-						target[j].setAttribute('material', "opacity: 0; transparent: true");
+						target[j].setAttribute('material', "opacity: 0; transparent: true;");
 					}
 				}
 			});
