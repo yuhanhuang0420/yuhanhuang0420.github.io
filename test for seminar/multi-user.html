@@ -150,7 +150,7 @@
 				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25;');
 				newEntity.setAttribute('material','color: white;');
 				let reference = document.querySelectorAll('a-entity');
-				let referenceNode = reference[reference.length-2];
+				let referenceNode = reference[reference.length-pointData.length-2];
 				document.querySelector('a-scene').insertBefore(newEntity, referenceNode); //確保entity新增在AR.js環境設定entity之前
 			}
 		}
