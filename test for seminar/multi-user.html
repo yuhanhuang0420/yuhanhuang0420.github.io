@@ -91,8 +91,8 @@
 					DBpointDataLength = DBpointData.length;
 					AddEntity(DBpointDataLength);
 					SetLocation("entity", theta_rad, position, DBpointData, "DB");
+					SetLocation("entity", theta_rad, position, pointData, "user");
 				}, "json");
-				SetLocation("entity", theta_rad, position, pointData, "user");
 				
 				setInterval(function() {
 					i++; console.log("i: "+i);
@@ -100,17 +100,15 @@
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 					currentPoint = {x: track[i].x, y: track[i].y, z: height};
-					if (showDBdataornot == true) {
-						$.post(addPointDataAPI, { newPointData: '' },function(data){
-							DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
-							console.log(DBpointData);
-							let addLength = DBpointData.length - DBpointDataLength; //增加更新後多的entity數量
-							DBpointDataLength = DBpointData.length; //更新DB資料長度
-							AddEntity(addLength);
-							SetLocation("entity", theta_rad, position, DBpointData, "DB");
-						}, "json");
-					};
-					SetLocation("entity", theta_rad, position, pointData, "user");
+					$.post(addPointDataAPI, { newPointData: '' },function(data){
+						DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
+						console.log(DBpointData);
+						let addLength = DBpointData.length - DBpointDataLength; //增加更新後多的entity數量
+						DBpointDataLength = DBpointData.length; //更新DB資料長度
+						AddEntity(addLength);
+						SetLocation("entity", theta_rad, position, DBpointData, "DB");
+						SetLocation("entity", theta_rad, position, pointData, "user");
+					}, "json");
 				}, 10000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
@@ -206,7 +204,7 @@
 					console.log("Checkbox3 is checked..");
 					showDBdataornot = true;
 					for(let j=0; j<target.length; j++){ //重置所有實體之透明度
-						target[j].setAttribute('material', "opacity: 1; transparent: true");
+						target[j].setAttribute('material', "opacity: 0.9; transparent: true");
 					}
 				} else {
 					console.log("Checkbox3 is not checked..");
