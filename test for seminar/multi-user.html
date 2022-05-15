@@ -47,13 +47,12 @@
 		//API網址
 		const MyApiURL = "https://c54d-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		const MyApiURL2 = "https://c54d-140-116-47-130.ngrok.io/gipsense/TrackAPI-2.php";
-		const addPointDataAPI = "https://9ecf-111-255-247-253.ngrok.io/gipsense/addPointDataAPI.php";
+		const addPointDataAPI = "https://b2be-1-173-172-223.ngrok.io/gipsense/addPointDataAPI.php";
 		
 		//用戶新增的點位座標們
 		let currentPoint; //當下所在座標值，隨定位更新而改變
 		let pointData = []; //按下新增點位按鈕時，將當下所在座標值新增入陣列
 		let DBpointData; //從後端獲取的全部點位(多用戶新增)
-		let DBpointDataLength;
 		let showDBdataornot = true; //是否展示資料庫中所有資料(預設開啟)
 		
 		//遮蔽效果相關變數
@@ -85,8 +84,8 @@
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 				currentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
-				
 				SetLocation("entity", position, pointData, theta_rad, "user");
+				let DBpointDataLength;
 				let newEntity = document.createElement('a-entity');
 				newEntity.setAttribute('class','DB');
 				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25;');
