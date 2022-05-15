@@ -151,7 +151,7 @@
 				newEntity.setAttribute('material','color: white;');
 				let reference = document.querySelectorAll('a-entity');
 				let referenceNode = reference[reference.length-2];
-				document.querySelector('a-scene').insertBefore(newEntity, referenceNode);
+				document.querySelector('a-scene').insertBefore(newEntity, referenceNode); //確保entity新增在AR.js環境設定entity之前
 			}
 		}
 		
@@ -167,9 +167,7 @@
 				let newEntity = document.createElement('a-entity');
 				newEntity.setAttribute('class','user');
 				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
-				let reference = document.querySelectorAll('a-entity');
-				let referenceNode = reference[reference.length-2];
-				document.querySelector('a-scene').insertBefore(newEntity, referenceNode); //確保新增entity在AR.js環境設定entity之前
+				document.querySelector('a-scene').appendChild(newEntity); //用戶新增的entity固定放在最後(以AR.js環境設定entity和DB的entity做分隔)
 				pointData.push(currentPoint);
 				console.log(currentPoint);console.log(pointData);
 				$.post(addPointDataAPI, { newPointData: JSON.stringify(currentPoint) },function(data){
@@ -204,14 +202,17 @@
 			});
 			let checkbox3 = document.querySelector("#myonoffswitch3");
 			checkbox3.addEventListener('change', function() {
+				let target = document.querySelectorAll('a-entity.DB');
 				if (this.checked) {
 					console.log("Checkbox3 is checked..");
 					showDBdataornot = true;
+					for(let j=0; j<target.length; j++){ //重置所有實體之透明度
+						target[j].setAttribute('material', "opacity: 1; transparent: true");
+					}
 				} else {
 					console.log("Checkbox3 is not checked..");
 					showDBdataornot = false;
-					let target = document.querySelectorAll('a-entity.DB');
-					for(let j=0; j<target.length; j++){ //先重置所有實體之透明度
+					for(let j=0; j<target.length; j++){ //重置所有實體之透明度
 						target[j].setAttribute('material', "opacity: 0.1; transparent: true");
 					}
 				}
