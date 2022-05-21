@@ -58,15 +58,15 @@ input::before, input::after {
   top: 50%;
   transform: translateY(-50%);
   background-color: #2C3E50;
-  width: 4vw;
+  width: 7vw;
   height: 5px;
   max-width: 50px;
 }
 input::before {
-  left: calc(-4vw + 12.5px);
+  left: calc(-7vw + 12.5px);
 }
 input::after {
-  right: calc(-4vw + 12.5px);
+  right: calc(-7vw + 12.5px);
 }
 input:checked {
   background-color: #2C3E50;
