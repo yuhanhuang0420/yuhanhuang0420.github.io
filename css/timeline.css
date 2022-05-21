@@ -63,10 +63,10 @@ input::before, input::after {
   max-width: 50px;
 }
 input::before {
-  left: calc(-7vw + 12.5px);
+  left: calc(-7vw + 6px);
 }
 input::after {
-  right: calc(-7vw + 12.5px);
+  right: calc(-7vw + 6px);
 }
 input:checked {
   background-color: #2C3E50;
