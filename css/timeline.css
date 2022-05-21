@@ -1,3 +1,4 @@
+/*From: https://codepen.io/cjl750/pen/MXvYmg*/
 $numDots: 20
 $parentWidthBase: 0.8
 $parentWidth: $parentWidthBase * 100vw
@@ -6,19 +7,18 @@ $dotWidth: 25px
 $active: #2C3E50
 $inactive: #AEB6BF
 
-html
-	height: 100%
-body
-	min-height: 100%
-body
-	font-family: 'Quicksand', sans-serif
-	font-weight: 500
-	color: #424949
-	background-color: #ECF0F1
-	padding: 0 25px
-	display: flex
-	flex-direction: column
-	position: relative
+
+#timeline {
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 500;
+	color: #424949;
+	background-color: #ECF0F1;
+	padding: 0 25px;
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	z-index: 10;
+}
 h1
 	text-align: center
 	height: 38px
