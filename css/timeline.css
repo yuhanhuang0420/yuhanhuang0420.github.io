@@ -164,7 +164,7 @@ input[data-description="2000"]:checked ~ #timeline-descriptions-wrapper p[data-d
   display: block;
 }
 
-@media (min-width: 1250px) {
+/*@media (min-width: 1250px) {
   .input-flex-container {
     margin-left: 62.5px;
   }
@@ -257,11 +257,11 @@ input[data-description="2000"]:checked ~ #timeline-descriptions-wrapper p[data-d
 }
 @media (max-width: 480px) {
   .input-flex-container {
-    /*width: 340px;*/
+    width: 340px;
   }
 }
 @media (max-width: 400px) {
   .input-flex-container {
-    /*width: 300px;*/
+    width: 300px;
   }
-}
+}*/
