@@ -3,7 +3,7 @@
 <head>
 	<meta charset='utf-8'>
 	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-	<title>Multi-user</title>
+	<title>Timeline</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
@@ -75,8 +75,7 @@
 		
 		//新增與基站資料筆數相符數量的entity
 		function AddEntity(length){
-			let opacity = 0.5; //(預設開啟)
-			if (viewshedornot == false){ opacity = 1; };
+			let opacity = 0.75;
 			for(let j=0; j<length; j++){
 				let newEntity = document.createElement('a-entity');
 				newEntity.setAttribute('class','anchor');
