@@ -30,23 +30,23 @@
 	<div id="timeline">
 		<div class="flex-parent">
 			<div class="input-flex-container">
-				<input type="radio" name="timeline-dot" data-description="1910">
+				<input type="radio" name="timeline-dot" value="1910" data-description="1910">
 				<div class="dot-info" data-description="1910">
 					<span class="year">1910</span>
 				</div>
-				<input type="radio" name="timeline-dot" data-description="1920">
+				<input type="radio" name="timeline-dot" value="1920" data-description="1920">
 				<div class="dot-info" data-description="1920">
 					<span class="year">1920</span>
 				</div>
-				<input type="radio" name="timeline-dot" data-description="1930" checked>
+				<input type="radio" name="timeline-dot" value="1930" data-description="1930" checked>
 				<div class="dot-info" data-description="1930">
 					<span class="year">1930</span>
 				</div>
-				<input type="radio" name="timeline-dot" data-description="1940">
+				<input type="radio" name="timeline-dot" value="1940" data-description="1940">
 				<div class="dot-info" data-description="1940">
 					<span class="year">1940</span>
 				</div>
-				<input type="radio" name="timeline-dot" data-description="1950">
+				<input type="radio" name="timeline-dot" value="1950" data-description="1950">
 				<div class="dot-info" data-description="1950">
 					<span class="year">1950</span>
 				</div>
@@ -157,7 +157,7 @@
 			let radio = document.querySelectorAll('input[name="timeline-dot"]').forEach((elem) => {;
 				elem.addEventListener('change', function(event) {
 					if (this.checked) {
-						console.log(event.target.data-description);
+						console.log(event.target.value);
 					} else {
 						//console.log("Checkbox is not checked..");
 					}
