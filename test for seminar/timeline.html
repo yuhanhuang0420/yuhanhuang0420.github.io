@@ -192,7 +192,9 @@
 			}
 			for (let j=0; j<yellow.length; j++){
 				//target[yellow[j]].setAttribute('material', 'color: yellow');
-				target[yellow[j]].setAttribute('material','color: yellow;');
+				let target_att = document.createAttribute('material');
+				target_att.value = 'color: yellow';
+				target[yellow[j]].setAttributeNode(target_att);
 			}
 			/*yellow.forEach(function(x){
 				
