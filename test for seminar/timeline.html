@@ -190,11 +190,13 @@
 				yellow = [0,1,2];
 				red = [8];
 			}
-			yellow.forEach(function(x){ 
-				console.log(target[x]);	
-				//target[x].setAttribute('material', 'color: yellow;'); 
+			yellow.forEach(function(x){
+				//console.log(target[x]);	
+				target[x].setAttribute('material', 'color: yellow');
 			});
-			//red.forEach(function(x){ target[x].setAttribute('material', 'color: red;'); });
+			red.forEach(function(x){
+				target[x].setAttribute('material', 'color: red');
+			});
 		};
 	</script>
 </body>
