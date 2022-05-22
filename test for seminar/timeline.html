@@ -154,6 +154,15 @@
 					console.log("Checkbox is not checked..");
 				}
 			});
+			let radio = document.querySelectorAll('input[name="contract_duration"]').forEach((elem) => {;
+				elem.addEventListener('change', function(event) {
+					if (this.checked) {
+						console.log(event.target.data-description);
+					} else {
+						//console.log("Checkbox is not checked..");
+					}
+				});
+			});
 		};
 	</script>
 </body>
