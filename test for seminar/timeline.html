@@ -30,25 +30,25 @@
 	<div id="timeline">
 		<div class="flex-parent">
 			<div class="input-flex-container">
-				<input type="radio" name="timeline-dot" value="1910" data-description="1910">
-				<div class="dot-info" data-description="1910">
-					<span class="year">1910</span>
+				<input type="radio" name="timeline-dot" value="time1" data-description="time1">
+				<div class="dot-info" data-description="time1">
+					<span class="year">time1</span>
 				</div>
-				<input type="radio" name="timeline-dot" value="1920" data-description="1920">
-				<div class="dot-info" data-description="1920">
-					<span class="year">1920</span>
+				<input type="radio" name="timeline-dot" value="time2" data-description="time2">
+				<div class="dot-info" data-description="time2">
+					<span class="year">time2</span>
 				</div>
-				<input type="radio" name="timeline-dot" value="1930" data-description="1930" checked>
-				<div class="dot-info" data-description="1930">
-					<span class="year">1930</span>
+				<input type="radio" name="timeline-dot" value="time3" data-description="time3" checked>
+				<div class="dot-info" data-description="time3">
+					<span class="year">time3</span>
 				</div>
-				<input type="radio" name="timeline-dot" value="1940" data-description="1940">
-				<div class="dot-info" data-description="1940">
-					<span class="year">1940</span>
+				<input type="radio" name="timeline-dot" value="time4" data-description="time4">
+				<div class="dot-info" data-description="time4">
+					<span class="year">time4</span>
 				</div>
-				<input type="radio" name="timeline-dot" value="1950" data-description="1950">
-				<div class="dot-info" data-description="1950">
-					<span class="year">1950</span>
+				<input type="radio" name="timeline-dot" value="time5" data-description="time5">
+				<div class="dot-info" data-description="time5">
+					<span class="year">time5</span>
 				</div>
 			</div>
 		</div>
@@ -108,7 +108,7 @@
 				let newEntity = document.createElement('a-entity');
 				newEntity.setAttribute('class','anchor');
 				newEntity.setAttribute('geometry','primitive: box; width: 0.25; height: 0.25; depth: 0.25');
-				newEntity.setAttribute('material','color: yellow; opacity: '+opacity+'; transparent: true');
+				newEntity.setAttribute('material','color: green; opacity: '+opacity+'; transparent: true');
 				let reference = document.querySelectorAll('a-entity');
 				let referenceNode = reference[reference.length-2];
 				document.querySelector('a-scene').insertBefore(newEntity, referenceNode); //確保entity新增在AR.js環境設定entity之前
@@ -148,6 +148,7 @@
 		function GetSwitch(){
 			let checkbox = document.querySelector("#myonoffswitch");
 			let timelinediv = document.querySelector("#timeline");
+			ChangeEntityColor('time3'); //(時間軸預設選項
 			checkbox.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox is checked..");
@@ -161,11 +162,36 @@
 				elem.addEventListener('change', function(event) {
 					if (this.checked) {
 						console.log(event.target.value);
-					} else {
-						//console.log("Checkbox is not checked..");
+						ChangeEntityColor(event.target.value);
 					}
 				});
 			});
+		};
+		
+	//---歷史資料視覺化功能---
+		//隨選擇之時間軸段改變entity顏色
+		function ChangeEntityColor(value){
+			let target = document.querySelectorAll('a-entity.anchor');
+			let yellow = [];
+			let red = [];
+			if (value == 'time1'){
+				yellow = [0,1,2,3,4,5,6,7];
+				red = [8,9,10];
+			} else if (value == 'time2'){
+				yellow = [0,1,2,3,4,5];
+				red = [8,9,10];
+			} else if (value == 'time3'){
+				yellow = [0,1,2,3,4,5];
+				red = [8,9];
+			} else if (value == 'time4'){
+				yellow = [0,1,2];
+				red = [8,9];
+			} else if (value == 'time5'){
+				yellow = [0,1,2];
+				red = [8];
+			}
+			yellow.forEach(function(x){ target[x].setAttribute('material', 'color: yellow;'); });
+			red.forEach(function(x){ target[x].setAttribute('material', 'color: red;'); });
 		};
 	</script>
 </body>
