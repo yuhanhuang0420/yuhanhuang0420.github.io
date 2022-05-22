@@ -147,11 +147,14 @@
 		//開關設定
 		function GetSwitch(){
 			let checkbox = document.querySelector("#myonoffswitch");
+			let timelinediv = document.querySelector("#timeline");
 			checkbox.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox is checked..");
+					timelinediv.setAttribute('style', 'display;');
 				} else {
 					console.log("Checkbox is not checked..");
+					timelinediv.setAttribute('style', 'display: none;');
 				}
 			});
 			let radio = document.querySelectorAll('input[name="timeline-dot"]').forEach((elem) => {;
