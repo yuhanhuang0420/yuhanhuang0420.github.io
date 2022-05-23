@@ -86,6 +86,7 @@
 				let height = 31.634;
 				let userHeight = height + 1.3;
 				AddEntity(anchorPosition.length);
+				ChangeEntityColor('time3'); //(時間軸預設選項)
 				
 				let i = 0; //(測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
@@ -148,7 +149,6 @@
 		function GetSwitch(){
 			let checkbox = document.querySelector("#myonoffswitch");
 			let timelinediv = document.querySelector("#timeline");
-			ChangeEntityColor('time3'); //(時間軸預設選項
 			checkbox.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox is checked..");
@@ -191,10 +191,10 @@
 				red = [8];
 			}
 			for (let j=0; j<yellow.length; j++){
-				//target[yellow[j]].setAttribute('material', 'color: yellow');
-				let target_att = document.createAttribute('material');
-				target_att.value = 'color: yellow';
-				target[yellow[j]].setAttributeNode(target_att);
+				target[yellow[j]].setAttribute('material', 'color: yellow');
+				//let target_att = document.createAttribute('material');
+				//target_att.value = 'color: yellow';
+				//target[yellow[j]].setAttributeNode(target_att);
 			}
 			/*yellow.forEach(function(x){
 				
