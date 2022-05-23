@@ -171,8 +171,10 @@
 		//隨選擇之時間軸段改變entity顏色
 		function ChangeEntityColor(value){
 			let target = document.querySelectorAll('a-entity.anchor');
-			let yellow = [];
-			let red = [];
+			target.forEach(function(x){
+				target[x].setAttribute('material', 'color: green'); //先重置所有entity顏色
+			});
+			let yellow, red;
 			if (value == 'time1'){
 				yellow = [0,1,2,3,4,5,6,7];
 				red = [8,9,10];
@@ -189,12 +191,6 @@
 				yellow = [0,1,2];
 				red = [8];
 			}
-			//for (let j=0; j<yellow.length; j++){
-				//target[yellow[j]].setAttribute('material', 'color: yellow');
-				//let target_att = document.createAttribute('material');
-				//target_att.value = 'color: yellow';
-				//target[yellow[j]].setAttributeNode(target_att);
-			//}
 			yellow.forEach(function(x){
 				target[x].setAttribute('material', 'color: yellow');
 			});
