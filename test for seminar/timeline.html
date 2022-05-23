@@ -172,7 +172,7 @@
 		function ChangeEntityColor(value){
 			let target = document.querySelectorAll('a-entity.anchor');
 			target.forEach(function(x){
-				target[x].setAttribute('material', 'color: green'); //先重置所有entity顏色
+				x.setAttribute('material', 'color: green'); //先重置所有entity顏色
 			});
 			let yellow, red;
 			if (value == 'time1'){
