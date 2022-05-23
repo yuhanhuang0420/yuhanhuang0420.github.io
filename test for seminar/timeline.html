@@ -172,6 +172,7 @@
 		//隨選擇之時間軸段改變entity顏色
 		function ChangeEntityColor(value){
 			let target = document.querySelectorAll('a-entity.anchor');
+			console.log(target[0]);
 			let yellow = [];
 			let red = [];
 			if (value == 'time1'){
@@ -196,12 +197,12 @@
 				//target_att.value = 'color: yellow';
 				//target[yellow[j]].setAttributeNode(target_att);
 			//}
-			yellow.forEach(function(x){
+			/*yellow.forEach(function(x){
 				target[x].setAttribute('material', 'color: yellow');
 			});
 			red.forEach(function(x){
 				//target[x].setAttribute('material', 'color: red');
-			});
+			});*/
 		};
 	</script>
 </body>
