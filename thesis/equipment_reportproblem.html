@@ -38,7 +38,7 @@
 		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch3" tabindex="0" checked>
 		<label class="onoffswitch-label" for="myonoffswitch3"></label>
 	</div>
-	<div id="inputinfo" style="display: none; background:#ffffff; opacity: 0.75; width: 100%; position: absolute; top: 0px; left: 0px; z-index: 10;">
+	<div id="inputinfo" style="display: none; background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; left: 0px; z-index: 10;">
 		<input type="text" placeholder="輸入要通報的問題" />
 		<button id="submit">Done</button>
 	</div>
@@ -178,7 +178,7 @@
 			});
 			let submitbutton = document.querySelector("#submit");
 			submitbutton.addEventListener('click', function() {
-				console.log("inputdata: "+inputdata);
+				console.log(inputdata);
 				inputdata.info = document.querySelector('input[type="text"]').value;
 				inputdiv.setAttribute('style', 'display:none;');
 				//$.post(addPointDataAPI, { newPointData: JSON.stringify(currentPoint) },function(data){ //提交資料至後端
