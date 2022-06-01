@@ -13,8 +13,8 @@
 	<link rel="stylesheet" href="../css/attributetable.css">
 	<style type="text/css">
 		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace;}
-		input[type="text"]{padding:5px 15px; border:2px black solid; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px; width: 100%;}
-		#submit{padding:5px 15px; background:#ccc; border:0 none; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px; width: 100%; text-align: center;}
+		input[type="text"]{padding:5px 15px; border:2px black solid; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px; width: 90%;}
+		#submit{padding:5px 15px; background:#ccc; border:0 none; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px; width: 90%; text-align: center;}
 	</style>
 </head>
 
@@ -178,13 +178,12 @@
 			});
 			let submitbutton = document.querySelector("#submit");
 			submitbutton.addEventListener('click', function() {
-				console.log(inputdata);
 				inputdata.info = document.querySelector('input[type="text"]').value;
-				console.log(inputdata);
-				inputdiv.setAttribute('style', 'display:none;');
-				//$.post(addPointDataAPI, { newPointData: JSON.stringify(currentPoint) },function(data){ //提交資料至後端
+				document.querySelector('input[type="text"]').value = ''; //清除填寫內容
+				inputdiv.setAttribute('style', 'display:none;'); //關閉填寫視窗
+				$.post(addPointDataAPI, { newPointData: JSON.stringify(inputdata) },function(data){ //提交資料至後端
 					//DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取新增後的資料庫中點位資料
-				//}, "json");
+				}, "json");
 			});
 		};
 		
