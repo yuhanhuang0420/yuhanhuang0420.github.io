@@ -180,6 +180,7 @@
 			submitbutton.addEventListener('click', function() {
 				console.log(inputdata);
 				inputdata.info = document.querySelector('input[type="text"]').value;
+				console.log(inputdata);
 				inputdiv.setAttribute('style', 'display:none;');
 				//$.post(addPointDataAPI, { newPointData: JSON.stringify(currentPoint) },function(data){ //提交資料至後端
 					//DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取新增後的資料庫中點位資料
