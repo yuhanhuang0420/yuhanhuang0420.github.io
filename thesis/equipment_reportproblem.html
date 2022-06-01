@@ -38,7 +38,7 @@
 		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch3" tabindex="0" checked>
 		<label class="onoffswitch-label" for="myonoffswitch3"></label>
 	</div>
-	<div id="inputinfo" style="display: none; background:#ffffff; opacity: 0.75; width: 100%; height:100px; position: absolute; top: 0px; left: 0px; z-index: 15;">
+	<div id="inputinfo" style="display: none;">
 		<input type="text" placeholder="輸入要通報的問題" />
 		<button id="submit">Done</button>
 	</div>
@@ -168,7 +168,7 @@
 			let inputdata;
 			let button = document.querySelector("#addpointbutton");
 			button.addEventListener('click', function() {
-				inputdiv.setAttribute('style', 'display;');
+				inputdiv.setAttribute('style', 'display; background:#ffffff; opacity: 0.75; width: 100%; position: absolute; top: 0px; left: 0px; z-index: 15;');
 				let newEntity = document.createElement('a-entity');
 				newEntity.setAttribute('class','user');
 				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
