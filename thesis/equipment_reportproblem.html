@@ -14,6 +14,7 @@
 	<style type="text/css">
 		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace;}
 		input[type="text"]{padding:5px 15px; border:2px black solid; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px;}
+		input[type="submit"]{padding:5px 15px; background:#ccc; border:0 none; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px;}
 	</style>
 </head>
 
@@ -40,7 +41,7 @@
 	<div id="inputinfo" style="display: none; background:#ffffff; opacity: 0.75; width: 100%; position: absolute; top: 0px; left: 0px; z-index: 10;">
 		<form>
 			<input type="text" placeholder="輸入要通報的問題" />
-			<input type="submit"> 
+			<button id="submit" /> 
 		</form>		
 	</div>
 	<a class="button" id="addpointbutton" style="position: absolute; bottom: 0px; left: 48%; z-index: 10;">+</a>
@@ -177,7 +178,7 @@
 				pointData.push(currentPoint); //儲存至用戶本人這次開啟應用後新增的資料陣列
 				inputdata = currentPoint; //將目前座標儲存至提交資料
 			});
-			let submitbutton = document.querySelector("input[type='submit']");
+			let submitbutton = document.querySelector("#submit");
 			submitbutton.addEventListener('click', function() {
 				console.log("inputdata: "+inputdata);
 				inputdata.info = document.querySelector('input[type="text"]').value;
