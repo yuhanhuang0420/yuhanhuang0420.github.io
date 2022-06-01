@@ -14,7 +14,7 @@
 	<style type="text/css">
 		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace;}
 		input[type="text"]{padding:5px 15px; border:2px black solid; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px;}
-		input[type="submit"]{padding:5px 15px; background:#ccc; border:0 none; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px;}
+		#submit{padding:5px 15px; background:#ccc; border:0 none; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px;}
 	</style>
 </head>
 
@@ -168,7 +168,7 @@
 			let inputdata;
 			let button = document.querySelector("#addpointbutton");
 			button.addEventListener('click', function() {
-				inputdiv.setAttribute('style', 'display; background:#ffffff; opacity: 0.75; width: 100%; position: absolute; top: 0px; left: 0px; z-index: 15;');
+				inputdiv.setAttribute('style', 'display; background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 100px; left: 0px; z-index: 15;');
 				let newEntity = document.createElement('a-entity');
 				newEntity.setAttribute('class','user');
 				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
