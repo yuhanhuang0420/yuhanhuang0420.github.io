@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<title>real time indoor: total(1F+2F)</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+</head>
+
+<body style="margin: 0px; overflow: hidden;">
+	<a-scene
+	vr-mode-ui="enabled: false"
+	embedded
+	arjs="sourceType: webcam; debugUIEnabled: false;"
+	>
+	<!--1.一樓大門: gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;" position="0 26.728 0"-->
+	<a-text class="entrance" value="gate" scale="1 1 1" align="center"></a-text>
+	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25"></a-entity>
+	<!--2.經緯廳: gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;" position="0 27.033 0"-->
+	<a-text class="entrance" value="Chin-Way Hall" scale="1 1 1" align="center"></a-text>
+	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25"></a-entity>
+	<!--3.大一教室: gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;" position="0 31.634 0"-->
+	<a-text class="entrance" value="55250" scale="1 1 1" align="center" color="yellow"></a-text>
+	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
+	<!--4.電腦教室: gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;" position="0 31.634 0"-->
+	<a-text class="entrance" value="55208" scale="1 1 1" align="center" color="yellow"></a-text>
+	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
+	<!--5.圖書室: gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;" position="0 31.634 0"-->
+	<a-text class="entrance" value="55209" scale="1 1 1" align="center" color="yellow"></a-text>
+	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
+	<!--6.55210實驗室: gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;" position="0 31.634 0"-->
+	<a-text class="entrance" value="55210" scale="1 1 1" align="center" color="yellow"></a-text>
+	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
+	<!--7.55316實驗室: gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;" position="0 36.148 0"-->
+	<a-text class="entrance" value="Our lab" scale="1 1 1" align="center" color="red"></a-text>
+	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>
+		
+	<a-camera rotation-reader></a-camera>
+	</a-scene>
+	<select id="list" style="position: absolute; top: 0px; left: 0px; z-index: 10;">
+		<option class="drop-down" selected>55209-Reading Room</option>
+		<option class="drop-down">55250-Classroom</option>
+	</select>
+	
+	<script type="module">
+		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
+        	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
+		
+	//---全域變數---
+		//API網址 (80 port: ngrok http 80)
+		const TrackAPI = "https://967d-140-116-47-130.ngrok.io/gipsense/TrackAPI.php";
+		
+		//空間門口位置
+		let entrancePosition = [{"x":120.2199345,"y":22.9986416,"z":26.728},{"x":120.2200520,"y":22.9987154,"z":27.033},
+				       {"x":120.2200649,"y":22.9987299,"z":31.634},{"x":120.2200666,"y":22.9987492,"z":31.634},
+				       {"x":120.2202121,"y":22.9987189,"z":31.634},{"x":120.2202138,"y":22.9987382,"z":31.634},{"x":120.2200666,"y":22.9987492,"z":36.148}];
+		
+		//測試用軌跡
+		let track = [{"x":120.220005,"y":22.998719,"z":31.634},{"x":120.220023,"y":22.998729,"z":31.634},{"x":120.220048,"y":22.998739,"z":31.634},{"x":120.220072,"y":22.99874,"z":31.634},{"x":120.220084,"y":22.998739,"z":31.634},{"x":120.220101,"y":22.998737,"z":31.634},{"x":120.220116,"y":22.998736,"z":31.634},{"x":120.220148,"y":22.998735,"z":31.634},{"x":120.220161,"y":22.998732,"z":31.634},{"x":120.220197,"y":22.99873,"z":31.634},{"x":120.220207,"y":22.998722,"z":31.634},{"x":120.220209,"y":22.998703,"z":31.634},{"x":120.220208,"y":22.998689,"z":31.634},{"x":120.220213,"y":22.998667,"z":31.634}];
+		
+	//---主要功能: 取得姿態、位置等參數控制AR內容渲染狀況---
+		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
+		jQuery(document).ready(function(){
+			GetSwitch(); //啟動UI功能
+			window.addEventListener('deviceorientation', function(event) { //get azimuth
+				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定)
+				let theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
+				let theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
+				if (head == undefined){ theta_rad = 270 * Math.PI /180; } //無羅盤資料則預設朝向正北
+				let height = 31.634;
+				let userHeight = height + 1.3;
+				/*$.getJSON( TrackAPI, function (data){
+					let point = {x: data.x, y: data.y}; //用戶即時平面位置座標(判斷within使用)
+					let position = {coords:{longitude: data.x, latitude: data.y, altitude: userHeight}}; //用戶即時位置座標
+					SetLocation("text", theta_rad, position, entrancePosition, "entrance");
+					SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
+				});
+				setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
+					$.getJSON( TrackAPI, function(data){
+						let point = {x: data.x, y: data.y}; //用戶即時平面位置座標(判斷within使用)
+						let position = {coords:{longitude: data.x, latitude: data.y, altitude: userHeight}}; //用戶即時位置座標
+						SetLocation("text", theta_rad, position, entrancePosition, "entrance");
+						SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
+					});
+				}, 10000); */
+				let i = 0; //(測試時才會用到)
+				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
+				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
+				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
+				SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
+				setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
+					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
+					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
+					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
+					SetLocation("text", theta_rad, position, entrancePosition, "entrance");
+					SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
+				}, 10000);
+			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
+		});
+				
+		//設定各模型相對於所在即時位置的高及位置
+		function SetLocation(type, degree, position, ancpos, classtype){ //type: 實體類型, degree: 啟動時裝置方位角, position: 用戶位置座標, ancpos: AR內容座標
+			let target = document.querySelectorAll('a-'+type+'.'+classtype);
+			if (target.length!=0 && ancpos.length!=0){
+				for(let j=0; j<ancpos.length; j++){ 
+					let H = ancpos[j].z - position.coords.altitude;
+					let E, N;
+					let user = new LatLon(position.coords.latitude, position.coords.longitude);
+					E = new LatLon(position.coords.latitude, ancpos[j].x).distanceTo(user);
+					N = new LatLon(ancpos[j].y, position.coords.longitude).distanceTo(user);
+					if (ancpos[j].x-position.coords.longitude < 0){ E = -E;}
+					if (ancpos[j].y-position.coords.latitude < 0){ N = -N;}
+					if (type=="text"){
+						target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
+						H = ancpos[j].z + 0.5 - position.coords.altitude;
+					}
+					let z = Math.cos(degree)*E + Math.sin(degree)*N;
+					let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
+
+					let target_att = document.createAttribute('position');
+					target_att.value = x+" "+H+" "+z;
+					target[j].setAttributeNode(target_att);
+				}
+			}
+		};
+		
+	//---用戶互動UI功能---
+		//開關設定
+		function GetSwitch(){
+			let elem = document.querySelector("#list").addEventListener("change", function () {
+				console.log(this.options[this.selectedIndex].text);
+				let target = document.querySelectorAll('a-entity.entrance');
+				if (this.options[this.selectedIndex].text == "55209-Reading Room"){
+					target[2].setAttribute('material', 'color: yellow');
+					target[4].setAttribute('material', 'color: green');
+				}else if (this.options[this.selectedIndex].text == "55250-Classroom"){
+					target[2].setAttribute('material', 'color: green');
+					target[4].setAttribute('material', 'color: yellow');
+				}
+			});
+		};
+		
+	</script>
+</body>
+</html>
