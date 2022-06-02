@@ -3,7 +3,7 @@
 <head>
 	<meta charset='utf-8'>
 	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-	<title>real time indoor: total(1F+2F)</title>
+	<title>Guide Event Space</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
@@ -40,6 +40,7 @@
 		
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
+	
 	<select id="list" style="position: absolute; top: 0px; left: 0px; z-index: 10;">
 		<option class="drop-down">--Please select--</option>
 		<option class="drop-down">55209-Reading Room</option>
@@ -65,7 +66,7 @@
 	//---主要功能: 取得姿態、位置等參數控制AR內容渲染狀況---
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
 		jQuery(document).ready(function(){
-			GetSwitch(); //啟動UI功能
+			let targetEntrance = GetSelection(); //取得導引目標空間入口
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
 				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定)
 				let theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
@@ -92,12 +93,14 @@
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
+				Guide(theta_rad, position, targetEntrance);
 				setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
 					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 					SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 					SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
+					Guide(theta_rad, position, targetEntrance);
 				}, 10000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
@@ -129,19 +132,53 @@
 		};
 		
 	//---用戶互動UI功能---
-		//開關設定
-		function GetSwitch(){
+		//下拉式選單
+		function GetSelection(){
 			let elem = document.querySelector("#list").addEventListener("change", function () {
 				console.log(this.options[this.selectedIndex].text);
 				let target = document.querySelectorAll('a-entity.entrance');
+				target.forEach(function(x){
+					x.setAttribute('material', 'opacity: 0.3; transparent: true;'); //先重置所有entity透明度
+				});
 				if (this.options[this.selectedIndex].text == "55209-Reading Room"){
 					target[2].setAttribute('material', 'color: yellow');
-					target[4].setAttribute('material', 'color: green');
+					target[4].setAttribute('material', 'color: blue; opacity: 1; transparent: true;');
+					return entrancePosition[4];
 				}else if (this.options[this.selectedIndex].text == "55250-Classroom"){
-					target[2].setAttribute('material', 'color: green');
+					target[2].setAttribute('material', 'color: blue; opacity: 1; transparent: true;');
 					target[4].setAttribute('material', 'color: yellow');
+					return entrancePosition[2];
+				}else{
+					target.forEach(function(x){
+						x.setAttribute('material', 'opacity: 1; transparent: true;'); //重置所有entity透明度
+					});
+					return '';
 				}
+				
 			});
+		};
+		
+	//---導引指示相關功能---
+		//
+		function Guide(degree, position, tarpos){
+			if(tarpos != ''){
+				let user = new LatLon(position.coords.latitude, position.coords.longitude);
+				let E = new LatLon(position.coords.latitude, tarpos[j].x).distanceTo(user);
+				let N = new LatLon(tarpos[j].y, position.coords.longitude).distanceTo(user);
+				if (tarpos[j].x-position.coords.longitude < 0){ E = -E;}
+				if (tarpos[j].y-position.coords.latitude < 0){ N = -N;}
+				let z = Math.cos(degree)*E + Math.sin(degree)*N;
+				let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
+				let rotation = Math.atan2(x, z)*180/Math.PI;
+
+				let newEntity = document.createElement('a-entity');
+				newEntity.setAttribute('class','arrow');
+				newEntity.setAttribute('gltf-model','../assets/arrow/scene.gltf');
+				newEntity.setAttribute('scale','1 1 1');
+				newEntity.setAttribute('rotation','0 '+rotation+' 0');
+				document.querySelector('a-scene').appendChild(newEntity); //用戶新增的entity固定放在最後(以AR.js環境設定entity和DB的entity做分隔)
+				SetLocation("entity", degree, position, tarpos, "arrow");
+			}
 		};
 		
 	</script>
