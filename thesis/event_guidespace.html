@@ -18,10 +18,10 @@
 	>
 	<!--1.一樓大門: gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;" position="0 26.728 0"-->
 	<a-text class="entrance" value="gate" scale="1 1 1" align="center"></a-text>
-	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25"></a-entity>
+	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" color="white"></a-entity>
 	<!--2.經緯廳: gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;" position="0 27.033 0"-->
 	<a-text class="entrance" value="Chin-Way Hall" scale="1 1 1" align="center"></a-text>
-	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25"></a-entity>
+	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" color="white"></a-entity>
 	<!--3.大一教室: gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;" position="0 31.634 0"-->
 	<a-text class="entrance" value="55250" scale="1 1 1" align="center" color="yellow"></a-text>
 	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
@@ -41,7 +41,8 @@
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
 	<select id="list" style="position: absolute; top: 0px; left: 0px; z-index: 10;">
-		<option class="drop-down" selected>55209-Reading Room</option>
+		<option class="drop-down">--Please select--</option>
+		<option class="drop-down">55209-Reading Room</option>
 		<option class="drop-down">55250-Classroom</option>
 	</select>
 	
