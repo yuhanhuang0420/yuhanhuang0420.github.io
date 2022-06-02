@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>Case 2</title>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+	<link rel="stylesheet" href="../css/onoffswitch.css">
+	<style type="text/css">
+		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace;}
+		.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
+		.tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+		  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+		.tg th{background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+		  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+		.tg .tg-2fdn{border-color:#9b9b9b;text-align:left;vertical-align:top}
+		.tg .tg-4ypd{background-color:#efefef;border-color:#9b9b9b;text-align:left;vertical-align:top}
+	</style>
+	<script>
+		AFRAME.registerComponent('markerhandler', {
+			init: function () {
+				this.el.addEventListener('markerFound', () => {
+					if (this.el.id=="55209"){
+						document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px; height: 200px; overflow:auto;"><colgroup><col style="width: 112px"><col style="width: 150px"><col style="width: 112px"></colgroup><thead><tr><th class="tg-4ypd" style="font-weight:bold">Event(Next7Days)</th><th class="tg-4ypd" style="font-weight:bold">EventTime</th><th class="tg-4ypd" style="font-weight:bold">NumberofPeople</th></tr></thead><tbody><tr><td class="tg-2fdn">Speech</td><td class="tg-2fdn">20220607.10-12</td><td class="tg-2fdn">30</td></tr><tr><td class="tg-4ypd">Meeting</td><td class="tg-4ypd">20220607.17-20</td><td class="tg-4ypd">15</td></tr><tr><td class="tg-4ypd">Class</td><td class="tg-4ypd">20220609.09-12</td><td class="tg-4ypd">25</td></tr><tr><td class="tg-2fdn">Discussion</td><td class="tg-2fdn">20220610.10-12</td><td class="tg-2fdn">10</td></tr><tr><td class="tg-4ypd">Testing</td><td class="tg-4ypd">20220610.14-17</td><td class="tg-4ypd">5</td></tr></tbody></table>';
+					}else if (this.el.id=="55210"){
+						document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px; height: 200px; overflow:auto;"><colgroup><col style="width: 112px"><col style="width: 150px"><col style="width: 112px"></colgroup><thead><tr><th class="tg-4ypd" style="font-weight:bold">Event(Next7Days)</th><th class="tg-4ypd" style="font-weight:bold">EventTime</th><th class="tg-4ypd" style="font-weight:bold">NumberofPeople</th></tr></thead><tbody><tr><td class="tg-2fdn">Speech</td><td class="tg-2fdn">20220606.14-16</td><td class="tg-2fdn">60</td></tr><tr><td class="tg-4ypd">Class</td><td class="tg-4ypd">20220609.09-12</td><td class="tg-4ypd">45</td></tr><tr><td class="tg-2fdn">Class</td><td class="tg-2fdn">20220610.10-12</td><td class="tg-2fdn">50</td></tr><tr><td class="tg-4ypd">Class</td><td class="tg-4ypd">20220610.9-12</td><td class="tg-4ypd">25</td></tr></tbody></table>';
+					}
+				});
+				this.el.sceneEl.addEventListener('markerLost', () => {
+					document.querySelector("div[name=info]").innerHTML='';
+				});
+			}
+		});
+	</script>
+</head>
+<!--latitude: 23.0024088; longitude: 120.2136363;-->
+<body style="margin: 0; overflow: hidden;">
+	<a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_9_3">
+		<a-marker markerhandler type="barcode" value="1" id="55209">
+			<a-text value="Reading room" scale="0.8 0.8 0.8" align="center" position="0 0 0" look-at="[camera]"></a-text>
+		</a-marker>
+		<a-marker markerhandler type="hiro" id="55210">
+			<a-text value="55210 Classroom" scale="0.8 0.8 0.8" align="center" position="0 0 0" look-at="[camera]"></a-text>
+		</a-marker>
+		<a-entity camera></a-entity>
+	</a-scene>
+	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>							    
+</body>
+</html>
