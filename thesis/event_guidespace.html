@@ -175,7 +175,7 @@
 				if (tarpos.y-position.coords.latitude < 0){ N = -N;}
 				let z = Math.cos(degree)*E + Math.sin(degree)*N;
 				let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
-				let rotation = (Math.atan2(x, z)*180/Math.PI)+90;
+				let rotation = (Math.atan2(x, z)*180/Math.PI)+270;
 				
 				arrowEntity.setAttribute('gltf-model','../assets/arrow/scene.gltf');
 				arrowEntity.setAttribute('scale','1 1 1');
