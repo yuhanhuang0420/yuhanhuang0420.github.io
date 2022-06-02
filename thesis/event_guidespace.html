@@ -37,6 +37,8 @@
 	<!--7.55316實驗室: gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;" position="0 36.148 0"-->
 	<a-text class="entrance" value="Our lab" scale="1 1 1" align="center" color="red"></a-text>
 	<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>
+	
+	<a-entity class="arrow"></a-entity>
 		
 	<a-camera rotation-reader></a-camera>
 	</a-scene>
@@ -153,7 +155,6 @@
 					target.forEach(function(x){
 						x.setAttribute('material', 'opacity: 1; transparent: true;'); //重置所有entity透明度
 					});
-					return '';
 				}
 				
 			});
@@ -162,7 +163,10 @@
 	//---導引指示相關功能---
 		//
 		function Guide(degree, position, tarpos){
-			if(tarpos != ''){
+			let arrowEntity = document.querySelector('a-entity.arrow');
+			if(tarpos == ''){
+				arrowEntity.setAttribute('gltf-model','');
+			}else{
 				console.log(typeof tarpos);console.log(tarpos);
 				let user = new LatLon(position.coords.latitude, position.coords.longitude);
 				let E = new LatLon(position.coords.latitude, tarpos.x).distanceTo(user);
@@ -172,13 +176,10 @@
 				let z = Math.cos(degree)*E + Math.sin(degree)*N;
 				let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
 				let rotation = Math.atan2(x, z)*180/Math.PI;
-
-				let newEntity = document.createElement('a-entity');
-				newEntity.setAttribute('class','arrow');
-				newEntity.setAttribute('gltf-model','../assets/arrow/scene.gltf');
-				newEntity.setAttribute('scale','1 1 1');
-				newEntity.setAttribute('rotation','0 '+rotation+' 0');
-				document.querySelector('a-scene').appendChild(newEntity); //用戶新增的entity固定放在最後(以AR.js環境設定entity和DB的entity做分隔)
+				
+				arrowEntity.setAttribute('gltf-model','../assets/arrow/scene.gltf');
+				arrowEntity.setAttribute('scale','1 1 1');
+				arrowEntity.setAttribute('rotation','0 '+rotation+' 0');
 				SetLocation("entity", degree, position, tarpos, "arrow");
 			}
 		};
