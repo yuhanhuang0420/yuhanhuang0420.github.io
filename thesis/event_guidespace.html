@@ -56,7 +56,7 @@
 		const TrackAPI = "https://967d-140-116-47-130.ngrok.io/gipsense/TrackAPI.php";
 		
 		//空間門口位置
-		let targetEntrance; //導引目標空間入口
+		let targetEntrance = ''; //導引目標空間入口
 		let entrancePosition = [{"x":120.2199345,"y":22.9986416,"z":26.728},{"x":120.2200520,"y":22.9987154,"z":27.033},
 				       {"x":120.2200649,"y":22.9987299,"z":31.634},{"x":120.2200666,"y":22.9987492,"z":31.634},
 				       {"x":120.2202121,"y":22.9987189,"z":31.634},{"x":120.2202138,"y":22.9987382,"z":31.634},{"x":120.2200666,"y":22.9987492,"z":36.148}];
@@ -94,14 +94,14 @@
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
-				Guide(theta_rad, position, targetEntrance);console.log(typeof targetEntrance);console.log(targetEntrance);
+				Guide(theta_rad, position, targetEntrance);
 				setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
 					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 					SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 					SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
-					Guide(theta_rad, position, targetEntrance);console.log(typeof targetEntrance);console.log(targetEntrance);
+					Guide(theta_rad, position, targetEntrance);
 				}, 10000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
@@ -163,6 +163,7 @@
 		//
 		function Guide(degree, position, tarpos){
 			if(tarpos != ''){
+				console.log(typeof tarpos);console.log(tarpos);
 				let user = new LatLon(position.coords.latitude, position.coords.longitude);
 				let E = new LatLon(position.coords.latitude, tarpos.x).distanceTo(user);
 				let N = new LatLon(tarpos.y, position.coords.longitude).distanceTo(user);
