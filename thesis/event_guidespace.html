@@ -168,7 +168,7 @@
 		function Guide(degree, position, tarpos){
 			let arrowEntity = document.querySelector('a-entity.arrow');
 			if(tarpos == ''){
-				arrowEntity.setAttribute('gltf-model','');
+				arrowEntity.removeAttributeNode('gltf-model');
 			}else{
 				console.log(typeof tarpos);console.log(tarpos);
 				let user = new LatLon(position.coords.latitude, position.coords.longitude);
