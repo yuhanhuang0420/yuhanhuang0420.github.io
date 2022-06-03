@@ -157,7 +157,7 @@
 					});
 					target[2].setAttribute('material', 'color: yellow');
 					target[4].setAttribute('material', 'color: yellow');
-					targetEntrance = '';
+					targetEntrance = 0;
 				}
 				
 			});
@@ -167,9 +167,9 @@
 		//計算指標方向及位置渲染
 		function Guide(degree, position, tarpos){
 			let arrowEntity = document.querySelector('a-entity.arrow');
-			if(tarpos == ''){
-				arrowEntity.removeAttributeNode('gltf-model');
-			}else{
+			if(tarpos == 0){
+				arrowEntity.removeAttribute("gltf-model");
+			}else if(tarpos != ''){
 				console.log(typeof tarpos);console.log(tarpos);
 				let user = new LatLon(position.coords.latitude, position.coords.longitude);
 				let E = new LatLon(position.coords.latitude, tarpos.x).distanceTo(user);
