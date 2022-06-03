@@ -39,14 +39,14 @@
 <body style="margin: 0; overflow: hidden;">
 	<a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_9_3">
 		<a-marker markerhandler type="barcode" value="1" id="55209">
-			<a-entity geometry="primitive: plane" look-at="[camera]" material="color: greenyellow; opacity: 0.5; transparent: true;"></a-entity>
+			<a-entity geometry="primitive: plane" position="0 -0.1 0" look-at="[camera]" material="color: greenyellow; opacity: 0.5; transparent: true;"></a-entity>
 			<a-text value="Reading room" scale="0.8 0.8 0.8" align="center" position="0 0.1 0" look-at="[camera]"></a-text>
-			<a-text value="(No activity now)" scale="0.5 0.5 0.5" align="center" position="0 0.1 -0.5" look-at="[camera]"></a-text>
+			<a-text value="(No activity now)" scale="0.5 0.5 0.5" align="center" position="0 0.1 0.5" look-at="[camera]"></a-text>
 		</a-marker>
 		<a-marker markerhandler type="hiro" id="55210">
-			<a-entity geometry="primitive: plane" look-at="[camera]" material="color: #deb887; opacity: 0.5; transparent: true;"></a-entity>
+			<a-entity geometry="primitive: plane" position="0 -0.1 0" look-at="[camera]" material="color: burlywood; opacity: 0.5; transparent: true;"></a-entity>
 			<a-text value="55210 Classroom" scale="0.8 0.8 0.8" align="center" position="0 0.1 0" look-at="[camera]"></a-text>
-			<a-text value="(There is an event going on)" scale="0.5 0.5 0.5" align="center" position="0 0.1 -0.5" look-at="[camera]"></a-text>
+			<a-text value="(There is an event going on)" scale="0.5 0.5 0.5" align="center" position="0 0.1 0.5" look-at="[camera]"></a-text>
 		</a-marker>
 		<a-entity camera></a-entity>
 	</a-scene>
