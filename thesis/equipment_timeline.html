@@ -171,14 +171,14 @@
 			function roundToTwo(num) { //將數字四捨五入到小數點後兩位，from: https://www.delftstack.com/zh-tw/howto/javascript/javascript-round-to-2-decimal-places/
 				return +(Math.round(num + "e+2")  + "e-2");
 			};
-			let user = new LatLon(position.coords.latitude, position.coords.longitude);
-			let horizontalD = new LatLon(ancpos[j].y, ancpos[j].x).distanceTo(user);
-			let verticalD = ancpos[j].z - position.coords.altitude;
-			let D = roundToTwo(Math.sqrt(Math.pow(horizontalD, 2) + Math.pow(verticalD, 2)));
 			let text = document.querySelectorAll('a-text.anchor');
-			text.forEach(function(x){
-				x.setAttribute('value', D);console.log(D);
-			});
+			let user = new LatLon(position.coords.latitude, position.coords.longitude);
+			for(let j=0; j<ancpos.length; j++){
+				let horizontalD = new LatLon(ancpos[j].y, ancpos[j].x).distanceTo(user);
+				let verticalD = ancpos[j].z - position.coords.altitude;
+				let D = roundToTwo(Math.sqrt(Math.pow(horizontalD, 2) + Math.pow(verticalD, 2)));
+				text[j].setAttribute('value', D); console.log(D);
+			};
 		};
 		
 	//---用戶互動UI功能---
