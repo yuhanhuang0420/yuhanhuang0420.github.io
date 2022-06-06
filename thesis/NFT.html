@@ -41,13 +41,13 @@
 		<!-- the path should end with the name without the extension e.g. if file is 'pinball.fset' the path should end with 'pinball' -->
 		<a-nft
 			type="nft"
-			url="./asset/NFT-trex/trex-image/trex"
+			url="./asset/NFT-trex/IMG_6682"
 			smooth="true"
 			smoothCount="10"
 			smoothTolerance="0.01"
 			smoothThreshold="5"
 		>
-			<a-entity geometry="primitive: sphere; radius: 100" material="color: red" position="150 300 -100"></a-entity>
+			<a-entity geometry="primitive: sphere; radius: 100" material="color: red" position="0 300 0"></a-entity>
 		</a-nft>
 		<!-- static camera that moves according to the device movemenents -->
 		<a-entity camera></a-entity>
@@ -55,9 +55,30 @@
 	
 	
 	<script>
-		window.addEventListener("arjs-nft-loaded", (event) => {
-			// Hide loading overlay
-			document.querySelector(".arjs-loader").setAttribute('style', 'display: none;');
+		// retry timer (https://github.com/AR-js-org/AR.js/issues/369)
+		let initialized = false;
+		let reloadTimer;
+		window.addEventListener('arjs-video-loaded', function () {
+			if (initialized)
+				return;
+			initialized = true;
+
+			reloadTimer = setInterval(function () {
+				window.dispatchEvent(new CustomEvent('arjs-video-loaded', {
+					detail: {
+						component: document.querySelector('#arjs-video'),
+					},
+				}));
+			}, 1000);
 		});
+		window.addEventListener("arjs-nft-loaded", function () {
+			initialized = true;
+			clearInterval(reloadTimer);
+			document.querySelector(".arjs-loader").setAttribute('style', 'display: none;'); // Hide loading overlay
+		});
+		//window.addEventListener("arjs-nft-loaded", (event) => {
+			// Hide loading overlay
+			//document.querySelector(".arjs-loader").setAttribute('style', 'display: none;');
+		//});
 	</script>
 </body>
