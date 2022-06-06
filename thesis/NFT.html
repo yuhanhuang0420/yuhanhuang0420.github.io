@@ -46,6 +46,7 @@
 			smoothCount="10"
 			smoothTolerance="0.01"
 			smoothThreshold="5"
+			emitevents="true"
 		>
 			<a-entity geometry="primitive: sphere; radius: 100" material="color: red" position="0 300 0"></a-entity>
 		</a-nft>
@@ -75,6 +76,9 @@
 			initialized = true;
 			clearInterval(reloadTimer);
 			document.querySelector(".arjs-loader").setAttribute('style', 'display: none;'); // Hide loading overlay
+		});
+		document.querySelector('a-nft').addEventListener('markerFound', () => {
+			alert('marker found!');
 		});
 		//window.addEventListener("arjs-nft-loaded", (event) => {
 			// Hide loading overlay
