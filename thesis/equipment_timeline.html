@@ -158,11 +158,11 @@
 			let target = document.querySelectorAll('a-'+type+'.'+classtype);
 			if (target.length!=0 && ancpos.length!=0){
 				for(let j=0; j<ancpos.length; j++){ 
+					ancpos[j].z += 26.728;
 					let H = ancpos[j].z - position.coords.altitude;
-					let E, N;
 					let user = new LatLon(position.coords.latitude, position.coords.longitude);
-					E = new LatLon(position.coords.latitude, ancpos[j].x).distanceTo(user);
-					N = new LatLon(ancpos[j].y, position.coords.longitude).distanceTo(user);
+					let E = new LatLon(position.coords.latitude, ancpos[j].x).distanceTo(user);
+					let N = new LatLon(ancpos[j].y, position.coords.longitude).distanceTo(user);
 					if (ancpos[j].x-position.coords.longitude < 0){ E = -E;}
 					if (ancpos[j].y-position.coords.latitude < 0){ N = -N;}
 					if (type=="text"){
