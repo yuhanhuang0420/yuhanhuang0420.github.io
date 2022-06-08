@@ -85,8 +85,9 @@
 	//---主要功能: 取得姿態、位置等參數控制AR內容渲染狀況---
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
 		jQuery(document).ready(function(){
-			let anchorPosition; //基站座標
+			let anchorPosition = []; //基站座標
 			for (let i=0; i<anchorInfo.length; i++){
+				console.log(anchorInfo[i].position);
 				anchorPosition[i] = anchorInfo[i].position;
 			};
 			AddEntity(anchorPosition.length); //新增基站數量entity
