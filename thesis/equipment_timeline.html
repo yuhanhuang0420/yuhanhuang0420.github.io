@@ -86,10 +86,8 @@
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
 		jQuery(document).ready(function(){
 			let anchorPosition; //基站座標
-			anchorInfo.forEach(function(x){
-				let i = 0;
-				anchorPosition[i] = x.position;
-				i++;
+			for (let i=0; i<anchorInfo.length; i++){
+				anchorPosition[i] = anchorInfo[i].position;
 			});
 			AddEntity(anchorPosition.length); //新增基站數量entity
 			AddText(anchorPosition.length); //新增基站數量文字註記
