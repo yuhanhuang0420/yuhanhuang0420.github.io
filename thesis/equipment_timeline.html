@@ -17,6 +17,7 @@
 
 <body style="margin: 0px; overflow: hidden;">
 	<a-scene embedded vr-mode-ui="enabled: false" arjs="sourceType: webcam; debugUIEnabled: false;">	
+		<a-entity class="pipeline" rotation="0 175 0" gltf-model="../assets/pipeline.gltf"></a-entity>
 		<a-camera rotation-reader></a-camera>
 	</a-scene>
 	
@@ -63,6 +64,7 @@
 		const TrackAPI = "https://967d-140-116-47-130.ngrok.io/gipsense/TrackAPI.php";
 		
 		//基站位置
+		let pipelineLocation = {"x": 120.220043,"y": 22.998654,"z": 27.11};
 		let anchorInfo = [{"hexAnchorId": "F123","position": {"x": 120.22019110793998,"y": 22.998745182510728,"z": 7.156}},
 				  {"hexAnchorId": "F119","position": {"x": 120.22019691311002,"y": 22.998819683270728,"z": 8.04}},
 				  {"hexAnchorId": "140A","position": {"x": 120.22028303652999,"y": 22.998657754680732,"z": 7.622}},
@@ -116,6 +118,7 @@
 				let i = 0; //(測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
+				SetLocation("entity", theta_rad, position, pipelineLocation, "pipeline");
 				SetLocation("entity", theta_rad, position, anchorPosition, "anchor");
 				SetLocation("text", theta_rad, position, anchorPosition, "anchor");
 				ShowDistance(theta_rad, position, anchorPosition);
@@ -124,6 +127,7 @@
 					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
+					SetLocation("entity", theta_rad, position, pipelineLocation, "pipeline");
 					SetLocation("entity", theta_rad, position, anchorPosition, "anchor");
 					SetLocation("text", theta_rad, position, anchorPosition, "anchor");
 					ShowDistance(theta_rad, position, anchorPosition);
