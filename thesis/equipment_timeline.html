@@ -131,6 +131,7 @@
 				SetLocation("entity", theta_rad, position, pipelineLocation, "pipeline");
 				SetLocation("entity", theta_rad, position, anchorPosition, "anchor");
 				SetLocation("text", theta_rad, position, anchorPosition, "anchor");
+				SetLocation("text", theta_rad, position, anchorPosition, "anchorID");
 				ShowDistance(theta_rad, position, anchorPosition);
 				setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
 					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
@@ -139,6 +140,7 @@
 					SetLocation("entity", theta_rad, position, pipelineLocation, "pipeline");
 					SetLocation("entity", theta_rad, position, anchorPosition, "anchor");
 					SetLocation("text", theta_rad, position, anchorPosition, "anchor");
+					SetLocation("text", theta_rad, position, anchorPosition, "anchorID");
 					ShowDistance(theta_rad, position, anchorPosition);
 				}, 10000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
