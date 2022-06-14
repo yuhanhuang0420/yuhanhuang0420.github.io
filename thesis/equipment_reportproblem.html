@@ -51,8 +51,8 @@
 		
 	//---全域變數---
 		//API網址 (80 port: ngrok http 80)
-		const TrackAPI = "https://967d-140-116-47-130.ngrok.io/gipsense/TrackAPI.php";
-		const addPointDataAPI = "https://967d-140-116-47-130.ngrok.io/gipsense/addPointDataAPI.php";
+		const TrackAPI = "https://6f84-111-255-25-107.ngrok.io/gipsense/TrackAPI.php";
+		const addPointDataAPI = "https://6f84-111-255-25-107.ngrok.io/gipsense/addPointDataAPI.php";
 		
 		//用戶新增的點位座標們
 		let currentPoint; //記錄當下所在座標值，隨定位更新而改變
@@ -114,7 +114,7 @@
 							SetLocation("entity", theta_rad, position, pointData, "user");
 						}, "json");
 					});
-				}, 10000);	
+				}, 5000);	
 				
 			/*	let i = 0; //(測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
