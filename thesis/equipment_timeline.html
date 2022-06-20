@@ -123,10 +123,10 @@
 			ChangeEntityColor('time5'); //(時間軸預設選項)
 			GetSwitch(); //啟動UI功能
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
-				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定)
+				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
 				if (head == undefined){ head = 0; } //無羅盤資料則預設朝向正北
-				let theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
-				let theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
+				let theta = -(head-180-90); //N軸轉向手機x軸向(朝右)的逆時針角度
+				let theta_rad = theta * Math.PI /180; //換成弧度
 				let rotation = '0 '+theta+' 0'; console.log(rotation);
 				document.querySelector('a-entity.pipeline').setAttribute('rotation',rotation); //確定管線模型旋轉角
 				let height = 31.634;
