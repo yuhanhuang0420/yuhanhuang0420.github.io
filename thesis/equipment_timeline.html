@@ -127,8 +127,8 @@
 				let theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
 				let theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
 				if (head == undefined){ theta_rad = 270 * Math.PI /180; } //無羅盤資料則預設朝向正北
-				let pipelinemodel = document.querySelector('a-entity.pipeline');
-				pipelinemodel.setAttribute('rotation','0 45 0'); //確定管線模型旋轉角
+				let rotation = '0 '+theta_rad+' 0'; console.log(rotation);
+				document.querySelector('a-entity.pipeline').setAttribute('rotation',rotation); //確定管線模型旋轉角
 				let height = 31.634;
 				let userHeight = height + 1;//1.3;
 				/*$.getJSON( TrackAPI, function (data){
