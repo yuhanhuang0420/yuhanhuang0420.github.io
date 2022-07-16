@@ -9,8 +9,26 @@
 	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 	<link rel="stylesheet" href="../css/onoffswitch.css">
 	<link rel="stylesheet" href="../css/calendar.css">
-	
-	
+	<script>
+		AFRAME.registerComponent('markerhandler', {
+			init: function () {
+				this.el.addEventListener('markerFound', () => {
+					if (this.el.id=="55209"){
+						//document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0.75;');
+						showornot(this.el.id);
+					}else if (this.el.id=="55210"){
+						//document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0.75;');
+						//document.querySelector(".mon .start-9 .title").innerHTML='55210測試';
+						showornot(this.el.id);
+					}
+				});
+				this.el.sceneEl.addEventListener('markerLost', () => {
+					document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0;');
+					showornot('');
+				});
+			}
+		});
+	</script>
 </head>
 <!--latitude: 23.0024088; longitude: 120.2136363;-->
 <body style="margin: 0; overflow: hidden;">
@@ -119,21 +137,16 @@
 		</div>
 	</div>
 	<script>
-		AFRAME.registerComponent('markerhandler', {
-			init: function () {
-				this.el.addEventListener('markerFound', () => {
-					if (this.el.id=="55209"){
-						document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0.75;');
-					}else if (this.el.id=="55210"){
-						document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0.75;');
-						document.querySelector(".mon .start-9 .title").innerHTML='55210測試';
-					}
-				});
-				this.el.sceneEl.addEventListener('markerLost', () => {
-					document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0;');
-				});
+		function showornot(id){
+			if (id=="55209"){
+				document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0.75;');
+			}else if (id=="55210"){
+				document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0.75;');
+				document.querySelector(".mon .start-9 .title").innerHTML='55210測試';
+			}else {
+				document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0;');
 			}
-		});
+		};
 	</script>
 </body>
 </html>
