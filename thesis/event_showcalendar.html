@@ -107,13 +107,13 @@
 					}else if (this.el.id=="55210"){
 						document.querySelector("div[name=info]").innerHTML = calendar;
 						document.querySelector(".mon .start-9 .title").innerHTML = '55210測試';
-					}
-					//let event = document.querySelectorAll(".event");
-					//for (let i=0; i<event.length; i++){
-						//event[i].addEventListener('click', function(ee) {
-							//alert('This event: ' + ee.target.querySelector(".title").textContent);
-						//});
-					//}
+					};
+					let event = document.querySelectorAll(".event");
+					for (let i=0; i<event.length; i++){
+						event[i].addEventListener('click', function(ee) {
+							alert('This event: ' + ee.target.querySelector(".title").textContent);
+						});
+					};
 				});
 				this.el.sceneEl.addEventListener('markerLost', () => {
 					document.querySelector("div[name=info]").innerHTML = '';
@@ -139,17 +139,5 @@
 		<a-entity camera></a-entity>
 	</a-scene>
 	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>
-	<script>	
-		let event = document.querySelectorAll(".event");
-		if (event){
-			for (let i=0; i<event.length; i++){
-				event[i].addEventListener('click', function(ee) {
-					alert('This event: ' + ee.target.querySelector(".title").textContent);
-				});
-			}
-		}else{
-			alert('no event');
-		};			
-	</script>
 </body>
 </html>
