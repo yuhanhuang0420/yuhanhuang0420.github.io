@@ -31,7 +31,7 @@
 						<p class="date-day">MON</p>\
 					</div>\
 					<div class="events">\
-						<div class="event start-9 end-11" value="測試">\
+						<div class="event start-9 end-11">\
 							<p class="title">測試</p>\
 							<p class="time">9AM - 11AM</p>\
 						</div>\
@@ -111,7 +111,7 @@
 					let event = document.querySelectorAll(".event");
 					event.forEach((e)=>{
 						e.addEventListener('click', function(ee) {
-							alert('This event: ' + ee.target.value);
+							alert('This event: ' + ee.target.querySelector(".title"));
 						});
 					});
 				});
