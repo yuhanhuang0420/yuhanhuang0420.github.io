@@ -131,96 +131,15 @@
 		</a-marker>
 		<a-entity camera></a-entity>
 	</a-scene>
-	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;">	
-		<!--<div class="calendar">
-			<div class="timeline">
-				<div class="space"></div>
-				<div class="time-marker">08:00</div>
-				<div class="time-marker">09:00</div>
-				<div class="time-marker">10:00</div>
-				<div class="time-marker">11:00</div>
-				<div class="time-marker">12:00</div>
-				<div class="time-marker">13:00</div>
-				<div class="time-marker">14:00</div>
-				<div class="time-marker">15:00</div>
-				<div class="time-marker">16:00</div>
-				<div class="time-marker">17:00</div>
-			</div>
-			<div class="days">
-				<div class="day mon">
-					<div class="date">
-						<p class="date-num">JUL 11</p>
-						<p class="date-day">MON</p>
-					</div>
-					<div class="events">
-						<div class="event start-9 end-11">
-							<p class="title">測試</p>
-							<p class="time">9AM - 11AM</p>
-						</div>
-						<div class="event start-2 end-5 securities">
-							<p class="title">证券监管</p>
-							<p class="time">2PM - 5PM</p>
-						</div>
-					</div>
-				</div>
-				<div class="day tues">
-					<div class="date">
-						<p class="date-num">JUL 12</p>
-						<p class="date-day">TUE</p>
-					</div>
-					<div class="events">
-						<div class="event start-10 end-12 corp-fi">
-							<p class="title">Corporate Finance</p>
-							<p class="time">10AM - 12PM</p>
-						</div>
-						<div class="event start-1 end-4 ent-law">
-							<p class="title">娱乐</p>
-							<p class="time">1PM - 4PM</p>
-						</div>
-					</div>
-				</div>
-				<div class="day wed">
-					<div class="date">
-						<p class="date-num">JUL 13</p>
-						<p class="date-day">WED</p>
-					</div>
-					<div class="events">
-						<div class="event start-11 end-12 writing">
-							<p class="title">写作研讨会</p>
-							<p class="time">11AM - 12PM</p>
-						</div>
-						<div class="event start-2 end-5 securities">
-							<p class="title">证券监管</p>
-							<p class="time">2PM - 5PM</p>
-						</div>
-					</div>
-				</div>
-				<div class="day thurs">
-					<div class="date">
-						<p class="date-num">JUL 14</p>
-						<p class="date-day">THU</p>
-					</div>
-					<div class="events">
-						<div class="event start-10 end-12 corp-fi">
-							<p class="title">公司财务</p>
-							<p class="time">10AM - 12PM</p>
-						</div>
-						<div class="event start-1 end-4 ent-law">
-							<p class="title">娱乐</p>
-							<p class="time">1PM - 4PM</p>
-						</div>
-					</div>
-				</div>
-				<div class="day fri">
-					<div class="date">
-						<p class="date-num">JUL 15</p>
-						<p class="date-day">FRI</p>
-					</div>
-					<div class="events">
-					</div>
-				</div>
-			</div>
-		</div>-->
-	</div>
+	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>
+	<script>
+		let event = document.querySelectorAll(".event");
+		event.forEach((e)=>{
+			e.addEventListener('click', function(ee) {
+				alert('This event: ' + ee.target.value);
+			});
+		});	
+			
+	</script>
 </body>
 </html>
