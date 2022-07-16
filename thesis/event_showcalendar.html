@@ -98,15 +98,7 @@
 					</div>\
 				</div>\
 			</div>\
-		</div>\
-		<script>\
-			let event = document.querySelectorAll(".event");\
-			for (let i=0; i<event.length; i++){\
-				event[i].addEventListener('click', function(ee) {\
-					alert('This event: ' + ee.target.querySelector(".title").textContent);\
-				});\
-			}\
-		</script>';
+		</div>';
 		AFRAME.registerComponent('markerhandler', {
 			init: function () {
 				this.el.addEventListener('markerFound', () => {
@@ -120,6 +112,12 @@
 				this.el.sceneEl.addEventListener('markerLost', () => {
 					document.querySelector("div[name=info]").innerHTML = '';
 				});
+				let event = document.querySelectorAll(".event");
+				for (let i=0; i<event.length; i++){
+					event[i].addEventListener('click', function(ee) {
+						alert('This event: ' + ee.target.querySelector(".title").textContent);
+					});
+				}
 			}
 		});
 	</script>
