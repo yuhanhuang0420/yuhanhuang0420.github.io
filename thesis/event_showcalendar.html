@@ -111,7 +111,7 @@
 					let event = document.querySelectorAll(".event");
 					event.forEach((e)=>{
 						e.addEventListener('click', function(ee) {
-							alert('This event: ' + ee.target.querySelector(".title"));
+							alert('This event: ' + ee.target.querySelector(".title").textContent);
 						});
 					});
 				});
