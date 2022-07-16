@@ -17,6 +17,7 @@
 					if (this.el.id=="55209"){
 						document.querySelector("div[name=info]").setAttribute('style', 'display;');
 					}else if (this.el.id=="55210"){
+						document.querySelector("div[name=info]").setAttribute('style', 'display;');
 						document.querySelector(".mon .start-9 .title").innerHTML='55210測試';
 					}
 				});
@@ -42,7 +43,7 @@
 		</a-marker>
 		<a-entity camera></a-entity>
 	</a-scene>
-	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;">	
+	<div name="info" style="display: none; background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;">	
 		<div class="calendar">
 			<div class="timeline">
 				<div class="space"></div>
