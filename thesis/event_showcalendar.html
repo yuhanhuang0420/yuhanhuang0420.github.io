@@ -108,23 +108,18 @@
 						document.querySelector("div[name=info]").innerHTML = calendar;
 						document.querySelector(".mon .start-9 .title").innerHTML = '55210測試';
 					}
-					let event = document.querySelectorAll(".event");
-					for (let i=0; i<event.length; i++){
-						event[i].addEventListener('click', function(ee) {
-							alert('This event: ' + ee.target.querySelector(".title").textContent);
-						});
-					}
-					/*event.forEach((e)=>{
-						e.addEventListener('click', function(ee) {
-							alert('This event: ' + ee.target.querySelector(".title").textContent);
-						});
-					});*/
 				});
 				this.el.sceneEl.addEventListener('markerLost', () => {
 					document.querySelector("div[name=info]").innerHTML = '';
 				});
 			}
 		});
+		let event = document.querySelectorAll(".event");
+		for (let i=0; i<event.length; i++){
+			event[i].addEventListener('click', function(ee) {
+				alert('This event: ' + ee.target.querySelector(".title").textContent);
+			});
+		}
 	</script>
 </head>
 <!--latitude: 23.0024088; longitude: 120.2136363;-->
