@@ -10,25 +10,110 @@
 	<link rel="stylesheet" href="../css/onoffswitch.css">
 	<link rel="stylesheet" href="../css/calendar.css">
 	<script>
+		let calendar = '<div class="calendar">\
+			<div class="timeline">\
+				<div class="space"></div>\
+				<div class="time-marker">08:00</div>\
+				<div class="time-marker">09:00</div>\
+				<div class="time-marker">10:00</div>\
+				<div class="time-marker">11:00</div>\
+				<div class="time-marker">12:00</div>\
+				<div class="time-marker">13:00</div>\
+				<div class="time-marker">14:00</div>\
+				<div class="time-marker">15:00</div>\
+				<div class="time-marker">16:00</div>\
+				<div class="time-marker">17:00</div>\
+			</div>\
+			<div class="days">\
+				<div class="day mon">\
+					<div class="date">\
+						<p class="date-num">JUL 11</p>\
+						<p class="date-day">MON</p>\
+					</div>\
+					<div class="events">\
+						<div class="event start-9 end-11">\
+							<p class="title">測試</p>\
+							<p class="time">9AM - 11AM</p>\
+						</div>\
+						<div class="event start-2 end-5 securities">\
+							<p class="title">证券监管</p>\
+							<p class="time">2PM - 5PM</p>\
+						</div>\
+					</div>\
+				</div>\
+				<div class="day tues">\
+					<div class="date">\
+						<p class="date-num">JUL 12</p>\
+						<p class="date-day">TUE</p>\
+					</div>\
+					<div class="events">\
+						<div class="event start-10 end-12 corp-fi">\
+							<p class="title">Corporate Finance</p>\
+							<p class="time">10AM - 12PM</p>\
+						</div>\
+						<div class="event start-1 end-4 ent-law">\
+							<p class="title">娱乐</p>\
+							<p class="time">1PM - 4PM</p>\
+						</div>\
+					</div>\
+				</div>\
+				<div class="day wed">\
+					<div class="date">\
+						<p class="date-num">JUL 13</p>\
+						<p class="date-day">WED</p>\
+					</div>\
+					<div class="events">\
+						<div class="event start-11 end-12 writing">\
+							<p class="title">写作研讨会</p>\
+							<p class="time">11AM - 12PM</p>\
+						</div>\
+						<div class="event start-2 end-5 securities">\
+							<p class="title">证券监管</p>\
+							<p class="time">2PM - 5PM</p>\
+						</div>\
+					</div>\
+				</div>\
+				<div class="day thurs">\
+					<div class="date">\
+						<p class="date-num">JUL 14</p>\
+						<p class="date-day">THU</p>\
+					</div>\
+					<div class="events">\
+						<div class="event start-10 end-12 corp-fi">\
+							<p class="title">公司财务</p>\
+							<p class="time">10AM - 12PM</p>\
+						</div>\
+						<div class="event start-1 end-4 ent-law">\
+							<p class="title">娱乐</p>\
+							<p class="time">1PM - 4PM</p>\
+						</div>\
+					</div>\
+				</div>\
+				<div class="day fri">\
+					<div class="date">\
+						<p class="date-num">JUL 15</p>\
+						<p class="date-day">FRI</p>\
+					</div>\
+					<div class="events">\
+					</div>\
+				</div>\
+			</div>\
+		</div>';
 		AFRAME.registerComponent('markerhandler', {
 			init: function () {
 				this.el.addEventListener('markerFound', () => {
 					if (this.el.id=="55209"){
-						//document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0.75;');
-						showornot(this.el.id);
+						document.querySelector("div[name=info]").innerHTML = calendar;
 					}else if (this.el.id=="55210"){
-						//document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0.75;');
-						//document.querySelector(".mon .start-9 .title").innerHTML='55210測試';
-						showornot(this.el.id);
+						document.querySelector("div[name=info]").innerHTML = calendar;
+						document.querySelector(".mon .start-9 .title").innerHTML = '55210測試';
 					}
 				});
 				this.el.sceneEl.addEventListener('markerLost', () => {
-					document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0;');
-					showornot('');
+					document.querySelector("div[name=info]").innerHTML = '';
 				});
 			}
 		});
-		showornot("55209");
 	</script>
 </head>
 <!--latitude: 23.0024088; longitude: 120.2136363;-->
@@ -46,8 +131,8 @@
 		</a-marker>
 		<a-entity camera></a-entity>
 	</a-scene>
-	<div name="info" style="background:#ffffff; opacity: 0; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;">	
-		<div class="calendar">
+	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;">	
+		<!--<div class="calendar">
 			<div class="timeline">
 				<div class="space"></div>
 				<div class="time-marker">08:00</div>
@@ -135,19 +220,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>-->
 	</div>
-	<script>
-		function showornot(id){
-			if (id=="55209"){
-				document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0.75;');
-			}else if (id=="55210"){
-				document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0.75;');
-				document.querySelector(".mon .start-9 .title").innerHTML='55210測試';
-			}else {
-				document.querySelector("div[name=info]").setAttribute('style', 'opacity: 0;');
-			}
-		};
-	</script>
 </body>
 </html>
