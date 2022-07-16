@@ -1,0 +1,171 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+:root {
+  --numDays: 5;
+  --numHours: 9;
+  --timeHeight: 30px;
+  --calBgColor: #fff1f8;
+  --eventBorderColor: #f2d3d8;
+  --eventColor1: #ffd6d1;
+  --eventColor2: #fafaa3;
+  --eventColor3: #e2f8ff;
+  --eventColor4: #d1ffe6;
+}
+
+.calendar {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto 1fr;
+  margin: 0.5rem 0;
+}
+
+.timeline {
+  display: grid;
+  grid-template-rows: repeat(var(--numHours), var(--timeHeight));
+}
+
+.time-marker {
+  font-size: 0.9rem;
+}
+
+.days {
+  display: grid;
+  grid-column: 2;
+  gap: 5px;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+}
+
+.events {
+  display: grid;
+  grid-template-rows: repeat(var(--numHours), var(--timeHeight));
+  border-radius: 5px;
+  background: var(--calBgColor);
+}
+
+.start-8 {
+  grid-row-start: 1;
+}
+
+.start-9 {
+  grid-row-start: 2;
+}
+
+.start-10 {
+  grid-row-start: 3;
+}
+
+.start-11 {
+  grid-row-start: 4;
+}
+
+.start-12 {
+  grid-row-start: 5;
+}
+
+.start-1 {
+  grid-row-start: 6;
+}
+
+.start-2 {
+  grid-row-start: 7;
+}
+
+.start-3 {
+  grid-row-start: 8;
+}
+
+.start-4 {
+  grid-row-start: 9;
+}
+
+.end-9 {
+  grid-row-end: 2;
+}
+
+.end-10 {
+  grid-row-end: 3;
+}
+
+.end-11 {
+  grid-row-end: 4;
+}
+
+.end-12 {
+  grid-row-end: 5;
+}
+
+.end-1 {
+  grid-row-end: 6;
+}
+
+.end-2 {
+  grid-row-end: 7;
+}
+
+.end-3 {
+  grid-row-end: 8;
+}
+
+.end-4 {
+  grid-row-end: 9;
+}
+
+.end-5 {
+  grid-row-end: 10;
+}
+
+.title {
+  font-size: 0.5rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.event {
+  border: 1px solid var(--eventBorderColor);
+  border-radius: 5px;
+  padding: 0.1rem;
+  /*margin: 0 0.5rem;*/
+  background: white;
+  font-size: 0.3rem;
+}
+
+.space,
+.date {
+  height: 30px;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+}
+
+.corp-fi {
+  background: var(--eventColor1);
+}
+
+.ent-law {
+  background: var(--eventColor2);
+}
+
+.writing {
+  background: var(--eventColor3);
+}
+
+.securities {
+  background: var(--eventColor4);
+}
+
+.date {
+  /*display: flex;*/
+  gap: 0.8em;
+}
+
+.date-num {
+  font-size: 0.6rem;
+  font-weight: 600;
+  /*display: inline;*/
+}
+
+.date-day {
+  font-size: 0.5rem;
+  font-weight: 100;
+  /*display: inline;*/
+}
