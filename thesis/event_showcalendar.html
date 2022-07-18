@@ -10,6 +10,23 @@
 	<link rel="stylesheet" href="../css/onoffswitch.css">
 	<link rel="stylesheet" href="../css/calendar.css">
 	<script>
+		//獲取當周日期
+		//版权声明：本文为CSDN博主「zhooson」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+		//原文链接：https://blog.csdn.net/Zhooson/article/details/54861822
+		let now = new Date(); 
+		let nowTime = now.getTime();
+		let day = now.getDay();
+		let oneDayTime = 24*60*60*1000;
+		let monday = new Date( nowTime - (day-1)*oneDayTime ); 
+		let tuesday = new Date( nowTime - (day-2)*oneDayTime );
+		let wednesday = new Date( nowTime - (day-3)*oneDayTime );
+		let thursday = new Date( nowTime - (day-4)*oneDayTime );
+		let friday = new Date( nowTime - (day-5)*oneDayTime );
+		let saturday = new Date( nowTime - (day-6)*oneDayTime );
+		let sunday =  new Date( nowTime + (7-day)*oneDayTime );
+
+		console.log('mon:'monday+' tue:'+tuesday+' wed:'+wednesday+' thu:'+thursday+' fri:'+friday+' sat:'+saturday+' sun: '+sunday) ; 
+
 		let calendar = '<div class="calendar">\
 			<div class="timeline">\
 				<div class="space"></div>\
