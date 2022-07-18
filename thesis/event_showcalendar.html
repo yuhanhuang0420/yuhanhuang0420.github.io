@@ -24,7 +24,7 @@
 		let friday = new Date( nowTime - (day-5)*oneDayTime );
 		let saturday = new Date( nowTime - (day-6)*oneDayTime );
 		let sunday =  new Date( nowTime + (7-day)*oneDayTime );
-
+		const months = ["JAN", "FEB", "MAR","APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 		console.log('mon:'+monday+' tue:'+tuesday+' wed:'+wednesday+' thu:'+thursday+' fri:'+friday+' sat:'+saturday+' sun: '+sunday) ; 
 
 		let calendar = '<div class="calendar">\
@@ -121,6 +121,7 @@
 				this.el.addEventListener('markerFound', () => {
 					if (this.el.id=="55209"){
 						document.querySelector("div[name=info]").innerHTML = calendar;
+						document.querySelector(".mon date-num").innerHTML = months[monday.getMonth()]+' '+monday.getDate();
 					}else if (this.el.id=="55210"){
 						document.querySelector("div[name=info]").innerHTML = calendar;
 						document.querySelector(".mon .start-9 .title").innerHTML = '55210測試';
