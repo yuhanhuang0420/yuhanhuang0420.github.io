@@ -22,10 +22,7 @@
 		let wednesday = new Date( nowTime - (day-3)*oneDayTime );
 		let thursday = new Date( nowTime - (day-4)*oneDayTime );
 		let friday = new Date( nowTime - (day-5)*oneDayTime );
-		let saturday = new Date( nowTime - (day-6)*oneDayTime );
-		let sunday =  new Date( nowTime + (7-day)*oneDayTime );
 		const months = ["JAN", "FEB", "MAR","APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-		console.log('mon:'+monday+' tue:'+tuesday+' wed:'+wednesday+' thu:'+thursday+' fri:'+friday+' sat:'+saturday+' sun: '+sunday) ; 
 
 		let calendar = '<div class="calendar">\
 			<div class="timeline">\
@@ -121,11 +118,15 @@
 				this.el.addEventListener('markerFound', () => {
 					if (this.el.id=="55209"){
 						document.querySelector("div[name=info]").innerHTML = calendar;
-						document.querySelector(".mon .date-num").innerHTML = months[monday.getMonth()]+' '+monday.getDate();
 					}else if (this.el.id=="55210"){
 						document.querySelector("div[name=info]").innerHTML = calendar;
 						document.querySelector(".mon .start-9 .title").innerHTML = '55210測試';
 					};
+					document.querySelector(".mon .date-num").innerHTML = months[monday.getMonth()]+' '+monday.getDate();
+					document.querySelector(".tues .date-num").innerHTML = months[tuesday.getMonth()]+' '+tuesday.getDate();
+					document.querySelector(".wed .date-num").innerHTML = months[wednesday.getMonth()]+' '+wednesday.getDate();
+					document.querySelector(".thurs .date-num").innerHTML = months[thursday.getMonth()]+' '+thursday.getDate();
+					document.querySelector(".fri .date-num").innerHTML = months[friday.getMonth()]+' '+friday.getDate();
 					let event = document.querySelectorAll(".event");
 					for (let i=0; i<event.length; i++){
 						event[i].addEventListener('click', function(ee) {
@@ -147,12 +148,12 @@
 		<a-marker markerhandler type="barcode" value="1" id="55209">
 			<a-entity geometry="primitive: plane" position="0 -0.1 0" look-at="[camera]" material="color: greenyellow; opacity: 0.5; transparent: true;"></a-entity>
 			<a-text value="Reading room" scale="0.8 0.8 0.8" align="center" position="0 0.1 0" look-at="[camera]"></a-text>
-			<a-text value="(No activity now)" scale="0.5 0.5 0.5" align="center" position="0 0.1 0.5" look-at="[camera]"></a-text>
+			<a-text value="(No activity now)" scale="0.5 0.5 0.5" align="center" position="0 0.1 0.5" look-at="[camera]" color="greenyellow"></a-text>
 		</a-marker>
 		<a-marker markerhandler type="hiro" id="55210">
 			<a-entity geometry="primitive: plane" position="0 -0.1 0" look-at="[camera]" material="color: indianred; opacity: 0.5; transparent: true;"></a-entity>
 			<a-text value="55210 Classroom" scale="0.8 0.8 0.8" align="center" position="0 0.1 0" look-at="[camera]"></a-text>
-			<a-text value="(There is an event going on)" scale="0.5 0.5 0.5" align="center" position="0 0.1 0.5" look-at="[camera]"></a-text>
+			<a-text value="(There is an event going on)" scale="0.5 0.5 0.5" align="center" position="0 0.1 0.5" look-at="[camera]" color="indianred"></a-text>
 		</a-marker>
 		<a-entity camera></a-entity>
 	</a-scene>
