@@ -56,10 +56,15 @@
 	//---全域變數---
 		//API網址 (80 port: ngrok http 80)
 		const TrackAPI = "https://0795-140-116-47-130.ngrok.io/gipsense/TrackAPI.php";
-		const PathFile = "https://2ded-1-173-172-253.ngrok.io/gipsense/PathAPI.php";
-		$.getJSON( PathFile, function (data){
+		const FindPathAPI = "https://2ded-1-173-172-253.ngrok.io/gipsense/FindPath.php";
+		const PathAPI = "https://2ded-1-173-172-253.ngrok.io/gipsense/PathAPI.php";
+		
+		/*$.getJSON( PathAPI, function (data){
 			console.log(data);
-		});
+		});*/
+		$.post( FindPathAPI, { 'start': '2', 'end': '11' },function(data){
+			console.log(data);
+		}, "json");
 		
 		//空間門口位置
 		let targetEntrance = ''; //記錄導引目標空間入口座標
