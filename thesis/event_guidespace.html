@@ -64,6 +64,8 @@
 		}, "json");
 		$.getJSON( PathAPI, function (data){
 			console.log(data);
+			let arr = data.split('->');
+			console.log(arr);
 		});
 		//空間門口位置
 		let targetEntrance = ''; //記錄導引目標空間入口座標
