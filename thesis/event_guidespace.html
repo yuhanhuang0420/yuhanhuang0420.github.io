@@ -59,11 +59,10 @@
 		const FindPathAPI = "https://2ded-1-173-172-253.ngrok.io/gipsense/FindPath.php";
 		const PathAPI = "https://2ded-1-173-172-253.ngrok.io/gipsense/PathAPI.php";
 		
-		/*$.getJSON( PathAPI, function (data){
-			console.log(data);
-		});*/
 		$.post( FindPathAPI, { 'start': '11', 'end': '2' },function(data){
-			console.log(data);
+			$.getJSON( PathAPI, function (data){
+				console.log(data);
+			});
 		}, "json");
 		
 		//空間門口位置
