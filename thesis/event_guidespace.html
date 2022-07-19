@@ -59,12 +59,12 @@
 		const FindPathAPI = "https://eb54-1-173-172-253.ngrok.io/gipsense/FindPath.php";
 		const PathAPI = "https://eb54-1-173-172-253.ngrok.io/gipsense/PathAPI.php";
 		
-		$.post( FindPathAPI, { 'start': '11', 'end': '2' },function(data){
-			$.getJSON( PathAPI, function (data){
-				console.log(data);
-			});
+		$.post( FindPathAPI, { 'start': '11', 'end': '2' },function(data){ 
+			console.log("Path calculating success");
 		}, "json");
-		
+		$.getJSON( PathAPI, function (data){
+			console.log(data);
+		});
 		//空間門口位置
 		let targetEntrance = ''; //記錄導引目標空間入口座標
 		let entrancePosition = [{"x":120.2199345,"y":22.9986416,"z":26.728},{"x":120.2200520,"y":22.9987154,"z":27.033},
