@@ -138,8 +138,8 @@
 				let i = 0; //(測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
-				let testpath = ['start',04,05,06,07,08,15,'finish'];
-				GetPath(01, 12, testpath);
+				let testpath = ['start','04','05','06','07','08','15','finish'];
+				GetPath('01', '12', testpath);
 				SetLocation("entity", theta_rad, position, routeLocation, "route");
 				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
@@ -247,11 +247,11 @@
 				}
 				let pathNow = document.querySelector(".route."+nodeNow+"."+path[j]);
 				let att = document.createAttribute('gltf-model');
-				if (nodeNow < path[j]){
+				//if (nodeNow < path[j]){
 					att.value = "../assets/path/" + nodeNow + path[j] + ".gltf";
-				}else{
-					att.value = "../assets/path/" + path[j] + nodeNow + ".gltf";
-				}		
+				//}else{
+					//att.value = "../assets/path/" + path[j] + nodeNow + ".gltf";
+				//}		
 				pathNow.setAttributeNode(att);
 				nodeNow = path[j];
 			};
