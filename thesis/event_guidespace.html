@@ -95,6 +95,7 @@
 					let userHeight = data.z + 26.728;
 					let point = {x: data.x, y: data.y}; //用戶即時平面位置座標(判斷within使用)
 					let position = {coords:{longitude: data.x, latitude: data.y, altitude: userHeight}}; //用戶即時位置座標
+					SetLocation("entity", theta_rad, position, routeLocation, "route");
 					SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 					SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
 					Guide(theta_rad, position, targetEntrance);
@@ -104,12 +105,13 @@
 						let userHeight = data.z + 26.728;
 						let point = {x: data.x, y: data.y}; //用戶即時平面位置座標(判斷within使用)
 						let position = {coords:{longitude: data.x, latitude: data.y, altitude: userHeight}}; //用戶即時位置座標
+						SetLocation("entity", theta_rad, position, routeLocation, "route");
 						SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 						SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
 						Guide(theta_rad, position, targetEntrance);
 					});
 				}, 1500);*/
-				/*let i = 0; //(測試時才會用到)
+				let i = 0; //(測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
 				SetLocation("entity", theta_rad, position, routeLocation, "route");
@@ -124,7 +126,7 @@
 					SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 					SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
 					Guide(theta_rad, position, targetEntrance);
-				}, 10000);*/
+				}, 10000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
 				
