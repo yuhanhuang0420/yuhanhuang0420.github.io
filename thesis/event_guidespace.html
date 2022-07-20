@@ -16,24 +16,24 @@
 	embedded
 	arjs="sourceType: webcam; debugUIEnabled: false;"
 	>
-		<a-entity class="route 01 04" gltf-model="../assets/path/00.gltf"></a-entity>
-		<a-entity class="route 01 02" gltf-model="../assets/path/01.gltf"></a-entity>
-		<a-entity class="route 02 03" gltf-model="../assets/path/02.gltf"></a-entity>
-		<a-entity class="route 02 04" gltf-model="../assets/path/03.gltf"></a-entity>
-		<a-entity class="route 02 14" gltf-model="../assets/path/04.gltf"></a-entity>
-		<a-entity class="route 04 14" gltf-model="../assets/path/05.gltf"></a-entity>
-		<a-entity class="route 04 05" gltf-model="../assets/path/06.gltf"></a-entity>
-		<a-entity class="route 05 06" gltf-model="../assets/path/07.gltf"></a-entity>
-		<a-entity class="route 06 07" gltf-model="../assets/path/08.gltf"></a-entity>
-		<a-entity class="route 07 08" gltf-model="../assets/path/09.gltf"></a-entity>
-		<a-entity class="route 08 15" gltf-model="../assets/path/10.gltf"></a-entity>
-		<a-entity class="route 12 15" gltf-model="../assets/path/11.gltf"></a-entity>
-		<a-entity class="route 09 15" gltf-model="../assets/path/12.gltf"></a-entity>
-		<a-entity class="route 15 16" gltf-model="../assets/path/13.gltf"></a-entity>
-		<a-entity class="route 10 16" gltf-model="../assets/path/14.gltf"></a-entity>
-		<a-entity class="route 16 17" gltf-model="../assets/path/15.gltf"></a-entity>
-		<a-entity class="route 13 17" gltf-model="../assets/path/16.gltf"></a-entity>
-		<a-entity class="route 11 17" gltf-model="../assets/path/17.gltf"></a-entity>
+		<a-entity class="route 01 04" gltf-model=""></a-entity>
+		<a-entity class="route 01 02" gltf-model=""></a-entity>
+		<a-entity class="route 02 03" gltf-model=""></a-entity>
+		<a-entity class="route 02 04" gltf-model=""></a-entity>
+		<a-entity class="route 02 14" gltf-model=""></a-entity>
+		<a-entity class="route 04 14" gltf-model=""></a-entity>
+		<a-entity class="route 04 05" gltf-model=""></a-entity>
+		<a-entity class="route 05 06" gltf-model=""></a-entity>
+		<a-entity class="route 06 07" gltf-model=""></a-entity>
+		<a-entity class="route 07 08" gltf-model=""></a-entity>
+		<a-entity class="route 08 15" gltf-model=""></a-entity>
+		<a-entity class="route 12 15" gltf-model=""></a-entity>
+		<a-entity class="route 09 15" gltf-model=""></a-entity>
+		<a-entity class="route 15 16" gltf-model=""></a-entity>
+		<a-entity class="route 10 16" gltf-model=""></a-entity>
+		<a-entity class="route 16 17" gltf-model=""></a-entity>
+		<a-entity class="route 13 17" gltf-model=""></a-entity>
+		<a-entity class="route 11 17" gltf-model=""></a-entity>
 		<!--1.一樓大門: gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;" position="0 26.728 0"-->
 		<a-text class="entrance" value="gate" scale="1 1 1" align="center"></a-text>
 		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" color="white"></a-entity>
@@ -138,11 +138,13 @@
 				let i = 0; //(測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
+				let testpath = ['start',04,05,06,07,08,15,'finish'];
+				GetPath(01, 12, testpath);
 				SetLocation("entity", theta_rad, position, routeLocation, "route");
 				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
 				Guide(theta_rad, position, targetEntrance);
-				setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
+				/*setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
 					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
@@ -150,7 +152,7 @@
 					SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 					SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
 					Guide(theta_rad, position, targetEntrance);
-				}, 10000);
+				}, 10000);*/
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
 				
@@ -240,9 +242,19 @@
 		function GetPath(start, end, path){
 			let nodeNow = start;
 			for (let j=1; j<path.length; j++){
-				let pathNow = document.querySelectorAll(".route."+nodeNow+"."+path[j]);
-				
-			}
+				if(j == path.length-1){
+					path[j] = end;
+				}
+				let pathNow = document.querySelector(".route."+nodeNow+"."+path[j]);
+				let att = document.createAttribute('gltf-model');
+				if (nodeNow < path[j]){
+					att.value = "../assets/path/" + nodeNow + path[j] + ".gltf";
+				}else{
+					att.value = "../assets/path/" + path[j] + nodeNow + ".gltf";
+				}		
+				pathNow.setAttributeNode(att);
+				nodeNow = path[j];
+			};
 		};
 		
 	</script>
