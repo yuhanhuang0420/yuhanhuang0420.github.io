@@ -38,24 +38,24 @@
 		<a-text class="entrance floor3" value="Our lab" scale="1 1 1" align="center" color="red"></a-text>
 		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>
 
-		<a-entity class="route n01 n04" gltf-model=""></a-entity>
-		<a-entity class="route n01 n02" gltf-model=""></a-entity>
-		<a-entity class="route n02 n03" gltf-model=""></a-entity>
-		<a-entity class="route n02 n04" gltf-model=""></a-entity>
-		<a-entity class="route n02 n14" gltf-model=""></a-entity>
-		<a-entity class="route n04 n14" gltf-model=""></a-entity>
-		<a-entity class="route n04 n05" gltf-model=""></a-entity>
-		<a-entity class="route n05 n06" gltf-model=""></a-entity>
-		<a-entity class="route n06 n07" gltf-model=""></a-entity>
-		<a-entity class="route n07 n08" gltf-model=""></a-entity>
-		<a-entity class="route n08 n15" gltf-model=""></a-entity>
-		<a-entity class="route n12 n15" gltf-model=""></a-entity>
-		<a-entity class="route n09 n15" gltf-model=""></a-entity>
-		<a-entity class="route n15 n16" gltf-model=""></a-entity>
-		<a-entity class="route n10 n16" gltf-model=""></a-entity>
-		<a-entity class="route n16 n17" gltf-model=""></a-entity>
-		<a-entity class="route n13 n17" gltf-model=""></a-entity>
-		<a-entity class="route n11 n17" gltf-model=""></a-entity>
+		<a-entity class="route n01 n04"></a-entity>
+		<a-entity class="route n01 n02"></a-entity>
+		<a-entity class="route n02 n03"></a-entity>
+		<a-entity class="route n02 n04"></a-entity>
+		<a-entity class="route n02 n14"></a-entity>
+		<a-entity class="route n04 n14"></a-entity>
+		<a-entity class="route n04 n05"></a-entity>
+		<a-entity class="route n05 n06"></a-entity>
+		<a-entity class="route n06 n07"></a-entity>
+		<a-entity class="route n07 n08"></a-entity>
+		<a-entity class="route n08 n15"></a-entity>
+		<a-entity class="route n12 n15"></a-entity>
+		<a-entity class="route n09 n15"></a-entity>
+		<a-entity class="route n15 n16"></a-entity>
+		<a-entity class="route n10 n16"></a-entity>
+		<a-entity class="route n16 n17"></a-entity>
+		<a-entity class="route n13 n17"></a-entity>
+		<a-entity class="route n11 n17"></a-entity>
 		
 		<a-entity class="arrow"></a-entity>
 
@@ -79,8 +79,8 @@
 	//---全域變數---
 		//API網址 (80 port: ngrok http 80)
 		const TrackAPI = "https://0795-140-116-47-130.ngrok.io/gipsense/TrackAPI.php";
-		const FindPathAPI = "https://5103-111-255-24-139.ngrok.io/gipsense/FindPath.php";
-		const PathAPI = "https://5103-111-255-24-139.ngrok.io/gipsense/PathAPI.php";
+		const FindPathAPI = "https://1df8-111-255-24-139.ngrok.io/gipsense/FindPath.php";
+		const PathAPI = "https://1df8-111-255-24-139.ngrok.io/gipsense/PathAPI.php";
 		/*$.post( FindPathAPI, { 'start': '11', 'end': '2' },function(data){ 
 			console.log("Path calculating success");
 		}, "json");
@@ -310,10 +310,9 @@
 			let pathAll = document.querySelectorAll(".route");
 			let nodeNow = start;
 			for(let j=0; j<pathAll.length; j++){
-				//let attclear = document.createAttribute('gltf-model');
-				//attclear.value = "";
-				//pathAll[j].setAttributeNode(attclear);
-				pathAll[j].setAttribute('gltf-model',"../assets/transparent.gltf");
+				let attclear = document.createAttribute('gltf-model');
+				attclear.value = "../assets/transparent.gltf";
+				pathAll[j].setAttributeNode(attclear);
 			}
 			for (let j=1; j<path.length; j++){
 				if(j == path.length-1){
@@ -321,7 +320,9 @@
 				}
 				console.log(".route.n"+nodeNow+".n"+path[j]);
 				let pathNow = document.querySelector(".route.n"+nodeNow+".n"+path[j]);
-				pathNow.setAttribute('gltf-model',"../assets/path/" + nodeNow + path[j] + ".gltf");
+				let att = document.createAttribute('gltf-model');
+				att.value = "../assets/path/" + nodeNow + path[j] + ".gltf";
+				pathNow.setAttributeNode(att);
 				nodeNow = path[j];
 			};
 		};
