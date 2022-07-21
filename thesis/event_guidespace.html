@@ -111,7 +111,22 @@
 	//---主要功能: 取得姿態、位置等參數控制AR內容渲染狀況---
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
 		jQuery(document).ready(function(){
-			GetSelection(); //開始監聽下拉式選單選中之導引目標空間入口，一旦選單改變事件發生，觸發設定targetEntranceID、呼叫後端算路線API及執行SetPath()
+			//開始監聽下拉式選單選中之導引目標空間入口，一旦選單改變事件發生，觸發設定targetEntranceID、呼叫後端算路線API及執行SetPath()
+			let elem = document.querySelector("#list").addEventListener("change", function () {
+				console.log(this.options[this.selectedIndex].text);
+				ResetColor('1', 'white'); ResetColor('2', 'yellow'); ResetColor('3', 'red');
+				SetColor(this.selectedIndex);
+				console.log('targetEntranceID:'+targetEntranceID);
+				$.post( FindPathAPI, { 'start': startNodeID, 'end': targetEntranceID },function(data){ 
+					console.log("Path calculating success!");
+				}, "json");
+				$.getJSON( PathAPI, function (data){
+					console.log(data);
+					routePath = data.split('->');
+					console.log('routePath:'+routePath);
+				});
+				SetPath(startNodeID, targetEntranceID, routePath);
+			});
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
 				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
 				if (head == undefined){ head = 0; } //無羅盤資料則預設朝向正北
@@ -189,46 +204,28 @@
 		};
 		
 	//---用戶互動UI功能---
-		//下拉式選單，供用戶選擇導航的目標空間，以提供對應的入口顏色、箭號、路線
-		function GetSelection(){
-			let ID = ['14', '03', '09', '12', '11', '13'];
-			function ResetColor(floor, color){
-				let target_nF = document.querySelectorAll('a-entity.entrance.floor'+floor);
-				target_nF.forEach(function(x){
-					x.setAttribute('material', 'color: '+color); //先重置該樓entity顏色
-					x.setAttribute('material', 'opacity: 0.3; transparent: true;'); //先重置透明度
-				});
-			};
-			function SetColor(index){
-				let target = document.querySelectorAll('a-entity.entrance');
-				if (index > 0){ //有選擇空間的時候
-					target[index-1].setAttribute('material', 'color: blue; opacity: 1; transparent: true;');
-					targetEntrance = entrancePosition[index-1];
-					targetEntranceID = ID[index-1];
-				}else{ //未選擇空間，重置所有entity透明度
-					target.forEach(function(x){
-						x.setAttribute('material', 'opacity: 1; transparent: true;'); 
-					});
-					targetEntrance = 0;
-					targetEntranceID = '';
-				}
-			};
-			
-			let elem = document.querySelector("#list").addEventListener("change", function () {
-				console.log(this.options[this.selectedIndex].text);
-				ResetColor('1', 'white'); ResetColor('2', 'yellow'); ResetColor('3', 'red');
-				SetColor(this.selectedIndex);
-				console.log('targetEntranceID:'+targetEntranceID);
-				$.post( FindPathAPI, { 'start': startNodeID, 'end': targetEntranceID },function(data){ 
-					console.log("Path calculating success!");
-				}, "json");
-				$.getJSON( PathAPI, function (data){
-					console.log(data);
-					routePath = data.split('->');
-					console.log('routePath:'+routePath);
-				});
-				SetPath(startNodeID, targetEntranceID, routePath);
+		//下拉式選單，供用戶選擇導航的目標空間，以提供對應的入口顏色、箭號、路線	
+		function ResetColor(floor, color){
+			let target_nF = document.querySelectorAll('a-entity.entrance.floor'+floor);
+			target_nF.forEach(function(x){
+				x.setAttribute('material', 'color: '+color); //先重置該樓entity顏色
+				x.setAttribute('material', 'opacity: 0.3; transparent: true;'); //先重置透明度
 			});
+		};
+		function SetColor(index){
+			let target = document.querySelectorAll('a-entity.entrance');
+			let ID = ['14', '03', '09', '12', '11', '13'];
+			if (index > 0){ //有選擇空間的時候
+				target[index-1].setAttribute('material', 'color: blue; opacity: 1; transparent: true;');
+				targetEntrance = entrancePosition[index-1];
+				targetEntranceID = ID[index-1];
+			}else{ //未選擇空間，重置所有entity透明度
+				target.forEach(function(x){
+					x.setAttribute('material', 'opacity: 1; transparent: true;'); 
+				});
+				targetEntrance = 0;
+				targetEntranceID = '';
+			}
 		};
 		
 	//---導引指示相關功能---
