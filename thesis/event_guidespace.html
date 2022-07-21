@@ -291,10 +291,8 @@
 				if(j == path.length-1){
 					path[j] = end;
 				}
-				let pathNow = document.querySelector(".route.n"+nodeNow+".n"+path[j]);
-				let att = document.createAttribute('gltf-model');
-				att.value = "../assets/path/" + nodeNow + path[j] + ".gltf";		
-				pathNow.setAttribute(att);
+				let pathNow = document.querySelector(".route.n"+nodeNow+".n"+path[j]);	
+				pathNow.setAttribute('gltf-model',"../assets/path/" + nodeNow + path[j] + ".gltf");
 				nodeNow = path[j];
 			};
 		};
