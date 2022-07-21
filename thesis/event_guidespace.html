@@ -294,7 +294,7 @@
 				let pathNow = document.querySelector(".route.n"+nodeNow+".n"+path[j]);
 				let att = document.createAttribute('gltf-model');
 				att.value = "../assets/path/" + nodeNow + path[j] + ".gltf";		
-				pathNow.setAttributeNode(att);
+				pathNow.setAttribute(att);
 				nodeNow = path[j];
 			};
 		};
