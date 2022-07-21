@@ -106,7 +106,7 @@
 		
 		//測試用軌跡
 		let testpath = ['start','04','05','06','07','08','15','finish'];
-		let track = [{"x":120.220005,"y":22.998719,"z":31.634},{"x":120.220023,"y":22.998729,"z":31.634},{"x":120.220048,"y":22.998739,"z":31.634},{"x":120.220072,"y":22.99874,"z":31.634},{"x":120.220084,"y":22.998739,"z":31.634},{"x":120.220101,"y":22.998737,"z":31.634},{"x":120.220116,"y":22.998736,"z":31.634},{"x":120.220148,"y":22.998735,"z":31.634},{"x":120.220161,"y":22.998732,"z":31.634},{"x":120.220197,"y":22.99873,"z":31.634},{"x":120.220207,"y":22.998722,"z":31.634},{"x":120.220209,"y":22.998703,"z":31.634},{"x":120.220208,"y":22.998689,"z":31.634},{"x":120.220213,"y":22.998667,"z":31.634}];
+		let track = [{"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x":120.220005,"y":22.998719,"z":31.634},{"x":120.220023,"y":22.998729,"z":31.634},{"x":120.220048,"y":22.998739,"z":31.634},{"x":120.220072,"y":22.99874,"z":31.634},{"x":120.220084,"y":22.998739,"z":31.634},{"x":120.220101,"y":22.998737,"z":31.634},{"x":120.220116,"y":22.998736,"z":31.634},{"x":120.220148,"y":22.998735,"z":31.634},{"x":120.220161,"y":22.998732,"z":31.634},{"x":120.220197,"y":22.99873,"z":31.634},{"x":120.220207,"y":22.998722,"z":31.634},{"x":120.220209,"y":22.998703,"z":31.634},{"x":120.220208,"y":22.998689,"z":31.634},{"x":120.220213,"y":22.998667,"z":31.634}];
 		
 	//---主要功能: 取得姿態、位置等參數控制AR內容渲染狀況---
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
@@ -124,8 +124,8 @@
 					console.log(data);
 					routePath = data.split('->');
 					console.log('routePath:'+routePath);
+					SetPath(startNodeID, targetEntranceID, routePath);
 				});
-				SetPath(startNodeID, targetEntranceID, routePath);
 			});
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
 				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
@@ -162,10 +162,10 @@
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
 				GetNearNode(position); //更新位置時同時計算最近節點，並存至startNodeID
+				Guide(theta_rad, position, targetEntrance);
 				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, routeLocation, "route");
-				Guide(theta_rad, position, targetEntrance);
 				/*setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
 					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
@@ -204,7 +204,7 @@
 		};
 		
 	//---用戶互動UI功能---
-		//下拉式選單，供用戶選擇導航的目標空間，以提供對應的入口顏色、箭號、路線	
+		//針對用戶選擇導航的目標空間，提供對應的入口顏色、箭號、路線	
 		function ResetColor(floor, color){
 			let target_nF = document.querySelectorAll('a-entity.entrance.floor'+floor);
 			target_nF.forEach(function(x){
