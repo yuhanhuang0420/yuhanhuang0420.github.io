@@ -79,8 +79,8 @@
 	//---全域變數---
 		//API網址 (80 port: ngrok http 80)
 		const TrackAPI = "https://0795-140-116-47-130.ngrok.io/gipsense/TrackAPI.php";
-		const FindPathAPI = "https://db7d-111-255-24-139.ngrok.io/gipsense/FindPath.php";
-		const PathAPI = "https://db7d-111-255-24-139.ngrok.io/gipsense/PathAPI.php";
+		const FindPathAPI = "https://5103-111-255-24-139.ngrok.io/gipsense/FindPath.php";
+		const PathAPI = "https://5103-111-255-24-139.ngrok.io/gipsense/PathAPI.php";
 		/*$.post( FindPathAPI, { 'start': '11', 'end': '2' },function(data){ 
 			console.log("Path calculating success");
 		}, "json");
@@ -128,14 +128,17 @@
 					SetColor(this.selectedIndex);
 					console.log('targetEntranceID:'+targetEntranceID);
 					$.post( FindPathAPI, { 'start': startNodeID, 'end': targetEntranceID },function(){ 
-						console.log("Path calculating success!");
+						console.log("Callback success!");
+					}, "json");
+					setTimeout(function() { //0.5秒後再來呼叫P
 						$.getJSON( PathAPI, function (data){
 							console.log(data);
 							routePath = data.split('->');
 							console.log('routePath:'+routePath);
 							SetPath(startNodeID, targetEntranceID, routePath);
 						});
-					}, "json");
+					}, 500);
+					
 				});
 				//處理位置之計算
 				//let height = 31.634; //假設固定於2樓移動
