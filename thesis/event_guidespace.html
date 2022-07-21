@@ -105,6 +105,7 @@
 				    {"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728}];
 		
 		//測試用軌跡
+		let testpath = ['start','04','05','06','07','08','15','finish'];
 		let track = [{"x":120.220005,"y":22.998719,"z":31.634},{"x":120.220023,"y":22.998729,"z":31.634},{"x":120.220048,"y":22.998739,"z":31.634},{"x":120.220072,"y":22.99874,"z":31.634},{"x":120.220084,"y":22.998739,"z":31.634},{"x":120.220101,"y":22.998737,"z":31.634},{"x":120.220116,"y":22.998736,"z":31.634},{"x":120.220148,"y":22.998735,"z":31.634},{"x":120.220161,"y":22.998732,"z":31.634},{"x":120.220197,"y":22.99873,"z":31.634},{"x":120.220207,"y":22.998722,"z":31.634},{"x":120.220209,"y":22.998703,"z":31.634},{"x":120.220208,"y":22.998689,"z":31.634},{"x":120.220213,"y":22.998667,"z":31.634}];
 		
 	//---主要功能: 取得姿態、位置等參數控制AR內容渲染狀況---
@@ -145,10 +146,9 @@
 				let i = 0; //(測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
-				let testpath = ['start','04','05','06','07','08','15','finish'];
 				//GetPath('01', '12', testpath);
 				GetNearNode(position);
-				GetPath(startNodeID, targetEntranceID, testpath);
+				//GetPath(startNodeID, targetEntranceID, testpath);
 				SetLocation("entity", theta_rad, position, routeLocation, "route");
 				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
@@ -221,6 +221,7 @@
 				ResetColor('1', 'white'); ResetColor('2', 'yellow'); ResetColor('3', 'red');
 				SetColor(this.selectedIndex);
 				console.log('targetEntranceID:'+targetEntranceID);
+GetPath(startNodeID, targetEntranceID, testpath);
 			});
 		};
 		
