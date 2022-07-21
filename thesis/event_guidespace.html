@@ -111,6 +111,41 @@
 	//---主要功能: 取得姿態、位置等參數控制AR內容渲染狀況---
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
 		jQuery(document).ready(function(){
+			//開始監聽下拉式選單選中之導引目標空間入口，一旦選單改變事件發生，觸發設定targetEntranceID、呼叫後端算路線API及執行SetPath()
+			let elem = document.querySelector("#list").addEventListener("change", function () {
+				console.log(this.options[this.selectedIndex].text);
+				ResetColor('1', 'white'); ResetColor('2', 'yellow'); ResetColor('3', 'red');
+				SetColor(this.selectedIndex);
+				console.log('targetEntranceID:'+targetEntranceID);
+				$.ajax({
+					type: 'POST',
+					async: false,
+					url: FindPathAPI,
+					data: { 'start': startNodeID, 'end': targetEntranceID },
+					dataType: "json"
+				});
+				$.ajax({
+					url: PathAPI,
+					success: function (data){
+						console.log(data);
+						routePath = data.split('->');
+						console.log('routePath:'+routePath);
+						SetPath(startNodeID, targetEntranceID, routePath);
+					},
+					dataType: "json"
+				});
+				/*$.post( FindPathAPI, { 'start': startNodeID, 'end': targetEntranceID },function(){ 
+					console.log("Callback success!");
+				}, "json");
+				setTimeout(function() { //0.5秒後再來呼叫P
+					$.getJSON( PathAPI, function (data){
+						console.log(data);
+						routePath = data.split('->');
+						console.log('routePath:'+routePath);
+						SetPath(startNodeID, targetEntranceID, routePath);
+					});
+				}, 500);*/
+			});
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
 				//處理方位角
 				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
@@ -121,25 +156,7 @@
 				for (let i=0; i<routeAll.length; i++){
 					routeAll[i].setAttribute('rotation','0 '+head+' 0'); //確定路線模型旋轉角
 				};
-				//開始監聽下拉式選單選中之導引目標空間入口，一旦選單改變事件發生，觸發設定targetEntranceID、呼叫後端算路線API及執行SetPath()
-				let elem = document.querySelector("#list").addEventListener("change", function () {
-					console.log(this.options[this.selectedIndex].text);
-					ResetColor('1', 'white'); ResetColor('2', 'yellow'); ResetColor('3', 'red');
-					SetColor(this.selectedIndex);
-					console.log('targetEntranceID:'+targetEntranceID);
-					$.post( FindPathAPI, { 'start': startNodeID, 'end': targetEntranceID },function(){ 
-						console.log("Callback success!");
-					}, "json");
-					setTimeout(function() { //0.5秒後再來呼叫P
-						$.getJSON( PathAPI, function (data){
-							console.log(data);
-							routePath = data.split('->');
-							console.log('routePath:'+routePath);
-							SetPath(startNodeID, targetEntranceID, routePath);
-						});
-					}, 500);
-					
-				});
+				
 				//處理位置之計算
 				//let height = 31.634; //假設固定於2樓移動
 				//let userHeight = height + 1.3;
@@ -293,10 +310,10 @@
 			let pathAll = document.querySelectorAll(".route");
 			let nodeNow = start;
 			for(let j=0; j<pathAll.length; j++){
-				//let attclear = document.createAttribute('gltf-model');
-				//attclear.value = "";
-				//pathAll[j].setAttributeNode(attclear);
-				pathAll[j].setAttribute('gltf-model',"");
+				let attclear = document.createAttribute('gltf-model');
+				attclear.value = "";
+				pathAll[j].setAttributeNode(attclear);
+				//pathAll[j].setAttribute('gltf-model',"");
 			}
 			for (let j=1; j<path.length; j++){
 				if(j == path.length-1){
