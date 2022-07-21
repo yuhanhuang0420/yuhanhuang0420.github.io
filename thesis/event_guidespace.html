@@ -16,6 +16,28 @@
 	embedded
 	arjs="sourceType: webcam; debugUIEnabled: false;"
 	>
+		<!--0.一樓大門: gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;" position="0 26.728 0"-->
+		<a-text class="entrance floor1" value="gate" scale="1 1 1" align="center"></a-text>
+		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" color="white"></a-entity>
+		<!--1.經緯廳: gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;" position="0 27.033 0"-->
+		<a-text class="entrance floor1" value="Jin-Way Hall" scale="1 1 1" align="center"></a-text>
+		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" color="white"></a-entity>
+		<!--2.大一教室: gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;" position="0 31.634 0"-->
+		<a-text class="entrance floor2" value="55250" scale="1 1 1" align="center" color="yellow"></a-text>
+		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
+		<!--3.電腦教室: gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;" position="0 31.634 0"-->
+		<a-text class="entrance floor2" value="55208" scale="1 1 1" align="center" color="yellow"></a-text>
+		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
+		<!--4.圖書室: gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;" position="0 31.634 0"-->
+		<a-text class="entrance floor2" value="55209" scale="1 1 1" align="center" color="yellow"></a-text>
+		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
+		<!--5.55210實驗室: gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;" position="0 31.634 0"-->
+		<a-text class="entrance floor2" value="55210" scale="1 1 1" align="center" color="yellow"></a-text>
+		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
+		<!--6.55316實驗室: gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;" position="0 36.148 0"-->
+		<a-text class="entrance floor3" value="Our lab" scale="1 1 1" align="center" color="red"></a-text>
+		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>
+
 		<a-entity class="route n01 n04" gltf-model=""></a-entity>
 		<a-entity class="route n01 n02" gltf-model=""></a-entity>
 		<a-entity class="route n02 n03" gltf-model=""></a-entity>
@@ -34,28 +56,7 @@
 		<a-entity class="route n16 n17" gltf-model=""></a-entity>
 		<a-entity class="route n13 n17" gltf-model=""></a-entity>
 		<a-entity class="route n11 n17" gltf-model=""></a-entity>
-		<!--1.一樓大門: gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;" position="0 26.728 0"-->
-		<a-text class="entrance" value="gate" scale="1 1 1" align="center"></a-text>
-		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" color="white"></a-entity>
-		<!--2.經緯廳: gps-entity-place="latitude: 22.9987154; longitude: 120.2200520;" position="0 27.033 0"-->
-		<a-text class="entrance" value="Chin-Way Hall" scale="1 1 1" align="center"></a-text>
-		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" color="white"></a-entity>
-		<!--3.大一教室: gps-entity-place="latitude: 22.9987299; longitude: 120.2200649;" position="0 31.634 0"-->
-		<a-text class="entrance" value="55250" scale="1 1 1" align="center" color="yellow"></a-text>
-		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
-		<!--4.電腦教室: gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;" position="0 31.634 0"-->
-		<a-text class="entrance" value="55208" scale="1 1 1" align="center" color="yellow"></a-text>
-		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
-		<!--5.圖書室: gps-entity-place="latitude: 22.9987189; longitude: 120.2202121;" position="0 31.634 0"-->
-		<a-text class="entrance" value="55209" scale="1 1 1" align="center" color="yellow"></a-text>
-		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
-		<!--6.55210實驗室: gps-entity-place="latitude: 22.9987382; longitude: 120.2202138;" position="0 31.634 0"-->
-		<a-text class="entrance" value="55210" scale="1 1 1" align="center" color="yellow"></a-text>
-		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
-		<!--7.55316實驗室: gps-entity-place="latitude: 22.9987492; longitude: 120.2200666;" position="0 36.148 0"-->
-		<a-text class="entrance" value="Our lab" scale="1 1 1" align="center" color="red"></a-text>
-		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" material="color: red"></a-entity>
-
+		
 		<a-entity class="arrow"></a-entity>
 
 		<a-camera rotation-reader></a-camera>
@@ -63,8 +64,12 @@
 	
 	<select id="list" style="position: absolute; top: 0px; left: 0px; z-index: 10;">
 		<option class="drop-down">--Please select--</option>
-		<option class="drop-down">55209-Reading Room</option>
-		<option class="drop-down">55250-Classroom</option>
+		<option class="drop-down">(1F)Gate</option>
+		<option class="drop-down">(1F)Jin-Way Lecture Theater</option>
+		<option class="drop-down">(2F)55250-Classroom</option>
+		<option class="drop-down">(2F)55208-Computer Classroom</option>
+		<option class="drop-down">(2F)55209-Reading Room</option>
+		<option class="drop-down">(2F)55210-Laboratory</option>
 	</select>
 	
 	<script type="module">
@@ -85,17 +90,19 @@
 			let arr = data.split('->');
 			console.log(arr);
 		});*/
-		//空間門口位置
+		//AR內容位置
+		let targetEntrance = ''; //記錄導引目標空間入口座標(導引箭號用)
+		let targetEntranceID = ''; //記錄導引目標空間入口節點ID(路線計算用)
+		let startNodeID = ''; //距離目前位置最近的節點(當作路線起點)
+		let entrancePosition = [{"x":120.2199345,"y":22.9986416,"z":26.728},{"x":120.2200520,"y":22.9987154,"z":27.033},
+				       {"x":120.2200649,"y":22.9987299,"z":31.634},{"x":120.2200666,"y":22.9987492,"z":31.634},
+				       {"x":120.2202121,"y":22.9987189,"z":31.634},{"x":120.2202138,"y":22.9987382,"z":31.634},{"x":120.2200666,"y":22.9987492,"z":36.148}];
 		let routeLocation = [{"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728},
 				    {"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728},
 				    {"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728},
 				    {"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728},
 				    {"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728},
 				    {"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199097,"y": 22.9986431,"z": 26.728}];
-		let targetEntrance = ''; //記錄導引目標空間入口座標
-		let entrancePosition = [{"x":120.2199345,"y":22.9986416,"z":26.728},{"x":120.2200520,"y":22.9987154,"z":27.033},
-				       {"x":120.2200649,"y":22.9987299,"z":31.634},{"x":120.2200666,"y":22.9987492,"z":31.634},
-				       {"x":120.2202121,"y":22.9987189,"z":31.634},{"x":120.2202138,"y":22.9987382,"z":31.634},{"x":120.2200666,"y":22.9987492,"z":36.148}];
 		
 		//測試用軌跡
 		let track = [{"x":120.220005,"y":22.998719,"z":31.634},{"x":120.220023,"y":22.998729,"z":31.634},{"x":120.220048,"y":22.998739,"z":31.634},{"x":120.220072,"y":22.99874,"z":31.634},{"x":120.220084,"y":22.998739,"z":31.634},{"x":120.220101,"y":22.998737,"z":31.634},{"x":120.220116,"y":22.998736,"z":31.634},{"x":120.220148,"y":22.998735,"z":31.634},{"x":120.220161,"y":22.998732,"z":31.634},{"x":120.220197,"y":22.99873,"z":31.634},{"x":120.220207,"y":22.998722,"z":31.634},{"x":120.220209,"y":22.998703,"z":31.634},{"x":120.220208,"y":22.998689,"z":31.634},{"x":120.220213,"y":22.998667,"z":31.634}];
@@ -103,7 +110,7 @@
 	//---主要功能: 取得姿態、位置等參數控制AR內容渲染狀況---
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
 		jQuery(document).ready(function(){
-			GetSelection(); //取得下拉式選單選中之導引目標空間入口
+			GetSelection(); //開始監聽下拉式選單選中之導引目標空間入口
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
 				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
 				if (head == undefined){ head = 0; } //無羅盤資料則預設朝向正北
@@ -139,7 +146,9 @@
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
 				let testpath = ['start','04','05','06','07','08','15','finish'];
-				GetPath('01', '12', testpath);
+				//GetPath('01', '12', testpath);
+				GetNearNode(position);
+				GetPath(startNodeID, targetEntranceID, testpath);
 				SetLocation("entity", theta_rad, position, routeLocation, "route");
 				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
@@ -184,29 +193,34 @@
 	//---用戶互動UI功能---
 		//下拉式選單
 		function GetSelection(){
+			let ID = ['14', '03', '09', '12', '11', '13'];
+			function ResetColor(floor, color){
+				let target_nF = document.querySelectorAll('a-entity.entrance.floor'+floor);
+				target_nF.forEach(function(x){
+					x.setAttribute('material', 'color: '+color); //先重置該樓entity顏色
+					x.setAttribute('material', 'opacity: 0.3; transparent: true;'); //先重置透明度
+				});
+			};
+			function SetColor(index){
+				let target = document.querySelectorAll('a-entity.entrance');
+				if (index > 0){ //有選擇空間的時候
+					target[index-1].setAttribute('material', 'color: blue; opacity: 1; transparent: true;');
+					targetEntrance = entrancePosition[index-1];
+					targetEntranceID = ID[index-1];
+				}else{ //未選擇空間，重置所有entity透明度
+					target.forEach(function(x){
+						x.setAttribute('material', 'opacity: 1; transparent: true;'); 
+					});
+					targetEntrance = 0;
+					targetEntranceID = '';
+				}
+			};
+			
 			let elem = document.querySelector("#list").addEventListener("change", function () {
 				console.log(this.options[this.selectedIndex].text);
-				let target = document.querySelectorAll('a-entity.entrance');
-				target.forEach(function(x){
-					x.setAttribute('material', 'opacity: 0.3; transparent: true;'); //先重置所有entity透明度
-				});
-				if (this.options[this.selectedIndex].text == "55209-Reading Room"){
-					target[2].setAttribute('material', 'color: yellow');
-					target[4].setAttribute('material', 'color: blue; opacity: 1; transparent: true;');
-					targetEntrance = entrancePosition[4];
-				}else if (this.options[this.selectedIndex].text == "55250-Classroom"){
-					target[2].setAttribute('material', 'color: blue; opacity: 1; transparent: true;');
-					target[4].setAttribute('material', 'color: yellow');
-					targetEntrance = entrancePosition[2];
-				}else{
-					target.forEach(function(x){
-						x.setAttribute('material', 'opacity: 1; transparent: true;'); //未選擇空間，重置所有entity透明度
-					});
-					target[2].setAttribute('material', 'color: yellow');
-					target[4].setAttribute('material', 'color: yellow');
-					targetEntrance = 0;
-				}
-				
+				ResetColor('1', 'white'); ResetColor('2', 'yellow'); ResetColor('3', 'red');
+				SetColor(this.selectedIndex);
+				console.log('targetEntranceID:'+targetEntranceID);
 			});
 		};
 		
@@ -217,7 +231,7 @@
 			if(tarpos == 0){
 				arrowEntity.removeAttribute("gltf-model");
 			}else if(tarpos != ''){
-				console.log(typeof tarpos);console.log(tarpos);
+				//console.log(typeof tarpos);console.log(tarpos);
 				let user = new LatLon(position.coords.latitude, position.coords.longitude);
 				let E = new LatLon(position.coords.latitude, tarpos.x).distanceTo(user);
 				let N = new LatLon(tarpos.y, position.coords.longitude).distanceTo(user);
@@ -238,8 +252,34 @@
 			}
 		};
 		
+		//取得最近節點(作為路線起點)
+		function GetNearNode(position){ //position: 用戶當前絕對座標
+			let NodePosition = [{"x": 120.2199097,"y": 22.9986431,"z": 26.728},{"x": 120.2199653,"y": 22.9986719,"z": 26.728},{"x": 120.2200513,"y": 22.9987153,"z": 27.445},
+					   {"x": 120.2199233,"y": 22.9986885,"z": 27.474},{"x": 120.2199264,"y": 22.9987137,"z": 28.662},{"x": 120.2199901,"y": 22.9987116,"z": 31.861},
+					   {"x": 120.2200234,"y": 22.9987114,"z": 31.880},{"x": 120.2200544,"y": 22.9987402,"z": 31.988},{"x": 120.2200646,"y": 22.9987298,"z": 31.952},
+					   {"x": 120.2201342,"y": 22.9987247,"z": 31.830},{"x": 120.2202088,"y": 22.9987199,"z": 31.886},{"x": 120.2200662,"y": 22.9987492,"z": 31.911},
+					   {"x": 120.2202096,"y": 22.9987378,"z": 31.889},{"x": 120.2199488,"y": 22.9986399,"z": 26.969},{"x": 120.2200657,"y": 22.9987433,"z": 31.668},
+					   {"x": 120.2201364,"y": 22.9987380,"z": 31.651},{"x": 120.2202093,"y": 22.9987324,"z": 31.689}];
+			let user = new LatLon(position.coords.latitude, position.coords.longitude);
+			let minD = 5; //設一個最小距離的初始值
+			for(let j=0; j<NodePosition.length; j++){
+				let horizontalD = new LatLon(NodePosition[j].y, NodePosition[j].x).distanceTo(user);
+				let verticalD = NodePosition[j].z - position.coords.altitude;
+				let D = roundToTwo(Math.sqrt(Math.pow(horizontalD, 2) + Math.pow(verticalD, 2)));
+				if(D < minD){
+					minD = D; //更新最小距離
+					if (j<10){
+						startNodeID = '0'+j;
+					}else{
+						startNodeID = j.toString();
+					}
+				}
+			};
+			console.log('startNodeID:'+startNodeID);
+		};
+		
 		//路徑導引功能
-		function GetPath(start, end, path){
+		function GetPath(start, end, path){ //start:路線起點節點ID, end: 目標節點ID, path: 後端計算完回傳路線依序經過的節點
 			let pathAll = document.querySelectorAll(".route");
 			for(let j=0; j<pathAll.length; j++){
 				let attclear = document.createAttribute('gltf-model');
