@@ -310,10 +310,10 @@
 			let pathAll = document.querySelectorAll(".route");
 			let nodeNow = start;
 			for(let j=0; j<pathAll.length; j++){
-				let attclear = document.createAttribute('gltf-model');
-				attclear.value = "";
-				pathAll[j].setAttributeNode(attclear);
-				//pathAll[j].setAttribute('gltf-model',"");
+				//let attclear = document.createAttribute('gltf-model');
+				//attclear.value = "";
+				//pathAll[j].setAttributeNode(attclear);
+				pathAll[j].setAttribute('gltf-model',"../assets/transparent.gltf");
 			}
 			for (let j=1; j<path.length; j++){
 				if(j == path.length-1){
