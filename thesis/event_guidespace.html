@@ -265,7 +265,7 @@
 			for(let j=0; j<NodePosition.length; j++){
 				let horizontalD = new LatLon(NodePosition[j].y, NodePosition[j].x).distanceTo(user);
 				let verticalD = NodePosition[j].z - position.coords.altitude;
-				let D = roundToTwo(Math.sqrt(Math.pow(horizontalD, 2) + Math.pow(verticalD, 2)));
+				let D = Math.sqrt(Math.pow(horizontalD, 2) + Math.pow(verticalD, 2));
 				if(D < minD){
 					minD = D; //更新最小距離
 					if (j<10){
