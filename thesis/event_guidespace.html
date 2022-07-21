@@ -272,10 +272,11 @@
 				let D = Math.sqrt(Math.pow(horizontalD, 2) + Math.pow(verticalD, 2));
 				if(D < minD){
 					minD = D; //更新最小距離
-					if (j<10){
-						startNodeID = '0'+j;
+					let n = j+1;
+					if (n<10){
+						startNodeID = '0'+n;
 					}else{
-						startNodeID = j.toString();
+						startNodeID = n.toString();
 					}
 				}
 			};
@@ -295,7 +296,8 @@
 				if(j == path.length-1){
 					path[j] = end;
 				}
-				let pathNow = document.querySelector(".route.n"+nodeNow+".n"+path[j]);	
+				console.log(".route.n"+nodeNow+".n"+path[j]);
+				let pathNow = document.querySelector(".route.n"+nodeNow+".n"+path[j]);
 				pathNow.setAttribute('gltf-model',"../assets/path/" + nodeNow + path[j] + ".gltf");
 				nodeNow = path[j];
 			};
