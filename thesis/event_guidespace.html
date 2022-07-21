@@ -162,19 +162,19 @@
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
 				GetNearNode(position); //更新位置時同時計算最近節點，並存至startNodeID
-				Guide(theta_rad, position, targetEntrance);
 				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, routeLocation, "route");
-				/*setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
-					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
+				Guide(theta_rad, position, targetEntrance);
+				setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
+					/*i++; console.log("i: "+i); if (i == track.length){ i = 0; };
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
 					SetLocation("entity", theta_rad, position, routeLocation, "route");
 					SetLocation("text", theta_rad, position, entrancePosition, "entrance");
-					SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
+					SetLocation("entity", theta_rad, position, entrancePosition, "entrance");*/
 					Guide(theta_rad, position, targetEntrance);
-				}, 10000);*/
+				}, 10000);
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
 				
@@ -286,12 +286,13 @@
 		//顯示導引路徑功能
 		function SetPath(start, end, path){ //start:路線起點節點ID, end: 目標節點ID, path: 後端計算完回傳路線依序經過的節點
 			let pathAll = document.querySelectorAll(".route");
-			for(let j=0; j<pathAll.length; j++){
-				let attclear = document.createAttribute('gltf-model');
-				attclear.value = "";
-				pathAll[j].setAttributeNode(attclear);
-			}
 			let nodeNow = start;
+			for(let j=0; j<pathAll.length; j++){
+				//let attclear = document.createAttribute('gltf-model');
+				//attclear.value = "";
+				//pathAll[j].setAttributeNode(attclear);
+				pathAll[j].setAttribute('gltf-model',"");
+			}
 			for (let j=1; j<path.length; j++){
 				if(j == path.length-1){
 					path[j] = end;
