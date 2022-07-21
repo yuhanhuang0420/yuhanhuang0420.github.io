@@ -79,9 +79,8 @@
 	//---全域變數---
 		//API網址 (80 port: ngrok http 80)
 		const TrackAPI = "https://0795-140-116-47-130.ngrok.io/gipsense/TrackAPI.php";
-		const FindPathAPI = "https://eb54-1-173-172-253.ngrok.io/gipsense/FindPath.php";
-		const PathAPI = "https://eb54-1-173-172-253.ngrok.io/gipsense/PathAPI.php";
-		
+		const FindPathAPI = "https://db7d-111-255-24-139.ngrok.io/gipsense/FindPath.php";
+		const PathAPI = "https://db7d-111-255-24-139.ngrok.io/gipsense/PathAPI.php";
 		/*$.post( FindPathAPI, { 'start': '11', 'end': '2' },function(data){ 
 			console.log("Path calculating success");
 		}, "json");
@@ -94,6 +93,7 @@
 		let targetEntrance = ''; //記錄導引目標空間入口座標(導引箭號用)
 		let targetEntranceID = ''; //記錄導引目標空間入口節點ID(路線計算用)
 		let startNodeID = ''; //距離目前位置最近的節點(當作路線起點)
+		let routePath; //儲存後端計算好的路線節點
 		let entrancePosition = [{"x":120.2199345,"y":22.9986416,"z":26.728},{"x":120.2200520,"y":22.9987154,"z":27.033},
 				       {"x":120.2200649,"y":22.9987299,"z":31.634},{"x":120.2200666,"y":22.9987492,"z":31.634},
 				       {"x":120.2202121,"y":22.9987189,"z":31.634},{"x":120.2202138,"y":22.9987382,"z":31.634},{"x":120.2200666,"y":22.9987492,"z":36.148}];
@@ -111,7 +111,7 @@
 	//---主要功能: 取得姿態、位置等參數控制AR內容渲染狀況---
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
 		jQuery(document).ready(function(){
-			GetSelection(); //開始監聽下拉式選單選中之導引目標空間入口
+			GetSelection(); //開始監聽下拉式選單選中之導引目標空間入口，一旦選單改變事件發生，觸發設定targetEntranceID、呼叫後端算路線API及執行SetPath()
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
 				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
 				if (head == undefined){ head = 0; } //無羅盤資料則預設朝向正北
@@ -146,12 +146,10 @@
 				let i = 0; //(測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
-				//GetPath('01', '12', testpath);
-				GetNearNode(position);
-				//GetPath(startNodeID, targetEntranceID, testpath);
-				SetLocation("entity", theta_rad, position, routeLocation, "route");
+				GetNearNode(position); //更新位置時同時計算最近節點，並存至startNodeID
 				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
+				SetLocation("entity", theta_rad, position, routeLocation, "route");
 				Guide(theta_rad, position, targetEntrance);
 				/*setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
 					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
@@ -191,7 +189,7 @@
 		};
 		
 	//---用戶互動UI功能---
-		//下拉式選單
+		//下拉式選單，供用戶選擇導航的目標空間，以提供對應的入口顏色、箭號、路線
 		function GetSelection(){
 			let ID = ['14', '03', '09', '12', '11', '13'];
 			function ResetColor(floor, color){
@@ -221,7 +219,15 @@
 				ResetColor('1', 'white'); ResetColor('2', 'yellow'); ResetColor('3', 'red');
 				SetColor(this.selectedIndex);
 				console.log('targetEntranceID:'+targetEntranceID);
-GetPath(startNodeID, targetEntranceID, testpath);
+				$.post( FindPathAPI, { 'start': startNodeID, 'end': targetEntranceID },function(data){ 
+					console.log("Path calculating success!");
+				}, "json");
+				$.getJSON( PathAPI, function (data){
+					console.log(data);
+					routePath = data.split('->');
+					console.log('routePath:'+routePath);
+				});
+				SetPath(startNodeID, targetEntranceID, routePath);
 			});
 		};
 		
@@ -279,8 +285,8 @@ GetPath(startNodeID, targetEntranceID, testpath);
 			console.log('startNodeID:'+startNodeID);
 		};
 		
-		//路徑導引功能
-		function GetPath(start, end, path){ //start:路線起點節點ID, end: 目標節點ID, path: 後端計算完回傳路線依序經過的節點
+		//顯示導引路徑功能
+		function SetPath(start, end, path){ //start:路線起點節點ID, end: 目標節點ID, path: 後端計算完回傳路線依序經過的節點
 			let pathAll = document.querySelectorAll(".route");
 			for(let j=0; j<pathAll.length; j++){
 				let attclear = document.createAttribute('gltf-model');
