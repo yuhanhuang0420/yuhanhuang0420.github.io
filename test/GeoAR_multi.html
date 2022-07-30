@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>GeoAR.js demo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <link rel="stylesheet" href="../css/addbutton.css">
+  </head>
+
+  <body style="margin: 0; overflow: hidden;">
+	<a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+		<a-entity rotation="0 255 0" scale="1 1 1" gltf-model="../assets/test3/test3.gltf" gps-entity-place="latitude: 23.0024088; longitude: 120.2136363;"></a-entity>
+		<a-camera gps-camera rotation-reader> </a-camera>
+	</a-scene>
+	<div class="switchtag" style="top:10px;">DATA</div>
+	<div class="onoffswitch" style="top:10px;">
+		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch3" tabindex="0" checked>
+		<label class="onoffswitch-label" for="myonoffswitch3"></label>
+	</div>
+	<div id="inputinfo" style="display: none;">
+		<input type="text" placeholder="輸入要通報的問題" />
+		<button id="submit">Done</button>
+	</div>
+	<a class="button" id="addpointbutton" style="position: absolute; bottom: 0px; left: 48%; z-index: 10;">+</a>
+	<script>
+	//---全域變數---
+		//API網址 (80 port: ngrok http 80)
+		const addPointDataAPI = "https://07fd-1-173-172-198.ngrok.io/gipsense/addPointDataAPI2.php";
+		
+		//用戶新增的點位座標們
+		let currentPoint; //記錄當下所在座標值，隨定位更新而改變
+		let pointData = []; //按下新增點位按鈕時，將當下所在座標值新增入陣列
+		let DBpointData; //從後端獲取的全部點位(多用戶新增)
+		let showDBdataornot = true; //是否展示資料庫中所有資料(預設開啟)
+		let DBpointDataLength = 0;
+		
+	//watch position for outdoor
+		navigator.geolocation.getCurrentPosition(function(position) {
+			currentPoint = {"x":position.coords.longitude, "y": position.coords.latitude};
+			$.post(addPointDataAPI, { newPointData: '' },function(data2){
+				DBpointData = JSON.parse("[" + data2.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
+				console.log(DBpointData);
+				DBpointDataLength = DBpointData.length;
+				AddEntity(DBpointDataLength);
+				SetLocation(DBpointData, "DB");
+				SetLocation(pointData, "user");
+			}, "json");
+		});
+		setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
+			navigator.geolocation.getCurrentPosition(function(position) {
+				currentPoint = {"x":position.coords.longitude, "y": position.coords.latitude};
+				$.post(addPointDataAPI, { newPointData: '' },function(data2){
+					DBpointData = JSON.parse("[" + data2.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
+					console.log(DBpointData);
+					DBpointDataLength = DBpointData.length;
+					AddEntity(DBpointDataLength);
+					SetLocation(DBpointData, "DB");
+					SetLocation(pointData, "user");
+				}, "json");
+			});
+		}, 5000);
+		
+	//設定各模型相對於所在即時位置的高及位置
+		function SetLocation(addpos, classtype){
+			let target = document.querySelectorAll('a-entity.'+classtype);
+			if (target.length!=0 && addpos.length!=0){
+				for(let j=0; j<addpos.length; j++){
+					target[j].setAttribute("gps-entity-place", "latitude: "+addpos[j].y+"; longitude: "+addpos[j].x+";");
+				}
+			}
+		}
+		
+	//新增與DB資料筆數相符數量的entity
+		function AddEntity(length){
+			let opacity = 0.5; //(預設開啟)
+			if (showDBdataornot == false){ opacity = 0; };
+			for(let j=0; j<length; j++){
+				let newEntity = document.createElement('a-entity');
+				newEntity.setAttribute('class','DB');
+				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25;');
+				newEntity.setAttribute('material','color: white; opacity: '+opacity+'; transparent: true');
+				let reference = document.querySelectorAll('a-entity');
+				let referenceNode = reference[reference.length-pointData.length-2];
+				document.querySelector('a-scene').insertBefore(newEntity, referenceNode); //確保entity新增在AR.js環境設定entity之前
+			}
+		}
+		
+	//---用戶互動UI功能---
+		AddPoint();
+		GetSwitch();
+		
+		//新增資料點按鈕
+		function AddPoint(){
+			let inputdiv = document.querySelector("#inputinfo");
+			let inputdata;
+			let button = document.querySelector("#addpointbutton");
+			button.addEventListener('click', function() {
+				inputdiv.setAttribute('style', 'display; background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; left: 0px; z-index: 15; padding: 30px 5px;');
+				let newEntity = document.createElement('a-entity');
+				newEntity.setAttribute('class','user');
+				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
+				newEntity.setAttribute('material','color: yellow;');
+				document.querySelector('a-scene').appendChild(newEntity); //用戶新增的entity固定放在最後(以AR.js環境設定entity和DB的entity做分隔)
+				pointData.push(currentPoint); //儲存至用戶本人這次開啟應用後新增的資料陣列
+				inputdata = currentPoint; //將目前座標儲存至提交資料
+			});
+			let submitbutton = document.querySelector("#submit");
+			submitbutton.addEventListener('click', function() {
+				inputdata.info = document.querySelector('input[type="text"]').value;
+				document.querySelector('input[type="text"]').value = ''; //清除填寫內容
+				inputdiv.setAttribute('style', 'display:none;'); //關閉填寫視窗
+				$.post(addPointDataAPI, { newPointData: JSON.stringify(inputdata) },function(data){ //提交資料至後端
+					//DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取新增後的資料庫中點位資料
+				}, "json");
+			});
+		};
+		
+		//開關設定
+		function GetSwitch(){
+			let checkbox3 = document.querySelector("#myonoffswitch3");
+			checkbox3.addEventListener('change', function() {
+				let target = document.querySelectorAll('a-entity.DB');
+				if (this.checked) {
+					console.log("Checkbox3 is checked..");
+					showDBdataornot = true;
+					for(let j=0; j<target.length; j++){ //重置所有實體之透明度
+						target[j].setAttribute('material', "opacity: 0.5; transparent: true;");
+					}
+				} else {
+					console.log("Checkbox3 is not checked..");
+					showDBdataornot = false;
+					for(let j=0; j<target.length; j++){ //重置所有實體之透明度
+						target[j].setAttribute('material', "opacity: 0; transparent: true;");
+					}
+				}
+			});
+		};
+	</script>
+  </body>
+</html>
