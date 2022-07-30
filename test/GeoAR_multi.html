@@ -28,10 +28,10 @@
 		<a-entity geometry="primitive: sphere; radius: 0.25" material="color: white" gps-entity-place="latitude: 23.002505; longitude: 120.213164;"></a-entity>-->
 		
 		<a-entity rotation="0 255 0" scale="1 1 1" gltf-model="../assets/test3/test3.gltf" gps-entity-place="latitude: 23.016437; longitude: 120.228026;"></a-entity>
-		<a-text value="looks great" look-at="[gps-camera]" color="yellow" scale="1 1 1" align="center" position="0 1 0" gps-entity-place="latitude: 23.016033; longitude: 120.227258;"></a-text>
+		<a-text value="looks great" look-at="[gps-camera]" color="yellow" scale="1 1 1" align="center" position="0 30 0" gps-entity-place="latitude: 23.016033; longitude: 120.227258;"></a-text>
 		<a-entity geometry="primitive: sphere; radius: 0.25" material="color: yellow" gps-entity-place="latitude: 23.016033; longitude: 120.227258;"></a-entity>
 		
-		<a-text value="not bad" color="white" scale="1 1 1" align="center" position="0 0.8 0" gps-entity-place="latitude: 23.016399; longitude: 120.227546;"></a-text>
+		<a-text value="not bad" color="white" scale="1 1 1" align="center" position="0 30 0" gps-entity-place="latitude: 23.016399; longitude: 120.227546;"></a-text>
 		<a-entity geometry="primitive: sphere; radius: 0.25" material="color: white" gps-entity-place="latitude: 23.016399; longitude: 120.227546;"></a-entity>
 		
 		<a-camera gps-camera rotation-reader> </a-camera>
@@ -116,7 +116,7 @@
 				
 				let newText = document.createElement('a-text');
 				newText.setAttribute('class','DB');
-				newText.setAttribute("look-at", {x: 0, y: 0, z: 0});
+				newText.setAttribute("look-at", "[gps-camera]");
 				newText.setAttribute('color','white');
 				newText.setAttribute('value',data[j].info);
 				let reference2 = document.querySelectorAll('a-text');
@@ -131,6 +131,9 @@
 		
 		//新增資料點按鈕
 		function AddPoint(){
+			navigator.geolocation.watchPosition(function(position) {
+				currentPoint = {"x":position.coords.longitude, "y": position.coords.latitude};
+			}
 			let inputdiv = document.querySelector("#inputinfo");
 			let inputdata;
 			let button = document.querySelector("#addpointbutton");
@@ -140,9 +143,11 @@
 				newEntity.setAttribute('class','user');
 				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
 				newEntity.setAttribute('material','color: yellow;');
+				newEntity.setAttribute("gps-entity-place", "latitude: "+currentPoint.y+"; longitude: "+currentPoint.x+";");
 				document.querySelector('a-scene').appendChild(newEntity); //用戶新增的entity固定放在最後(以AR.js環境設定entity和DB的entity做分隔)
 				pointData.push(currentPoint); //儲存至用戶本人這次開啟應用後新增的資料陣列
 				inputdata = currentPoint; //將目前座標儲存至提交資料
+				
 			});
 			let submitbutton = document.querySelector("#submit");
 			submitbutton.addEventListener('click', function() {
@@ -151,13 +156,15 @@
 				inputdiv.setAttribute('style', 'display:none;'); //關閉填寫視窗
 				let newText = document.createElement('a-text');
 				newText.setAttribute('class','user');
-				newText.setAttribute("look-at", {x: 0, y: 0, z: 0});
+				newText.setAttribute("look-at", "[gps-camera]");
+				newText.setAttribute("position", "0 30 0");
 				newText.setAttribute('color','yellow');
 				newText.setAttribute('value',document.querySelector('input[type="text"]').value);
+				newEntity.setAttribute("gps-entity-place", "latitude: "+currentPoint.y+"; longitude: "+currentPoint.x+";");
 				document.querySelector('a-scene').appendChild(newText); //用戶新增的entity固定放在最後(以AR.js環境設定entity和DB的entity做分隔)
-				$.post(addPointDataAPI, { newPointData: JSON.stringify(inputdata) },function(data){ //提交資料至後端
+				/*$.post(addPointDataAPI, { newPointData: JSON.stringify(inputdata) },function(data){ //提交資料至後端
 					//DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取新增後的資料庫中點位資料
-				}, "json");
+				}, "json");*/
 			});
 		};
 		
