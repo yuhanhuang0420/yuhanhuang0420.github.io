@@ -20,18 +20,18 @@
   <body style="margin: 0; overflow: hidden;">
 	<a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
 		<!--<a-entity rotation="0 255 0" scale="1 1 1" gltf-model="../assets/test3/test3.gltf" gps-entity-place="latitude: 23.0024088; longitude: 120.2136363;"></a-entity>
-		<a-text value="looks great" color="yellow" scale="1 1 1" align="center" position="0 0.8 0" gps-entity-place="latitude: 23.002505; longitude: 120.213164;"></a-text>
+		<a-text value="looks great" color="yellow" scale="1 1 1" align="center" position="0 28 0" gps-entity-place="latitude: 23.002505; longitude: 120.213164;"></a-text>
 		<a-entity geometry="primitive: sphere; radius: 0.25" material="color: yellow" gps-entity-place="latitude: 23.002505; longitude: 120.213164;"></a-entity>
-		<a-text value="I like it" color="yellow" scale="1 1 1" align="center" position="0 0.8 0" gps-entity-place="latitude: 23.002554; longitude: 120.213186;"></a-text>
+		<a-text value="I like it" color="yellow" scale="1 1 1" align="center" position="0 28 0" gps-entity-place="latitude: 23.002554; longitude: 120.213186;"></a-text>
 		<a-entity geometry="primitive: sphere; radius: 0.25" material="color: yellow" gps-entity-place="latitude: 23.002505; longitude: 120.213164;"></a-entity>
-		<a-text value="not bad" color="white" scale="1 1 1" align="center" position="0 0.8 0" gps-entity-place="latitude: 23.002505; longitude: 120.213164;"></a-text>
+		<a-text value="not bad" color="white" scale="1 1 1" align="center" position="0 28 0" gps-entity-place="latitude: 23.002505; longitude: 120.213164;"></a-text>
 		<a-entity geometry="primitive: sphere; radius: 0.25" material="color: white" gps-entity-place="latitude: 23.002505; longitude: 120.213164;"></a-entity>-->
 		
 		<a-entity rotation="0 255 0" scale="1 1 1" gltf-model="../assets/test3/test3.gltf" gps-entity-place="latitude: 23.016437; longitude: 120.228026;"></a-entity>
-		<a-text value="looks great" look-at="[gps-camera]" color="yellow" scale="1 1 1" align="center" position="0 30 0" gps-entity-place="latitude: 23.016033; longitude: 120.227258;"></a-text>
+		<a-text value="looks great" look-at="[gps-camera]" color="yellow" scale="1 1 1" align="center" position="0 28 0" gps-entity-place="latitude: 23.016033; longitude: 120.227258;"></a-text>
 		<a-entity geometry="primitive: sphere; radius: 0.25" material="color: yellow" gps-entity-place="latitude: 23.016033; longitude: 120.227258;"></a-entity>
 		
-		<a-text value="not bad" color="white" scale="1 1 1" align="center" position="0 30 0" gps-entity-place="latitude: 23.016399; longitude: 120.227546;"></a-text>
+		<a-text value="not bad" color="white" scale="1 1 1" align="center" position="0 28 0" gps-entity-place="latitude: 23.016399; longitude: 120.227546;"></a-text>
 		<a-entity geometry="primitive: sphere; radius: 0.25" material="color: white" gps-entity-place="latitude: 23.016399; longitude: 120.227546;"></a-entity>
 		
 		<a-camera gps-camera rotation-reader> </a-camera>
@@ -157,10 +157,10 @@
 				let newText = document.createElement('a-text');
 				newText.setAttribute('class','user');
 				newText.setAttribute("look-at", "[gps-camera]");
-				newText.setAttribute("position", "0 30 0");
+				newText.setAttribute("position", "0 28 0");
 				newText.setAttribute('color','yellow');
 				newText.setAttribute('value',document.querySelector('input[type="text"]').value);
-				newEntity.setAttribute("gps-entity-place", "latitude: "+currentPoint.y+"; longitude: "+currentPoint.x+";");
+				newText.setAttribute("gps-entity-place", "latitude: "+currentPoint.y+"; longitude: "+currentPoint.x+";");
 				document.querySelector('a-scene').appendChild(newText); //用戶新增的entity固定放在最後(以AR.js環境設定entity和DB的entity做分隔)
 				/*$.post(addPointDataAPI, { newPointData: JSON.stringify(inputdata) },function(data){ //提交資料至後端
 					//DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取新增後的資料庫中點位資料
