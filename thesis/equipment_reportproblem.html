@@ -52,7 +52,7 @@
 	//---全域變數---
 		//API網址 (80 port: ngrok http 80)
 		const TrackAPI = "https://07fd-1-173-172-198.ngrok.io/gipsense/TrackAPI.php";
-		const addPointDataAPI = "https://07fd-1-173-172-198.ngrok.io/gipsense/addPointDataAPI.php";
+		const addPointDataAPI = "https://2a2e-111-255-251-249.ngrok.io/gipsense/addPointDataAPI.php";
 		
 		//用戶新增的點位座標們
 		let currentPoint; //記錄當下所在座標值，隨定位更新而改變
@@ -86,7 +86,7 @@
 				let userHeight = height + 1.3;
 				let DBpointDataLength = 0;
 				
-				$.getJSON( TrackAPI, function (data){
+				/*$.getJSON( TrackAPI, function (data){
 					let point = {x: data.x, y: data.y}; //用戶即時平面位置座標
 					let position = {coords:{longitude: data.x, latitude: data.y, altitude: userHeight}}; //用戶即時位置座標
 					currentPoint = {x: data.x, y: data.y, z: height}; //更新目前位置至全域變數
@@ -114,9 +114,9 @@
 							SetLocation("entity", theta_rad, position, pointData, "user");
 						}, "json");
 					});
-				}, 5000);	
+				}, 5000);*/	
 				
-			/*	let i = 0; //(測試時才會用到)
+				let i = 0; //(測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 				currentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
@@ -144,7 +144,7 @@
 						SetLocation("entity", theta_rad, position, DBpointData, "DB");
 						SetLocation("entity", theta_rad, position, pointData, "user");
 					}, "json");
-				}, 10000); */
+				}, 10000); 
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
 				
