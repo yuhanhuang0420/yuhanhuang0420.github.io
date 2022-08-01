@@ -104,8 +104,8 @@
 					});
 				}, 4000);*/
 				let i = 0; //每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
-				let point = {x: 120.2202112, y: 22.9986953}; //用戶即時平面位置座標
-				let position = {coords:{latitude: 22.7336, longitude: 120.221381, altitude: userHeight}}; //用戶即時位置座標
+				let point = {x: 120.2201381, y: 22.9987336}; //用戶即時平面位置座標
+				let position = {coords:{latitude: 22.9987336, longitude: 120.2201381, altitude: userHeight}}; //用戶即時位置座標
 				let EQUpoint = {x: track[i].x, y: track[i].y}; //設備即時平面位置座標
 				let EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: height}}; //設備即時位置座標
 				SetLocation("text", position, EQUposition, theta_rad, "equipment");SetLocation("entity", position, EQUposition, theta_rad, "equipment");
