@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<title>Report Problems</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+	<link rel="stylesheet" href="../css/onoffswitch.css">
+	<link rel="stylesheet" href="../css/addbutton.css">
+	<link rel="stylesheet" href="../css/attributetable.css">
+	<style type="text/css">
+		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace;}
+		input[type="text"]{padding:5px 15px; border:2px black solid; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px; width: 88%;}
+		#submit{padding:5px 15px; background:#ccc; border:0 none; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px; width: 97%; text-align: center;}
+	</style>
+</head>
+
+<body style="margin: 0px; overflow: hidden;">
+	<a-scene embedded vr-mode-ui="enabled: false" arjs="sourceType: webcam; debugUIEnabled: false;">	
+		<a-text class="DB" scale="1.5 1.5 1.5" align="center" look-at="{x: 0, y: 0, z: 0}" color="white" value="light broken"></a-text>
+		<a-entity class="DB" geometry="primitive: sphere; radius: 0.25" material="color: white"></a-entity>
+		
+		<a-text class="DB" scale="1.5 1.5 1.5" align="center" look-at="{x: 0, y: 0, z: 0}" color="white" value="projector cannot open"></a-text>
+		<a-entity class="DB" geometry="primitive: sphere; radius: 0.25" material="color: white"></a-entity>
+		
+		<a-text class="user" scale="1.5 1.5 1.5" align="center" look-at="{x: 0, y: 0, z: 0}" color="yellow" value="chair broken"></a-text>
+		<a-entity class="user" geometry="primitive: sphere; radius: 0.25" material="color: yellow"></a-entity>
+		<a-camera rotation-reader></a-camera>
+	</a-scene>
+	
+	<div class="switchtag" style="top:10px;">OCCL</div>
+	<div class="onoffswitch">
+		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
+		<label class="onoffswitch-label" for="myonoffswitch"></label>
+	</div>
+	<div class="switchtag" style="top:40px;">INFO</div>
+	<div class="onoffswitch" style="top:40px;">
+		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch2" tabindex="0">
+		<label class="onoffswitch-label" for="myonoffswitch2"></label>
+	</div>
+	<div class="switchtag" style="top:75px;">DATA</div>
+	<div class="onoffswitch" style="top:75px;">
+		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch3" tabindex="0" checked>
+		<label class="onoffswitch-label" for="myonoffswitch3"></label>
+	</div>
+	<div id="inputinfo" style="display: none;">
+		<input type="text" placeholder="Type the problem" />
+		<button id="submit">Done</button>
+	</div>
+	<a class="button" id="addpointbutton" style="position: absolute; bottom: 0px; left: 48%; z-index: 10;">+</a>
+	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>
+	
+	<script type="module">
+		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
+        	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
+		
+	//---全域變數---
+		//API網址 (80 port: ngrok http 80)
+		const TrackAPI = "https://07fd-1-173-172-198.ngrok.io/gipsense/TrackAPI.php";
+		const addPointDataAPI = "https://2a2e-111-255-251-249.ngrok.io/gipsense/addPointDataAPI.php";
+		
+		//用戶新增的點位座標們
+		let currentPoint; //記錄當下所在座標值，隨定位更新而改變
+		let pointData = [{"x":120.220213,"y":22.998667,"z":31.634}]; //按下新增點位按鈕時，將當下所在座標值新增入陣列
+		let DBpointData = [{"x":120.220209,"y":22.998703,"z":31.634},{"x":120.220208,"y":22.998689,"z":31.634}]; //從後端獲取的全部點位(多用戶新增)
+		let showDBdataornot = true; //是否展示資料庫中所有資料(預設開啟)
+		
+		//遮蔽效果相關變數
+		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
+		let viewshed_list = []; //存放需考慮遮蔽的實體編號
+		let viewshed_area = {"lobbyRoom_1F":[{"x": 120.220042,"y": 22.998635},{"x": 120.2199,"y": 22.998646},{"x": 120.219902,"y": 22.998671},
+				      {"x": 120.2199,"y": 22.998671},{"x": 120.219906,"y": 22.998735},{"x": 120.22005,"y": 22.998727}], //一樓大廳平面範圍
+				     "lobbyRoom_2F":[{"x": 120.219984,"y": 22.99864},{"x": 120.219997,"y": 22.998753},{"x": 120.220034,"y": 22.99875},
+				      {"x": 120.22004,"y": 22.998817},{"x": 120.220058,"y": 22.998816},{"x": 120.220042,"y": 22.998636}], //二樓大廳平面範圍
+				     "corridorRoom_2F":[{"x":120.220055,"y":22.998749},{"x":120.220054,"y":22.998732},{"x":120.220217,"y":22.998718},{"x":120.220219,"y":22.998737}],
+				     "readingRoom_2F":[{"x": 120.2202833, "y": 22.9986425},{"x": 120.2201943, "y": 22.9986494},{"x": 120.2202003, "y": 22.9987189},
+				     {"x": 120.2202176, "y": 22.9987188},{"x": 120.2202188, "y": 22.9987374},{"x": 120.2202907, "y": 22.9987312}]}; //圖書室平面範圍
+		
+		//測試用軌跡
+		let track = [{"x":120.2200171,"y":22.9986932,"z":31.634},{"x":120.220005,"y":22.998719,"z":31.634},{"x":120.220023,"y":22.998729,"z":31.634},{"x":120.220048,"y":22.998739,"z":31.634},{"x":120.220072,"y":22.99874,"z":31.634},{"x":120.220084,"y":22.998739,"z":31.634},{"x":120.220101,"y":22.998737,"z":31.634},{"x":120.220116,"y":22.998736,"z":31.634},{"x":120.220148,"y":22.998735,"z":31.634},{"x":120.220161,"y":22.998732,"z":31.634},{"x":120.220197,"y":22.99873,"z":31.634},{"x":120.220207,"y":22.998722,"z":31.634},{"x":120.220209,"y":22.998703,"z":31.634},{"x":120.220208,"y":22.998689,"z":31.634},{"x":120.220213,"y":22.998667,"z":31.634}];
+		
+	//---主要功能: 取得姿態、位置等參數控制AR內容渲染狀況---
+		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
+		jQuery(document).ready(function(){
+			window.addEventListener('deviceorientation', function(event) { //get azimuth
+				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定)
+				let theta = -(event.webkitCompassHeading-180-90); //手機-z軸向(朝前)相對於N軸向之順時針角度
+				let theta_rad = theta * Math.PI /180; //N軸轉向手機x軸向(朝右)的逆時針角度
+				if (head == undefined){ theta_rad = 270 * Math.PI /180; } //無羅盤資料則預設朝向正北
+				let height = 31.634;
+				let userHeight = height + 1.3;
+				//let DBpointDataLength = 0;/////////////////////////////open!
+				
+				/*$.getJSON( TrackAPI, function (data){
+					let point = {x: data.x, y: data.y}; //用戶即時平面位置座標
+					let position = {coords:{longitude: data.x, latitude: data.y, altitude: userHeight}}; //用戶即時位置座標
+					currentPoint = {x: data.x, y: data.y, z: height}; //更新目前位置至全域變數
+					$.post(addPointDataAPI, { newPointData: '' },function(data2){
+						DBpointData = JSON.parse("[" + data2.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
+						console.log(DBpointData);
+						DBpointDataLength = DBpointData.length;
+						AddEntity(DBpointDataLength);
+						SetLocation("entity", theta_rad, position, DBpointData, "DB");
+						SetLocation("entity", theta_rad, position, pointData, "user");
+					}, "json");
+				});
+				setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
+					$.getJSON( TrackAPI, function (data){
+						let point = {x: data.x, y: data.y}; //用戶即時平面位置座標
+						let position = {coords:{longitude: data.x, latitude: data.y, altitude: userHeight}}; //用戶即時位置座標
+						currentPoint = {x: data.x, y: data.y, z: height}; //更新目前位置至全域變數
+						$.post(addPointDataAPI, { newPointData: '' },function(data){
+							DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取資料庫中最新的點位資料
+							console.log(DBpointData);
+							let addLength = DBpointData.length - DBpointDataLength; //增加更新後多的entity數量
+							DBpointDataLength = DBpointData.length; //更新DB資料長度
+							AddEntity(addLength);
+							SetLocation("entity", theta_rad, position, DBpointData, "DB");
+							SetLocation("entity", theta_rad, position, pointData, "user");
+						}, "json");
+					});
+				}, 5000);*/	
+				
+				let i = 0; //(測試時才會用到)
+				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
+				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
+				currentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
+				let DBpointDataLength = 0;
+				//$.post(addPointDataAPI, { newPointData: '' },function(data){
+					//DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
+					//console.log(DBpointData);
+					//DBpointDataLength = DBpointData.length;
+					//AddEntity(DBpointDataLength);
+					SetLocation("entity", theta_rad, position, DBpointData, "DB");
+					SetLocation("entity", theta_rad, position, pointData, "user");
+				//}, "json");
+				
+				/*setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
+					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
+					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
+					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
+					currentPoint = {x: track[i].x, y: track[i].y, z: height}; //更新目前位置至全域變數
+					$.post(addPointDataAPI, { newPointData: '' },function(data){
+						DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取資料庫中最新的點位資料
+						console.log(DBpointData);
+						let addLength = DBpointData.length - DBpointDataLength; //增加更新後多的entity數量
+						DBpointDataLength = DBpointData.length; //更新DB資料長度
+						AddEntity(addLength);
+						SetLocation("entity", theta_rad, position, DBpointData, "DB");
+						SetLocation("entity", theta_rad, position, pointData, "user");
+					}, "json");
+				}, 10000); */
+			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
+		});
+				
+		//設定各模型相對於所在即時位置的高及位置
+		function SetLocation(type, degree, position, addpos, classtype){ //type: 實體類型, degree: 開啟當下，用戶所持裝置方位角, position: 用戶位置座標, addpos: 新增座標
+			let target = document.querySelectorAll('a-'+type+'.'+classtype);
+			if (target.length!=0 && addpos.length!=0){
+				for(let j=0; j<addpos.length; j++){ 
+					let H = addpos[j].z - position.coords.altitude;
+					let E, N;
+					let user = new LatLon(position.coords.latitude, position.coords.longitude);
+					E = new LatLon(position.coords.latitude, addpos[j].x).distanceTo(user);
+					N = new LatLon(addpos[j].y, position.coords.longitude).distanceTo(user);
+					if (addpos[j].x-position.coords.longitude < 0){ E = -E;}
+					if (addpos[j].y-position.coords.latitude < 0){ N = -N;}
+					if (type=="text"){
+						target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
+						H = addpos[j].z + 0.5 - position.coords.altitude;
+					}
+					let z = Math.cos(degree)*E + Math.sin(degree)*N;
+					let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
+
+					let target_att = document.createAttribute('position');
+					target_att.value = x+" "+H+" "+z;
+					target[j].setAttributeNode(target_att);
+				}
+			}
+		};
+		
+		//新增與DB資料筆數相符數量的entity
+		function AddEntity(length){
+			let opacity = 0.5; //(預設開啟)
+			if (showDBdataornot == false){ opacity = 0; };
+			for(let j=0; j<length; j++){
+				let newEntity = document.createElement('a-entity');
+				newEntity.setAttribute('class','DB');
+				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25;');
+				newEntity.setAttribute('material','color: white; opacity: '+opacity+'; transparent: true');
+				let reference = document.querySelectorAll('a-entity');
+				let referenceNode = reference[reference.length-pointData.length-2];
+				document.querySelector('a-scene').insertBefore(newEntity, referenceNode); //確保entity新增在AR.js環境設定entity之前
+			}
+		}
+		
+	//---用戶互動UI功能---
+		AddPoint();
+		GetSwitch();
+		
+		//新增資料點按鈕
+		function AddPoint(){
+			let inputdiv = document.querySelector("#inputinfo");
+			let inputdata;
+			let button = document.querySelector("#addpointbutton");
+			button.addEventListener('click', function() {
+				inputdiv.setAttribute('style', 'display; background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; left: 0px; z-index: 15; padding: 30px 5px;');
+				let newEntity = document.createElement('a-entity');
+				newEntity.setAttribute('class','user');
+				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
+				document.querySelector('a-scene').appendChild(newEntity); //用戶新增的entity固定放在最後(以AR.js環境設定entity和DB的entity做分隔)
+				pointData.push(currentPoint); //儲存至用戶本人這次開啟應用後新增的資料陣列
+				inputdata = currentPoint; //將目前座標儲存至提交資料
+			});
+			let submitbutton = document.querySelector("#submit");
+			submitbutton.addEventListener('click', function() {
+				inputdata.info = document.querySelector('input[type="text"]').value;
+				document.querySelector('input[type="text"]').value = ''; //清除填寫內容
+				inputdiv.setAttribute('style', 'display:none;'); //關閉填寫視窗
+				/*$.post(addPointDataAPI, { newPointData: JSON.stringify(inputdata) },function(data){ //提交資料至後端
+					//DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取新增後的資料庫中點位資料
+				}, "json");*/
+			});
+		};
+		
+		//開關設定
+		function GetSwitch(){
+			let checkbox = document.querySelector("#myonoffswitch");
+			checkbox.addEventListener('change', function() {
+				if (this.checked) {
+					console.log("Checkbox is checked..");
+					viewshedornot = true;
+				} else {
+					console.log("Checkbox is not checked..");
+					viewshedornot = false;
+				}
+				SetOpacityValue("text", viewshed_list, viewshedornot);
+				SetOpacityValue("entity", viewshed_list, viewshedornot);
+			});
+			let checkbox2 = document.querySelector("#myonoffswitch2");
+			checkbox2.addEventListener('change', function() {
+				if (this.checked) {
+					console.log("Checkbox2 is checked..");
+					document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px"><colgroup><col style="width: 151px"><col style="width: 224px"></colgroup><thead><tr><th class="tg-4ypd">Type</th><th class="tg-4ypd">Chair</th></tr></thead><tbody><tr><td class="tg-2fdn">ID</td><td class="tg-2fdn">R01</td></tr><tr><td class="tg-4ypd">PurchaseDate</td><td class="tg-4ypd">30 Apr 2019</td></tr><tr><td class="tg-2fdn">BldgLevel</td><td class="tg-2fdn">2 floor</td></tr><tr><td class="tg-4ypd">Room</td><td class="tg-4ypd">55209-Reading Room</td></tr></tbody></table>';
+				} else {
+					console.log("Checkbox2 is not checked..");
+					document.querySelector("div[name=info]").innerHTML='';
+				}
+			});
+			let checkbox3 = document.querySelector("#myonoffswitch3");
+			checkbox3.addEventListener('change', function() {
+				let target = document.querySelectorAll('a-entity.DB');
+				if (this.checked) {
+					console.log("Checkbox3 is checked..");
+					showDBdataornot = true;
+					for(let j=0; j<target.length; j++){ //重置所有實體之透明度
+						target[j].setAttribute('material', "opacity: 0.5; transparent: true;");
+					}
+				} else {
+					console.log("Checkbox3 is not checked..");
+					showDBdataornot = false;
+					for(let j=0; j<target.length; j++){ //重置所有實體之透明度
+						target[j].setAttribute('material', "opacity: 0; transparent: true;");
+					}
+				}
+			});
+		};
+		
+	//---遮蔽改變AR內容透明度相關功能---
+		//遮蔽判斷
+		function CheckViewshed(p, ep, poly){ //h: 用戶所在高程, eh: 設備所在高程, p: 用戶所在平面位置座標, ep: 設備所在平面位置座標, poly: 判斷in/out的空間地面polygon
+			if (windingNumber(p, poly.lobbyRoom_2F) == 'on' || windingNumber(p, poly.lobbyRoom_2F) == 'in'){ //用戶位置在二樓大廳內部
+				console.log("you're in lobbyRoom_2F");
+				if (windingNumber(ep, poly.lobbyRoom_2F) == 'out'){ //設備位置不在二樓大廳內部
+					viewshed_list = [0]; console.log("outside lobbyRoom_2F");}
+			}else if (windingNumber(p, poly.corridorRoom_2F) == 'on' || windingNumber(p, poly.corridorRoom_2F) == 'in'){ //用戶位置在二樓走廊內部
+				console.log("you're in corridorRoom_2F");
+				if (windingNumber(ep, poly.corridorRoom_2F) == 'out'){ //設備位置不在二樓走廊內部
+					viewshed_list = [0]; console.log("outside corridorRoom_2F");}
+			}else if (windingNumber(p, poly.readingRoom_2F) == 'on' || windingNumber(p, poly.readingRoom_2F) == 'in'){ //用戶位置在圖書室內部
+				console.log("you're in readingRoom_2F");
+				if (windingNumber(ep, poly.readingRoom_2F) == 'out'){ //設備位置不在圖書室內部
+					viewshed_list = [0]; console.log("outside readingRoom_2F");}
+			}else {console.log("I don't know where you are");}
+			if (windingNumber(ep, poly.readingRoom_2F) == 'on' || windingNumber(ep, poly.readingRoom_2F) == 'in'){
+				let target = document.querySelectorAll('a-text');
+				target[0].setAttribute('value', "returned already");
+			}
+		};
+		/**https://www.itread01.com/content/1547955205.html
+		* @description 迴轉數法判斷點是否在多邊形內部
+		* @param {Object} p 待判斷的點，格式：{ x: X座標, y: Y座標 }
+		* @param {Array} poly 多邊形頂點，陣列成員的格式同 p
+		* @return {String} 點 p 和多邊形 poly 的幾何關係
+		*/
+		function windingNumber(p, poly) {
+			var px = p.x,
+			py = p.y,
+			sum = 0;
+
+			for(var i = 0, l = poly.length, j = l - 1; i < l; j = i, i++) {
+				var sx = poly[i].x,
+				  sy = poly[i].y,
+				  tx = poly[j].x,
+				  ty = poly[j].y;
+
+				// 點與多邊形頂點重合或在多邊形的邊上
+				if((sx - px) * (px - tx) >= 0 && (sy - py) * (py - ty) >= 0 && (px - sx) * (ty - sy) === (py - sy) * (tx - sx)) {
+					return 'on'
+				}
+				// 點與相鄰頂點連線的夾角
+				var angle = Math.atan2(sy - py, sx - px) - Math.atan2(ty - py, tx - px);
+
+				// 確保夾角不超出取值範圍（-π 到 π）
+				if(angle >= Math.PI) {
+					angle = angle - Math.PI * 2;
+				} else if(angle <= -Math.PI) {
+					angle = angle + Math.PI * 2;
+				}
+				sum += angle;
+			}
+			// 計算迴轉數並判斷點和多邊形的幾何關係
+			return Math.round(sum / Math.PI) === 0 ? 'out' : 'in'
+		};
+		
+		//遮蔽效果不透明度設定
+		function SetOpacityValue(type, list, trueorfalse){
+			let target = document.querySelectorAll('a-'+type);
+			for(let j=0; j<target.length; j++){ //先重置所有實體之透明度
+				if (type=="text"){
+					target[j].setAttribute('opacity', 1);
+				} else if (type=="entity" && j<target.length-2){
+					target[j].setAttribute('material', "opacity: 1; transparent: true");
+				}
+			}
+			if (trueorfalse == true && list.length != 0){ //當遮蔽開關開啟時，從清單獲得需要設定透明度的實體編號，並改變透明度數值
+				for(let j=0; j<list.length; j++){
+					if (type=="text"){
+						target[list[j]].setAttribute('opacity', 0.3);
+					} else if (type=="entity"){
+						target[list[j]].setAttribute('material', "opacity: 0.3; transparent: true");
+					}
+				}
+			}
+		};
+	</script>
+</body>
+</html>
