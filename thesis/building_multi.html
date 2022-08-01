@@ -27,7 +27,7 @@
 		<a-text value="not bad" color="white" scale="1 1 1" align="center" position="0 28 0" gps-entity-place="latitude: 23.002505; longitude: 120.213164;"></a-text>
 		<a-entity geometry="primitive: sphere; radius: 0.25" material="color: white" gps-entity-place="latitude: 23.002505; longitude: 120.213164;"></a-entity>-->
 		
-		<a-entity class="building" rotation="0 255 0" scale="1 1 1" gltf-model="../assets/test3/test3.gltf"></a-entity>
+		<a-entity class="building" scale="1 1 1" gltf-model="../assets/test3/test3.gltf"></a-entity>
 		<a-text class="tag" scale="1.5 1.5 1.5" align="center" look-at="{x: 0, y: 0, z: 0}" color="white" value="looks great"></a-text>
 		<a-entity class="tag" geometry="primitive: sphere; radius: 0.25" material="color: white"></a-entity>
 		
@@ -83,6 +83,8 @@
 				if (head == undefined){ head = 0; } //無羅盤資料則預設朝向正北
 				let theta = -(head-180-90); //N軸轉向手機x軸向(朝右)的逆時針角度
 				let theta_rad = theta * Math.PI /180; //換成弧度
+				let rotation = head+255;
+				document.querySelector('a-entity.building').setAttribute('rotation','0 '+rotation+' 0'); //確定模型旋轉角
 				SetLocation("entity", theta_rad, position, buildingPosition, "building");
 				SetLocation("text", theta_rad, position, tagPosition, "tag");
 				SetLocation("entity", theta_rad, position, tagPosition, "tag");
