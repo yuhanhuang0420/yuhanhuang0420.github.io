@@ -105,7 +105,7 @@
 				}, 4000);*/
 				let i = 0; //每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
 				let point = {x: 120.2202112, y: 22.9986953}; //用戶即時平面位置座標
-				let position = {coords:{latitude: 22.9986953, longitude: 120.2202112, altitude: userHeight}}; //用戶即時位置座標
+				let position = {coords:{latitude: 22.7336, longitude: 120.221381, altitude: userHeight}}; //用戶即時位置座標
 				let EQUpoint = {x: track[i].x, y: track[i].y}; //設備即時平面位置座標
 				let EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: height}}; //設備即時位置座標
 				SetLocation("text", position, EQUposition, theta_rad, "equipment");SetLocation("entity", position, EQUposition, theta_rad, "equipment");
@@ -115,6 +115,7 @@
 				setInterval(function() {
 					i++;
 					console.log("i: "+i);
+					position = {coords:{latitude: 22.9986953, longitude: 120.2202112, altitude: userHeight}}; //用戶即時位置座標
 					EQUpoint = {x: track[i].x, y: track[i].y}; //設備即時平面位置座標
 					EQUposition = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: height}}; //設備即時位置座標
 					SetLocation("text", position, EQUposition, theta_rad, "equipment");SetLocation("entity", position, EQUposition, theta_rad, "equipment");
@@ -242,7 +243,7 @@
 		
 		//遮蔽效果不透明度設定
 		function SetOpacityValue(type, list, trueorfalse){
-			let target = document.querySelectorAll('a-'+type);
+			let target = document.querySelectorAll('a-'+type+'.equipment');
 			for(let j=0; j<target.length; j++){ //先重置所有實體之透明度
 				if (type=="text"){
 					target[j].setAttribute('opacity', 1);
