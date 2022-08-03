@@ -23,7 +23,7 @@
 		<a-camera rotation-reader></a-camera>
 	</a-scene>
 	
-	<div class="switchtag" style="top:10px;">OCCL</div>
+<!--	<div class="switchtag" style="top:10px;">OCCL</div>
 	<div class="onoffswitch">
 		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
 		<label class="onoffswitch-label" for="myonoffswitch"></label>
@@ -33,7 +33,7 @@
 		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch2" tabindex="0">
 		<label class="onoffswitch-label" for="myonoffswitch2"></label>
 	</div>
-	<div class="switchtag" style="top:75px;">DATA</div>
+-->	<div class="switchtag" style="top:75px;">DATA</div>
 	<div class="onoffswitch" style="top:75px;">
 		<input type="checkbox" class="onoffswitch-checkbox" id="myonoffswitch3" tabindex="0" checked>
 		<label class="onoffswitch-label" for="myonoffswitch3"></label>
@@ -125,9 +125,11 @@
 					DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
 					console.log(DBpointData);
 					DBpointDataLength = DBpointData.length;
-					AddEntity(DBpointDataLength);
+					AddEntity(DBpointDataLength,DBpointData);
 					SetLocation("entity", theta_rad, position, DBpointData, "DB");
+					SetLocation("text", theta_rad, position, DBpointData, "DB");
 					SetLocation("entity", theta_rad, position, pointData, "user");
+					SetLocation("text", theta_rad, position, DBpointData, "user");
 				}, "json");
 				
 				setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
@@ -140,9 +142,11 @@
 						console.log(DBpointData);
 						let addLength = DBpointData.length - DBpointDataLength; //增加更新後多的entity數量
 						DBpointDataLength = DBpointData.length; //更新DB資料長度
-						AddEntity(addLength);
+						AddEntity(addLength,DBpointData);
 						SetLocation("entity", theta_rad, position, DBpointData, "DB");
+						SetLocation("text", theta_rad, position, DBpointData, "DB");
 						SetLocation("entity", theta_rad, position, pointData, "user");
+						SetLocation("text", theta_rad, position, DBpointData, "user");
 					}, "json");
 				}, 10000); 
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
@@ -174,8 +178,8 @@
 			}
 		};
 		
-		//新增與DB資料筆數相符數量的entity
-		function AddEntity(length){
+		//新增與DB資料筆數相符數量的entity, text(包含文字內容)
+		function AddEntity(length, data){ //length:新增的數量, data:新增的內容
 			let opacity = 0.5; //(預設開啟)
 			if (showDBdataornot == false){ opacity = 0; };
 			for(let j=0; j<length; j++){
@@ -186,6 +190,17 @@
 				let reference = document.querySelectorAll('a-entity');
 				let referenceNode = reference[reference.length-pointData.length-2];
 				document.querySelector('a-scene').insertBefore(newEntity, referenceNode); //確保entity新增在AR.js環境設定entity之前
+				
+				let newText = document.createElement('a-text');
+				newText.setAttribute('class','DB');
+				newText.setAttribute('align', 'center');
+				newText.setAttribute('scale', '1.5 1.5 1.5');
+				newText.setAttribute('color', 'white');
+				newText.setAttribute('opacity', opacity);
+				newText.setAttribute('value', data[j].info);
+				console.log("show: " + data[j].info);
+				
+				document.querySelector('a-scene').insertBefore(newText, referenceNode); //確保新增在AR.js環境設定entity之前
 			}
 		}
 		
@@ -195,14 +210,15 @@
 		
 		//新增資料點按鈕
 		function AddPoint(){
+			let button = document.querySelector("#addpointbutton");
 			let inputdiv = document.querySelector("#inputinfo");
 			let inputdata;
-			let button = document.querySelector("#addpointbutton");
 			button.addEventListener('click', function() {
 				inputdiv.setAttribute('style', 'display; background:#ffffff; opacity: 0.75; width: 100%; position: absolute; bottom: 0px; left: 0px; z-index: 15; padding: 30px 5px;');
 				let newEntity = document.createElement('a-entity');
 				newEntity.setAttribute('class','user');
 				newEntity.setAttribute('geometry','primitive: sphere; radius: 0.25');
+				newEntity.setAttribute('material','color: yellow;');
 				document.querySelector('a-scene').appendChild(newEntity); //用戶新增的entity固定放在最後(以AR.js環境設定entity和DB的entity做分隔)
 				pointData.push(currentPoint); //儲存至用戶本人這次開啟應用後新增的資料陣列
 				inputdata = currentPoint; //將目前座標儲存至提交資料
@@ -210,6 +226,14 @@
 			let submitbutton = document.querySelector("#submit");
 			submitbutton.addEventListener('click', function() {
 				inputdata.info = document.querySelector('input[type="text"]').value;
+				
+				let newText = document.createElement('a-text');
+				newText.setAttribute('class','user');
+				newText.setAttribute('align', 'center');
+				newText.setAttribute('scale', '1.5 1.5 1.5');
+				newText.setAttribute('color', 'yellow');
+				newText.setAttribute('value', inputdata.info);
+				
 				document.querySelector('input[type="text"]').value = ''; //清除填寫內容
 				inputdiv.setAttribute('style', 'display:none;'); //關閉填寫視窗
 				$.post(addPointDataAPI, { newPointData: JSON.stringify(inputdata) },function(data){ //提交資料至後端
@@ -220,7 +244,7 @@
 		
 		//開關設定
 		function GetSwitch(){
-			let checkbox = document.querySelector("#myonoffswitch");
+			/*let checkbox = document.querySelector("#myonoffswitch");
 			checkbox.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox is checked..");
@@ -241,21 +265,24 @@
 					console.log("Checkbox2 is not checked..");
 					document.querySelector("div[name=info]").innerHTML='';
 				}
-			});
+			});*/
 			let checkbox3 = document.querySelector("#myonoffswitch3");
 			checkbox3.addEventListener('change', function() {
 				let target = document.querySelectorAll('a-entity.DB');
+				let text = document.querySelectorAll('a-text.DB');
 				if (this.checked) {
 					console.log("Checkbox3 is checked..");
 					showDBdataornot = true;
 					for(let j=0; j<target.length; j++){ //重置所有實體之透明度
 						target[j].setAttribute('material', "opacity: 0.5; transparent: true;");
+						text[j].setAttribute('opacity', "0.5");
 					}
 				} else {
 					console.log("Checkbox3 is not checked..");
 					showDBdataornot = false;
 					for(let j=0; j<target.length; j++){ //重置所有實體之透明度
 						target[j].setAttribute('material', "opacity: 0; transparent: true;");
+						text[j].setAttribute('opacity', "0");
 					}
 				}
 			});
