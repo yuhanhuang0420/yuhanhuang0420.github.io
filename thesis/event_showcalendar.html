@@ -45,10 +45,7 @@
 						<p class="date-day">MON</p>\
 					</div>\
 					<div class="events">\
-						<div class="event start-11 end-12">\
-							<p class="title">演講</p>\
-							<p class="time">11AM - 12PM</p>\
-						</div>\
+						
 					</div>\
 				</div>\
 				<div class="day tues">\
@@ -57,10 +54,7 @@
 						<p class="date-day">TUE</p>\
 					</div>\
 					<div class="events">\
-						<div class="event start-1 end-4 ent-law">\
-							<p class="title">測驗</p>\
-							<p class="time">1PM - 4PM</p>\
-						</div>\
+						
 					</div>\
 				</div>\
 				<div class="day wed">\
@@ -69,10 +63,7 @@
 						<p class="date-day">WED</p>\
 					</div>\
 					<div class="events">\
-						<div class="event start-2 end-5">\
-							<p class="title">營隊活動</p>\
-							<p class="time">2PM - 5PM</p>\
-						</div>\
+						
 					</div>\
 				</div>\
 				<div class="day thurs">\
@@ -93,20 +84,27 @@
 				</div>\
 			</div>\
 		</div>';
+		
 		AFRAME.registerComponent('markerhandler', {
 			init: function () {
 				this.el.addEventListener('markerFound', () => {
-					if (this.el.id=="55209"){
+					if (this.el.id=="55250"){
 						document.querySelector("div[name=info]").innerHTML = calendar;
-					}else if (this.el.id=="55210"){
+						document.querySelector(".mon .events").innerHTML = '<div class="event start-9 end-11"><p class="title">測試</p><p class="time">9AM - 11AM</p></div><div class="event start-2 end-5 securities"><p class="title">課堂1</p><p class="time">2PM - 5PM</p></div>';
+						document.querySelector(".tues .events").innerHTML = '<div class="event start-10 end-12 corp-fi"><p class="title">演講</p><p class="time">10AM - 12PM</p></div><div class="event start-1 end-4 ent-law"><p class="title">實習課</p><p class="time">1PM - 4PM</p></div>';
+						document.querySelector(".wed .events").innerHTML = '<div class="event start-11 end-12 writing"><p class="title">課堂2</p><p class="time">11AM - 12PM</p></div><div class="event start-2 end-5 securities"><p class="title">課堂1</p>\<p class="time">2PM - 5PM</p></div>';
+						document.querySelector(".thurs .events").innerHTML = '<div class="event start-10 end-12 corp-fi"><p class="title">演講</p><p class="time">10AM - 12PM</p></div><div class="event start-1 end-4 ent-law"><p class="title">實習課</p><p class="time">1PM - 4PM</p></div>';
+					}else if (this.el.id=="55209"){
 						document.querySelector("div[name=info]").innerHTML = calendar;
-						document.querySelector(".mon .start-9 .title").innerHTML = '55210測試';
+						document.querySelector(".mon .events").innerHTML = '<div class="event start-11 end-12"><p class="title">演講</p><p class="time">11AM - 12PM</p></div>';
+						document.querySelector(".tues .events").innerHTML = '<div class="event start-1 end-4 ent-law"><p class="title">測驗</p><p class="time">1PM - 4PM</p></div>';
+						document.querySelector(".wed .events").innerHTML = '<div class="event start-2 end-5"><p class="title">營隊活動</p><p class="time">2PM - 5PM</p></div>';
 					};
-					document.querySelector(".mon .date-num").innerHTML = months[monday.getMonth()]+' '+monday.getDate();
-					document.querySelector(".tues .date-num").innerHTML = months[tuesday.getMonth()]+' '+tuesday.getDate();
-					document.querySelector(".wed .date-num").innerHTML = months[wednesday.getMonth()]+' '+wednesday.getDate();
-					document.querySelector(".thurs .date-num").innerHTML = months[thursday.getMonth()]+' '+thursday.getDate();
-					document.querySelector(".fri .date-num").innerHTML = months[friday.getMonth()]+' '+friday.getDate();
+					//document.querySelector(".mon .date-num").innerHTML = months[monday.getMonth()]+' '+monday.getDate();
+					//document.querySelector(".tues .date-num").innerHTML = months[tuesday.getMonth()]+' '+tuesday.getDate();
+					//document.querySelector(".wed .date-num").innerHTML = months[wednesday.getMonth()]+' '+wednesday.getDate();
+					//document.querySelector(".thurs .date-num").innerHTML = months[thursday.getMonth()]+' '+thursday.getDate();
+					//document.querySelector(".fri .date-num").innerHTML = months[friday.getMonth()]+' '+friday.getDate();
 					let event = document.querySelectorAll(".event");
 					for (let i=0; i<event.length; i++){
 						event[i].addEventListener('click', function(ee) {
@@ -130,9 +128,9 @@
 			<a-text value="Reading room" scale="0.8 0.8 0.8" align="center" position="0 0.1 0" look-at="[camera]"></a-text>
 			<a-text value="(No activity now)" scale="0.5 0.5 0.5" align="center" position="0 0.1 0.5" look-at="[camera]" color="green"></a-text>
 		</a-marker>
-		<a-marker markerhandler type="hiro" id="55210">
+		<a-marker markerhandler type="hiro" id="55250">
 			<a-entity geometry="primitive: plane" position="0 -0.1 0" look-at="[camera]" material="color: indianred; opacity: 0.5; transparent: true;"></a-entity>
-			<a-text value="55210 Classroom" scale="0.8 0.8 0.8" align="center" position="0 0.1 0" look-at="[camera]"></a-text>
+			<a-text value="55250 Classroom" scale="0.8 0.8 0.8" align="center" position="0 0.1 0" look-at="[camera]"></a-text>
 			<a-text value="(There is an event: 09-11am)" scale="0.5 0.5 0.5" align="center" position="0 0.1 0.5" look-at="[camera]" color="red"></a-text>
 		</a-marker>
 		<a-entity camera></a-entity>
