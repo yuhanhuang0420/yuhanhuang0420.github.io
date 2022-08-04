@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>equipment: space list</title>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+	<link rel="stylesheet" href="../css/onoffswitch.css">
+	<style type="text/css">
+		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace;}
+		.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
+		.tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+		  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+		.tg th{background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+		  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+		.tg .tg-2fdn{border-color:#9b9b9b;text-align:left;vertical-align:top}
+		.tg .tg-4ypd{background-color:#efefef;border-color:#9b9b9b;text-align:left;vertical-align:top}
+	</style>
+</head>
+<!--latitude: 23.0024088; longitude: 120.2136363;-->
+<body style="margin: 0; overflow: hidden;">
+	<a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+		<a-entity camera></a-entity>
+	</a-scene>
+	
+	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; height: 180px; overflow:auto; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>
+	<script type="module">
+		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
+        	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
+		
+		//遮蔽效果相關變數
+		let viewshedornot = true; //遮蔽效果是否開啟(預設開啟)
+		let viewshed_list = []; //存放需考慮遮蔽的實體編號
+		let viewshed_area = {"lobbyRoom_2F":[{"x": 120.219984,"y": 22.99864},{"x": 120.219997,"y": 22.998753},{"x": 120.220034,"y": 22.99875},
+				      {"x": 120.22004,"y": 22.998817},{"x": 120.220058,"y": 22.998816},{"x": 120.220042,"y": 22.998636}], //二樓大廳平面範圍
+				     "corridorRoom_2F":[{"x":120.220055,"y":22.998749},{"x":120.220054,"y":22.998732},{"x":120.220217,"y":22.998718},{"x":120.220219,"y":22.998737}],
+				     "readingRoom_2F":[{"x": 120.2202833, "y": 22.9986425},{"x": 120.2201943, "y": 22.9986494},{"x": 120.2202003, "y": 22.9987189},
+				     {"x": 120.2202176, "y": 22.9987188},{"x": 120.2202188, "y": 22.9987374},{"x": 120.2202907, "y": 22.9987312}], //圖書室平面範圍
+				     "classroom55250_2F":[{"x": 120.220054, "y": 22.99866},{"x": 120.22019, "y": 22.998649},{"x": 120.220196, "y": 22.998719},{"x": 120.220054, "y": 22.998732}]};
+		
+		//測試用軌跡
+		let track = [{"x":120.220005,"y":22.998719,"z":31.634},{"x":120.220023,"y":22.998729,"z":31.634},{"x":120.220048,"y":22.998739,"z":31.634},{"x":120.220072,"y":22.99874,"z":31.634},{"x":120.220084,"y":22.998739,"z":31.634},{"x":120.220101,"y":22.998737,"z":31.634},{"x":120.220116,"y":22.998736,"z":31.634},{"x":120.220148,"y":22.998735,"z":31.634},{"x":120.220161,"y":22.998732,"z":31.634},{"x":120.220197,"y":22.99873,"z":31.634},{"x":120.220207,"y":22.998722,"z":31.634},{"x":120.220209,"y":22.998703,"z":31.634},{"x":120.220208,"y":22.998689,"z":31.634},{"x":120.220213,"y":22.998667,"z":31.634}];
+		
+		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
+		const MyApiURL = "https://c54d-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		jQuery(document).ready(function(){
+			window.addEventListener('deviceorientation', function(event) { //get azimuth
+				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
+				if (head == undefined){ head = 0; } //無羅盤資料則預設朝向正北
+				let theta = -(head-180-90); //N軸轉向手機x軸向(朝右)的逆時針角度
+				let theta_rad = theta * Math.PI /180; //換成弧度
+				
+				/*$.getJSON( MyApiURL, function( data ) {
+					let point = {x: data.x, y: data.y}; //用戶即時平面位置座標
+					CheckWithin(point, viewshed_area);
+				});
+				setInterval(function() {
+					$.getJSON( MyApiURL, function( data ) {
+						let point = {x: data.x, y: data.y}; //用戶即時平面位置座標
+						CheckWithin(point, viewshed_area);
+					});
+				}, 4000);*/
+				let i = 0; //每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
+				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
+				CheckWithin(point, viewshed_area);
+				setInterval(function() {
+					i++;console.log("i: "+i);
+					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標
+					CheckWithin(point, viewshed_area);
+				}, 5000);
+			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
+		});
+		
+		//within判斷
+		function CheckWithin(p, poly){ //p: 用戶所在平面位置座標, poly: 判斷in/out的空間地面polygon
+			if (windingNumber(p, poly.readingRoom_2F) == 'on' || windingNumber(p, poly.readingRoom_2F) == 'in'){
+				document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px; height: 200px; overflow:auto;"><colgroup><col style="width: 112px"><col style="width: 112px"><col style="width: 150px"></colgroup><thead><tr><th class="tg-4ypd" style="font-weight:bold">Type</th><th class="tg-4ypd" style="font-weight:bold">ID</th><th class="tg-4ypd" style="font-weight:bold">PurchaseDate</th></tr></thead><tbody><tr><td class="tg-2fdn">Projector</td><td class="tg-2fdn">55209P01</td><td class="tg-2fdn">2020.06.02</td></tr><tr><td class="tg-4ypd">Light tube</td><td class="tg-4ypd">55209L01</td><td class="tg-4ypd">2019.05.18</td></tr><tr><td class="tg-2fdn">Light tube</td><td class="tg-2fdn">55209L02</td><td class="tg-2fdn">2019.05.18</td></tr><tr><td class="tg-4ypd">Light tube</td><td class="tg-4ypd">55209L03</td><td class="tg-4ypd">2019.12.12</td></tr><tr><td class="tg-2fdn">Light tube</td><td class="tg-2fdn">55209L04</td><td class="tg-2fdn">2019.12.12</td></tr></tbody></table>';
+			}else if (windingNumber(p, poly.classroom55250_2F) == 'on' || windingNumber(p, poly.classroom55250_2F) == 'in'){
+				document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px; height: 200px; overflow:auto;"><colgroup><col style="width: 112px"><col style="width: 112px"><col style="width: 150px"></colgroup><thead><tr><th class="tg-4ypd" style="font-weight:bold">Type</th><th class="tg-4ypd" style="font-weight:bold">ID</th><th class="tg-4ypd" style="font-weight:bold">PurchaseDate</th></tr></thead><tbody><tr><td class="tg-2fdn">Projector</td><td class="tg-2fdn">55250P01</td><td class="tg-2fdn">2018.12.25</td></tr><tr><td class="tg-4ypd">Light tube</td><td class="tg-4ypd">55250L01</td><td class="tg-4ypd">2020.08.26</td></tr><tr><td class="tg-2fdn">Light tube</td><td class="tg-2fdn">55250L02</td><td class="tg-2fdn">2020.08.26</td></tr><tr><td class="tg-4ypd">Light tube</td><td class="tg-4ypd">55250L03</td><td class="tg-4ypd">2019.12.12</td></tr><tr><td class="tg-2fdn">Light tube</td><td class="tg-2fdn">55250L04</td><td class="tg-2fdn">2019.12.12</td></tr><tr><td class="tg-4ypd">Light tube</td><td class="tg-4ypd">55250L05</td><td class="tg-4ypd">2020.05.02</td></tr></tbody></table>';
+			}else{document.querySelector("div[name=info]").innerHTML='';}
+		};
+		/**https://www.itread01.com/content/1547955205.html
+		* @description 迴轉數法判斷點是否在多邊形內部
+		* @param {Object} p 待判斷的點，格式：{ x: X座標, y: Y座標 }
+		* @param {Array} poly 多邊形頂點，陣列成員的格式同 p
+		* @return {String} 點 p 和多邊形 poly 的幾何關係
+		*/
+		function windingNumber(p, poly) {
+			var px = p.x,
+			py = p.y,
+			sum = 0;
+
+			for(var i = 0, l = poly.length, j = l - 1; i < l; j = i, i++) {
+				var sx = poly[i].x,
+				  sy = poly[i].y,
+				  tx = poly[j].x,
+				  ty = poly[j].y;
+
+				// 點與多邊形頂點重合或在多邊形的邊上
+				if((sx - px) * (px - tx) >= 0 && (sy - py) * (py - ty) >= 0 && (px - sx) * (ty - sy) === (py - sy) * (tx - sx)) {
+					return 'on'
+				}
+				// 點與相鄰頂點連線的夾角
+				var angle = Math.atan2(sy - py, sx - px) - Math.atan2(ty - py, tx - px);
+
+				// 確保夾角不超出取值範圍（-π 到 π）
+				if(angle >= Math.PI) {
+					angle = angle - Math.PI * 2;
+				} else if(angle <= -Math.PI) {
+					angle = angle + Math.PI * 2;
+				}
+				sum += angle;
+			}
+			// 計算迴轉數並判斷點和多邊形的幾何關係
+			return Math.round(sum / Math.PI) === 0 ? 'out' : 'in'
+		};
+	</script>
+</body>
+</html>
