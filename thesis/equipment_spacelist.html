@@ -26,7 +26,7 @@
 		<a-entity camera></a-entity>
 	</a-scene>
 	
-	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; height: 180px; overflow:auto; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>
+	<div name="info"></div>
 	<script type="module">
 		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
         	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
@@ -77,10 +77,14 @@
 		//within判斷
 		function CheckWithin(p, poly){ //p: 用戶所在平面位置座標, poly: 判斷in/out的空間地面polygon
 			if (windingNumber(p, poly.readingRoom_2F) == 'on' || windingNumber(p, poly.readingRoom_2F) == 'in'){
+				document.querySelector("div[name=info]").setAttribute('style', 'background:#ffffff; opacity: 0.75; width: 100%; height: 180px; overflow:auto; position: absolute; bottom: 0px; right: 0px; z-index: 10;');
 				document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px; height: 200px; overflow:auto;"><colgroup><col style="width: 112px"><col style="width: 112px"><col style="width: 150px"></colgroup><thead><tr><th class="tg-4ypd" style="font-weight:bold">Type</th><th class="tg-4ypd" style="font-weight:bold">ID</th><th class="tg-4ypd" style="font-weight:bold">PurchaseDate</th></tr></thead><tbody><tr><td class="tg-2fdn">Projector</td><td class="tg-2fdn">55209P01</td><td class="tg-2fdn">2020.06.02</td></tr><tr><td class="tg-4ypd">Light tube</td><td class="tg-4ypd">55209L01</td><td class="tg-4ypd">2019.05.18</td></tr><tr><td class="tg-2fdn">Light tube</td><td class="tg-2fdn">55209L02</td><td class="tg-2fdn">2019.05.18</td></tr><tr><td class="tg-4ypd">Light tube</td><td class="tg-4ypd">55209L03</td><td class="tg-4ypd">2019.12.12</td></tr><tr><td class="tg-2fdn">Light tube</td><td class="tg-2fdn">55209L04</td><td class="tg-2fdn">2019.12.12</td></tr></tbody></table>';
 			}else if (windingNumber(p, poly.classroom55250_2F) == 'on' || windingNumber(p, poly.classroom55250_2F) == 'in'){
+				document.querySelector("div[name=info]").setAttribute('style', 'background:#ffffff; opacity: 0.75; width: 100%; height: 180px; overflow:auto; position: absolute; bottom: 0px; right: 0px; z-index: 10;');
 				document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px; height: 200px; overflow:auto;"><colgroup><col style="width: 112px"><col style="width: 112px"><col style="width: 150px"></colgroup><thead><tr><th class="tg-4ypd" style="font-weight:bold">Type</th><th class="tg-4ypd" style="font-weight:bold">ID</th><th class="tg-4ypd" style="font-weight:bold">PurchaseDate</th></tr></thead><tbody><tr><td class="tg-2fdn">Projector</td><td class="tg-2fdn">55250P01</td><td class="tg-2fdn">2018.12.25</td></tr><tr><td class="tg-4ypd">Light tube</td><td class="tg-4ypd">55250L01</td><td class="tg-4ypd">2020.08.26</td></tr><tr><td class="tg-2fdn">Light tube</td><td class="tg-2fdn">55250L02</td><td class="tg-2fdn">2020.08.26</td></tr><tr><td class="tg-4ypd">Light tube</td><td class="tg-4ypd">55250L03</td><td class="tg-4ypd">2019.12.12</td></tr><tr><td class="tg-2fdn">Light tube</td><td class="tg-2fdn">55250L04</td><td class="tg-2fdn">2019.12.12</td></tr><tr><td class="tg-4ypd">Light tube</td><td class="tg-4ypd">55250L05</td><td class="tg-4ypd">2020.05.02</td></tr></tbody></table>';
-			}else{document.querySelector("div[name=info]").innerHTML='';}
+			}else{
+				document.querySelector("div[name=info]").innerHTML='';
+				}
 		};
 		/**https://www.itread01.com/content/1547955205.html
 		* @description 迴轉數法判斷點是否在多邊形內部
