@@ -83,7 +83,7 @@
 		
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入position物件)
-		const MyApiURL = "https://d588-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		const MyApiURL = "https://3bb7-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
 		jQuery(document).ready(function(){
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
 				//處理方位角
@@ -93,34 +93,34 @@
 				let theta_rad = theta * Math.PI /180; //換成弧度
 				let entityAll = document.querySelectorAll('a-entity.table');
 				for (let i=0; i<entityAll.length; i++){
-					entityAll[i].setAttribute('rotation','0 '+head+' 0'); //確定路線模型旋轉角
+					entityAll[i].setAttribute('rotation','0 '+head+' 0'); //確定會議桌模型旋轉角
 				};
 				
 				//處理位置之計算
-				/*$.getJSON( MyApiURL, function( data ) {
+				$.getJSON( MyApiURL, function( data ) {
 					let height = 32.934;//data.z + 26.728;
 					let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 					let point = {x: data.x, y: data.y};
 					//console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
 					///let position = {coords:{longitude: 120.2201977, latitude: 22.9987337, altitude: 31.634}};
 					///let point = {x: 120.2201977, y: 22.9987337};
-					SetLocation("entity", position);
+					SetLocation("entity", theta_rad, position, tablePosition, "table");
 					CheckViewshed(point, viewshed_area);
-					SetOpacityValue("entity", viewshed_list, viewshedornot);
+					SetOpacityValue("entity", viewshed_list, viewshedornot); 
 				});
 				setInterval(function() {
 					$.getJSON( MyApiURL, function( data ) {
-						let height = 31.634;
+						let height = 32.934;
 						let position = {coords:{latitude: data.y, longitude: data.x, altitude: height}}; //用戶即時位置座標
 						let point = {x: data.x, y: data.y};
 						//console.log("x: "+ data.x +"y: "+ data.y +"z: "+ height);
-						SetLocation("entity", position);
+						SetLocation("entity", theta_rad, position, tablePosition, "table");
 						CheckViewshed(point, viewshed_area);
-						SetOpacityValue("entity", viewshed_list, viewshedornot);
+						SetOpacityValue("entity", viewshed_list, viewshedornot); 
 					});
-				}, 2000);*/
+				}, 2000);
 				//每秒讀取軌跡中下一筆資料，並且重設模型位置 (測試時才會用到)
-				let i = 0;
+				/*let i = 0;
 				let trackLon = track[i].x;
 				let trackLat = track[i].y;
 				let trackAlt = 32.934;
@@ -141,7 +141,7 @@
 					SetLocation("entity", theta_rad, position, tablePosition, "table");
 					CheckViewshed(point, viewshed_area);
 					SetOpacityValue("entity", viewshed_list, viewshedornot); 
-				}, 2000);
+				}, 2000);*/
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
 		GetSwitch();
