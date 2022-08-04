@@ -13,7 +13,6 @@
 <body style="margin: 0px; overflow: hidden;">
 	<a-scene embedded vr-mode-ui="enabled: false" arjs="sourceType: webcam; debugUIEnabled: false;">	
 		<a-entity class="pipeline" gltf-model="../assets/pipeline_rotate175.gltf"></a-entity>
-		<a-entity class="route" gltf-model="../assets/route_new.gltf"></a-entity>
 		<!--1.一樓大門: gps-entity-place="latitude: 22.9986416; longitude: 120.2199345;" position="0 26.728 0"-->
 		<a-text class="entrance" value="gate" scale="1 1 1" align="center"></a-text>
 		<a-entity class="entrance" geometry="primitive: sphere; radius: 0.25" color="white"></a-entity>
@@ -48,7 +47,6 @@
 		
 		//基站位置
 		let pipelineLocation = [{"x": 120.220043,"y": 22.998654,"z": 27.11}];
-		let routeLocation = [{"x": 120.219996,"y": 22.998647,"z": 26.728}];
 		let anchorInfo = [{"hexAnchorId": "F123","position": {"x": 120.22019110793998,"y": 22.998745182510728,"z": 7.156}},
 				  {"hexAnchorId": "F119","position": {"x": 120.22019691311002,"y": 22.998819683270728,"z": 8.04}},
 				  {"hexAnchorId": "140A","position": {"x": 120.22028303652999,"y": 22.998657754680732,"z": 7.622}},
@@ -91,7 +89,6 @@
 				let theta_rad = theta * Math.PI /180; //換成弧度
 				let rotation = head; console.log(rotation);
 				document.querySelector('a-entity.pipeline').setAttribute('rotation','0 '+rotation+' 0'); //確定管線模型旋轉角
-				document.querySelector('a-entity.route').setAttribute('rotation','0 '+rotation+' 0'); //確定路線模型旋轉角
 				//let height = 31.634;
 				//let userHeight = height + 1;//1.3;
 				/*$.getJSON( TrackAPI, function (data){
@@ -99,7 +96,6 @@
 					let point = {x: data.x, y: data.y}; //用戶即時平面位置座標(判斷within使用)
 					let position = {coords:{longitude: data.x, latitude: data.y, altitude: userHeight}}; //用戶即時位置座標
 					SetLocation("entity", theta_rad, position, pipelineLocation, "pipeline");
-					SetLocation("entity", theta_rad, position, routeLocation, "route");
 					SetLocation("entity", theta_rad, position, anchorPosition, "anchor");
 					SetLocation("text", theta_rad, position, anchorPosition, "anchor");
 					SetLocation("text", theta_rad, position, anchorPosition, "anchorID");
@@ -113,7 +109,6 @@
 						let point = {x: data.x, y: data.y}; //用戶即時平面位置座標(判斷within使用)
 						let position = {coords:{longitude: data.x, latitude: data.y, altitude: userHeight}}; //用戶即時位置座標
 						SetLocation("entity", theta_rad, position, pipelineLocation, "pipeline");
-						SetLocation("entity", theta_rad, position, routeLocation, "route");
 						SetLocation("entity", theta_rad, position, anchorPosition, "anchor");
 						SetLocation("text", theta_rad, position, anchorPosition, "anchor");
 						SetLocation("text", theta_rad, position, anchorPosition, "anchorID");
@@ -126,19 +121,17 @@
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 				SetLocation("entity", theta_rad, position, pipelineLocation, "pipeline");
-				SetLocation("entity", theta_rad, position, routeLocation, "route");
 				SetLocation("entity", theta_rad, position, anchorPosition, "anchor");
 				SetLocation("text", theta_rad, position, anchorPosition, "anchor");
 				SetLocation("text", theta_rad, position, anchorPosition, "anchorID");
 				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
-				ShowDistance(theta_rad, position, anchorPosition);*/
-				/*setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
+				ShowDistance(theta_rad, position, anchorPosition);
+				setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
 					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
 					SetLocation("entity", theta_rad, position, pipelineLocation, "pipeline");
-					SetLocation("entity", theta_rad, position, routeLocation, "route");
 					SetLocation("entity", theta_rad, position, anchorPosition, "anchor");
 					SetLocation("text", theta_rad, position, anchorPosition, "anchor");
 					SetLocation("text", theta_rad, position, anchorPosition, "anchorID");
