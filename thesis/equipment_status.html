@@ -119,7 +119,7 @@
 				}, 1500);*/
 				let i = 0; //(測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
-				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
+				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
 				SetLocation("entity", theta_rad, position, pipelineLocation, "pipeline");
 				SetLocation("entity", theta_rad, position, anchorPosition, "anchor");
 				SetLocation("text", theta_rad, position, anchorPosition, "anchor");
@@ -130,7 +130,7 @@
 				setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
 					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
-					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: userHeight}}; //用戶即時位置座標
+					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
 					SetLocation("entity", theta_rad, position, pipelineLocation, "pipeline");
 					SetLocation("entity", theta_rad, position, anchorPosition, "anchor");
 					SetLocation("text", theta_rad, position, anchorPosition, "anchor");
