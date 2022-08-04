@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>equipment: list</title>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+	<link rel="stylesheet" href="../css/onoffswitch.css">
+	<style type="text/css">
+		.switchtag{color:#ffffff; z-index:10; position:absolute; right:60px; font-family:monospace;}
+		.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
+		.tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+		  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+		.tg th{background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+		  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+		.tg .tg-2fdn{border-color:#9b9b9b;text-align:left;vertical-align:top}
+		.tg .tg-4ypd{background-color:#efefef;border-color:#9b9b9b;text-align:left;vertical-align:top}
+	</style>
+</head>
+<body style="margin: 0; overflow: hidden;">
+	<a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+		<a-entity camera></a-entity>
+	</a-scene>
+	
+	<div name="info" style="background:#ffffff; opacity: 0.75; width: 100%; height: 180px; overflow:auto; position: absolute; bottom: 0px; right: 0px; z-index: 10;"></div>
+	<script>
+		//新增列表(內容暫為靜態之模擬，但可動態調整)
+		document.querySelector("div[name=info]").innerHTML='<table class="tg" style="undefined;table-layout: fixed; width: 375px; height: 200px; overflow:auto;"><colgroup><col style="width: 112px"><col style="width: 112px"><col style="width: 150px"></colgroup><thead><tr><th class="tg-4ypd" style="font-weight:bold">Type</th><th class="tg-4ypd" style="font-weight:bold">ID</th><th class="tg-4ypd" style="font-weight:bold">PurchaseDate</th></tr></thead><tbody><tr><td class="tg-2fdn">Projector</td><td class="tg-2fdn">55209P01</td><td class="tg-2fdn">2020.06.02</td></tr><tr><td class="tg-4ypd">Projector</td><td class="tg-4ypd">55225P01</td><td class="tg-4ypd">2018.12.25</td></tr><tr><td class="tg-2fdn">Light tube</td><td class="tg-2fdn">55209L01</td><td class="tg-2fdn">2019.05.18</td></tr><tr><td class="tg-4ypd">Light tube</td><td class="tg-4ypd">55250L01</td><td class="tg-4ypd">2020.08.26</td></tr><tr><td class="tg-2fdn">Light tube</td><td class="tg-2fdn">55209L02</td><td class="tg-2fdn">2019.05.18</td></tr><tr><td class="tg-4ypd">Light tube</td><td class="tg-4ypd">55250L02</td><td class="tg-4ypd">2020.08.26</td></tr></tbody></table>';
+	</script>
+</body>
+</html>
