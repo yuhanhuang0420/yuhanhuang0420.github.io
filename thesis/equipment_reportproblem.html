@@ -88,7 +88,7 @@
 					let userHeight = data.z + 26.728;
 					let point = {x: data.x, y: data.y}; //用戶即時平面位置座標
 					let position = {coords:{longitude: data.x, latitude: data.y, altitude: userHeight}}; //用戶即時位置座標
-					currentPoint = {x: data.x, y: data.y, z: data.z}; //更新目前位置至全域變數
+					currentPoint = {x: data.x, y: data.y, z: userHeight}; //更新目前位置至全域變數
 					$.post(addPointDataAPI, { newPointData: '' },function(data2){
 						DBpointData = JSON.parse("[" + data2.slice(0, -3) + "]"); //獲取開啟應用當下資料庫中點位資料
 						console.log(DBpointData);
@@ -105,7 +105,7 @@
 						let userHeight = data.z + 26.728;
 						let point = {x: data.x, y: data.y}; //用戶即時平面位置座標
 						let position = {coords:{longitude: data.x, latitude: data.y, altitude: userHeight}}; //用戶即時位置座標
-						currentPoint = {x: data.x, y: data.y, z: data.z}; //更新目前位置至全域變數
+						currentPoint = {x: data.x, y: data.y, z: userHeight}; //更新目前位置至全域變數
 						$.post(addPointDataAPI, { newPointData: '' },function(data){
 							DBpointData = JSON.parse("[" + data.slice(0, -3) + "]"); //獲取資料庫中最新的點位資料
 							console.log(DBpointData);
