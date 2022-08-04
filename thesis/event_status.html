@@ -47,7 +47,7 @@
 		
 	//---全域變數---
 		//API網址 (80 port: ngrok http 80)
-		const TrackAPI = "https://0795-140-116-47-130.ngrok.io/gipsense/TrackAPI.php";
+		const TrackAPI = "https://3bb7-140-116-47-130.ngrok.io/gipsense/TrackAPI.php";
 		
 		//AR內容位置
 		let targetEntrance = ''; //記錄導引目標空間入口座標(導引箭號用)
@@ -73,7 +73,7 @@
 				//處理位置之計算
 				//let height = 31.634; //假設固定於2樓移動
 				//let userHeight = height + 1.3;
-				/*$.getJSON( TrackAPI, function (data){
+				$.getJSON( TrackAPI, function (data){
 					let userHeight = data.z + 26.728;
 					let point = {x: data.x, y: data.y}; //用戶即時平面位置座標(判斷within使用)
 					let position = {coords:{longitude: data.x, latitude: data.y, altitude: userHeight}}; //用戶即時位置座標
@@ -88,8 +88,8 @@
 						SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 						SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
 					});
-				}, 1500);*/
-				let i = 0; //(測試時才會用到)
+				}, 1500);
+				/*let i = 0; //(測試時才會用到)
 				let point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
 				let position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
 				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
@@ -100,7 +100,7 @@
 					position = {coords:{longitude: track[i].x, latitude: track[i].y, altitude: track[i].z}}; //用戶即時位置座標
 					SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 					SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
-				}, 10000);
+				}, 10000);*/
 			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
 		});
 				
