@@ -41,16 +41,6 @@
 		<a-camera rotation-reader></a-camera>
 	</a-scene>
 	
-	<select id="list" style="position: absolute; top: 0px; left: 0px; z-index: 10;">
-		<option class="drop-down">--Please select--</option>
-		<option class="drop-down">(1F)Gate</option>
-		<option class="drop-down">(1F)Jin-Way Lecture Theater</option>
-		<option class="drop-down">(2F)55250-Classroom</option>
-		<option class="drop-down">(2F)55208-Computer Classroom</option>
-		<option class="drop-down">(2F)55209-Reading Room</option>
-		<option class="drop-down">(2F)55210-Laboratory</option>
-	</select>
-	
 	<script type="module">
 		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
         	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
@@ -71,12 +61,8 @@
 	//---主要功能: 取得姿態、位置等參數控制AR內容渲染狀況---
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
 		jQuery(document).ready(function(){
-			//開始監聽下拉式選單選中之導引目標空間入口，一旦選單改變事件發生，觸發設定targetEntranceID、呼叫後端算路線API及執行SetPath()
-			let elem = document.querySelector("#list").addEventListener("change", function () {
-				console.log(this.options[this.selectedIndex].text);
-				ResetColor('1', 'white'); ResetColor('2', 'yellow'); ResetColor('3', 'red');
-				SetColor(this.selectedIndex);
-			});
+			ResetColor('1', 'white'); ResetColor('2', 'yellow'); ResetColor('3', 'red');
+			SetColor(1);SetColor(2);
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
 				//處理方位角
 				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
@@ -144,7 +130,7 @@
 		};
 		
 	//---用戶互動UI功能---
-		//針對用戶選擇導航的目標空間，提供對應的入口顏色、箭號、路線	
+		//針對有活動之空間，提供對應的入口顏色	
 		function ResetColor(floor, color){
 			let target_nF = document.querySelectorAll('a-entity.entrance.floor'+floor);
 			target_nF.forEach(function(x){
@@ -154,13 +140,7 @@
 		};
 		function SetColor(index){
 			let target = document.querySelectorAll('a-entity.entrance');
-			if (index > 0){ //有選擇空間的時候
-				target[index-1].setAttribute('material', 'color: blue; opacity: 1; transparent: true;');
-			}else{ //未選擇空間，重置所有entity透明度
-				target.forEach(function(x){
-					x.setAttribute('material', 'opacity: 1; transparent: true;'); 
-				});
-			}
+			target[index].setAttribute('material', 'color: blue; opacity: 1; transparent: true;');
 		};
 		
 	</script>
