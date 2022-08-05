@@ -68,8 +68,8 @@
 		let plane = {coords:{longitude: 120.2202420, latitude: 22.9986822, altitude: 31.634}};
 		
 		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
-		const MyApiURL = "https://3bb7-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
-		const MyApiURL2 = "https://3bb7-140-116-47-130.ngrok.io/gipsense/TrackAPI-2.php";
+		const MyApiURL = "https://502a-140-116-47-130.ngrok.io/gipsense/TrackAPI.php"; //80 port: ngrok http 80
+		const MyApiURL2 = "https://502a-140-116-47-130.ngrok.io/gipsense/TrackAPI-2.php";
 		jQuery(document).ready(function(){
 			window.addEventListener('deviceorientation', function(event) { //get azimuth
 				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
