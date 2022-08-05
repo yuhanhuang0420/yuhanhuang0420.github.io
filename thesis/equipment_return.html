@@ -87,7 +87,8 @@
 						let position = {coords:{latitude: data.y, longitude: data.x, altitude: userHeight}}; //用戶即時位置座標
 						let EQUpoint = {x: data2.x, y: data2.y}; //設備即時平面位置座標
 						let EQUposition = {coords:{latitude: data2.y, longitude: data2.x, altitude: height}}; //設備即時位置座標
-						SetLocation("text", position, EQUposition, theta_rad);SetLocation("entity", position, EQUposition, theta_rad);
+						SetLocation("text", position, EQUposition, theta_rad, "equipment");SetLocation("entity", position, EQUposition, theta_rad, "equipment");
+						SetLocation("entity", position, plane, theta_rad, "area");
 						CheckViewshed(point, EQUpoint, viewshed_area);
 						SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
 					});
@@ -99,7 +100,8 @@
 							let position = {coords:{latitude: data.y, longitude: data.x, altitude: userHeight}}; //用戶即時位置座標
 							let EQUpoint = {x: data2.x, y: data2.y}; //設備即時平面位置座標
 							let EQUposition = {coords:{latitude: data2.y, longitude: data2.x, altitude: height}}; //設備即時位置座標
-							SetLocation("text", position, EQUposition, theta_rad);SetLocation("entity", position, EQUposition, theta_rad);
+							SetLocation("text", position, EQUposition, theta_rad, "equipment");SetLocation("entity", position, EQUposition, theta_rad, "equipment");
+							SetLocation("entity", position, plane, theta_rad, "area");
 							CheckViewshed(point, EQUpoint, viewshed_area);
 							SetOpacityValue("text", viewshed_list, viewshedornot);SetOpacityValue("entity", viewshed_list, viewshedornot);
 						});
