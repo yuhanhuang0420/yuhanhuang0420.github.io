@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<title>scale and rotation test</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+</head>
+
+<body style="margin: 0px; overflow: hidden;">
+	<a-scene embedded vr-mode-ui="enabled: false" arjs="sourceType: webcam; debugUIEnabled: false;">
+		<a-entity class="area" geometry="primitive: box; width: 0.4; height: 0.01; depth: 0.4" material="color: red; opacity: 0.3;" position="0 1.1 0"></a-entity>
+		<!--<a-entity class="cylinder" gltf-model="../assets/minicylinder.gltf" scale="1 1 1" rotation="90 0 0" position="0 -1 0"></a-entity>-->
+		<a-camera rotation-reader></a-camera>
+	</a-scene>
+	
+	<script type="module">
+		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
+        	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
+		
+	//---全域變數---
+		//AR內容位置
+		let cylinderLocation = [{"x": 120.220043,"y": 22.998654,"z": 27.11}];
+		
+	//---主要功能: 取得姿態、位置等參數控制AR內容渲染狀況---
+		//watch position for indoor (每一秒呼叫一次後端API，從GIPS server獲取最新一筆定位軌跡，存入物件position)
+		jQuery(document).ready(function(){
+			window.addEventListener('deviceorientation', function(event) { //get azimuth
+				let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
+				if (head == undefined){ head = 0; } //無羅盤資料則預設朝向正北
+				let theta = -(head-180-90); //N軸轉向手機x軸向(朝右)的逆時針角度
+				let theta_rad = theta * Math.PI /180; //換成弧度
+				//document.querySelector('a-entity.cylinder').setAttribute('rotation','90 0 0'); //確定管線模型旋轉角
+				let position = {coords:{longitude: 120.220043, latitude: 22.998654, altitude: 28.11}}; //用戶即時位置座標
+				//SetLocation("entity", theta_rad, position, cylinderLocation, "cylinder");
+			}, {once: true}); //取得網頁就緒當下之方位角，且不隨每次的位置更新重複執行
+		});
+				
+		//設定各模型相對於所在即時位置的高及位置
+		function SetLocation(type, degree, position, ancpos, classtype){ //type: 實體類型, degree: 啟動時裝置方位角, position: 用戶位置座標, ancpos: 基站座標
+			let target = document.querySelectorAll('a-'+type+'.'+classtype);
+			if (target.length!=0 && ancpos.length!=0){
+				for(let j=0; j<ancpos.length; j++){ 
+					let H = ancpos[j].z - position.coords.altitude;
+					let user = new LatLon(position.coords.latitude, position.coords.longitude);
+					let E = new LatLon(position.coords.latitude, ancpos[j].x).distanceTo(user);
+					let N = new LatLon(ancpos[j].y, position.coords.longitude).distanceTo(user);
+					if (ancpos[j].x-position.coords.longitude < 0){ E = -E;}
+					if (ancpos[j].y-position.coords.latitude < 0){ N = -N;}
+					if (classtype=="anchorID"){
+						target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
+						H = ancpos[j].z - 0.5 - position.coords.altitude;
+					}else if (type=="text"){
+						target[j].setAttribute("look-at", {x: 0, y: 0, z: 0});
+						H = ancpos[j].z + 0.5 - position.coords.altitude;
+					}
+					let z = Math.cos(degree)*E + Math.sin(degree)*N;
+					let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
+
+					let target_att = document.createAttribute('position');
+					target_att.value = x+" "+H+" "+z;
+					target[j].setAttributeNode(target_att);
+				}
+			}
+		};
+	</script>
+</body>
+</html>
