@@ -94,17 +94,17 @@
 		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
         	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
 		var data = [
-    {“Time”: “2022–06–10 12:00”, “Volume”: 2},
-    {“Time”: “2020–06–11 12:00”, “Volume”: 1},
-    {“Time”: “2020–06–12 12:00”, “Volume”: 3},
-    {“Time”: “2020–06–13 12:00”, “Volume”: 3},
-    {“Time”: “2020–06–14 12:00”, “Volume”: 3}];
+    {"Time": "2022–06–10 12:00", "Volume": 2},
+    {"Time": "2020–06–11 12:00", "Volume": 1},
+    {"Time": "2020–06–12 12:00", "Volume": 3},
+    {"Time": "2020–06–13 12:00", "Volume": 3},
+    {"Time": "2020–06–14 12:00", "Volume": 3}];
 
-  var ctx = document.getElementById(‘myChart’).getContext(‘2d’);
+  var ctx = document.getElementById('myChart').getContext('2d');
   var chart = new Chart(ctx, {
-    type: ‘line’,
+    type: 'line',
     data: {
-      labels: data.map(x=>x.Time.slice(11,16)),
+      labels: data.map(x=>x.Time.slice(6,16)),
       datasets: [{
         label: '訊號強度',
         data: data.map(x=>x.Volume),
