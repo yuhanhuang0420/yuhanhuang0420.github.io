@@ -298,13 +298,21 @@
 				if (this.checked) {
 					console.log("Checkbox2 is checked..");
 					document.querySelector("#myChart").setAttribute('style', 'display; position:absolute; bottom:100px; left:0px; background:#ffffff; opacity:0.75;');
-					document.querySelector("#myChart").setAttribute('width', '390px');
-					document.querySelector("#myChart").setAttribute('height', '180px');
+					let target_att = document.createAttribute('width');
+					target_att.value = "390px";
+					document.querySelector("#myChart").setAttributeNode(target_att);
+					let target_h = document.createAttribute('height');
+					target_h.value = "180px";
+					document.querySelector("#myChart").setAttributeNode(target_h);
 				} else {
 					console.log("Checkbox2 is not checked..");
 					document.querySelector("#myChart").setAttribute('style', 'display: none; position:absolute; bottom:100px; left:0px; background:#ffffff; opacity:0.75;');
-					document.querySelector("#myChart").setAttribute('width', '390px');
-					document.querySelector("#myChart").setAttribute('height', '180px');
+					let target_att = document.createAttribute('width');
+					target_att.value = "390px";
+					document.querySelector("#myChart").setAttributeNode(target_att);
+					let target_h = document.createAttribute('height');
+					target_h.value = "180px";
+					document.querySelector("#myChart").setAttributeNode(target_h);
 				}
 			});
 			
