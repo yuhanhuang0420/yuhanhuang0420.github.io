@@ -188,6 +188,7 @@
 				SetLocation("text", theta_rad, position, entrancePosition, "entrance");
 				SetLocation("entity", theta_rad, position, entrancePosition, "entrance");
 				ShowDistance(theta_rad, position, anchorPosition);
+				PlotChart(shortestAnchor);
 				/*setInterval(function() { //定時讀取軌跡中下一筆資料，並且重設模型位置
 					i++; console.log("i: "+i); if (i == track.length){ i = 0; };
 					point = {x: track[i].x, y: track[i].y}; //用戶即時平面位置座標(判斷within使用)
@@ -308,7 +309,6 @@
 					if (this.checked) {
 						console.log(event.target.value);
 						ChangeEntityColor(event.target.value);
-						PlotChart(shortestAnchor);
 					}
 				});
 			});
@@ -363,11 +363,12 @@
 			else if(anchor==11){ volume=[3,3,3,3,3]; }
 			else if(anchor==12){ volume=[3,3,3,3,3]; }
 			else if(anchor==13){ volume=[3,3,3,3,3]; }
-			var data = [{"Time": "2022–06–10 12:00", "Volume": volume[0]},
-				    {"Time": "2020–06–11 12:00", "Volume": volume[1]},
-				    {"Time": "2020–06–12 12:00", "Volume": volume[2]},
-				    {"Time": "2020–06–13 12:00", "Volume": volume[3]},
-				    {"Time": "2020–06–14 12:00", "Volume": volume[4]}];
+			console.log(anchor);console.log(volume); //volume[0]
+			var data = [{"Time": "2022–06–10 12:00", "Volume": 1},
+				    {"Time": "2020–06–11 12:00", "Volume": 1},
+				    {"Time": "2020–06–12 12:00", "Volume": 2},
+				    {"Time": "2020–06–13 12:00", "Volume": 3},
+				    {"Time": "2020–06–14 12:00", "Volume": 3}];
 
 			var ctx = document.getElementById('myChart').getContext('2d');
 			var chart = new Chart(ctx, {
