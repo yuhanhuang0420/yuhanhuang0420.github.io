@@ -297,10 +297,10 @@
 			checkbox2.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox2 is checked..");
-					document.querySelector("#myChart").setAttribute('style', 'display;');
+					document.querySelector("#myChart").setAttribute('style', 'display; position:absolute; bottom:100px; left:0px; background:#ffffff; opacity:0.75;');
 				} else {
 					console.log("Checkbox2 is not checked..");
-					document.querySelector("#myChart").setAttribute('style', 'display: none;');
+					document.querySelector("#myChart").setAttribute('style', 'display: none; position:absolute; bottom:100px; left:0px; background:#ffffff; opacity:0.75;');
 				}
 			});
 			
