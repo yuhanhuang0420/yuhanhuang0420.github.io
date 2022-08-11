@@ -21,8 +21,8 @@
 		#myChart{
 			margin: auto;
 			margin-top: 50px;
-			/* background: #f9e498;
-			display: block; */
+			/* background: #f9e498; */
+			display: block;
 		}
 	</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -62,7 +62,7 @@
 	</div>
 	<div class="switchtag" style="top:40px;">PLOT</div>
 	<div class="onoffswitch" style="top:40px;">
-		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch2" tabindex="0">
+		<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch2" tabindex="0" checked>
 		<label class="onoffswitch-label" for="myonoffswitch2"></label>
 	</div>
 	
@@ -297,7 +297,7 @@
 			checkbox2.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox2 is checked..");
-					document.querySelector("#myChart").setAttribute('style', 'display: block;');
+					//document.querySelector("#myChart").setAttribute('style', 'display: block;');
 					/*let target_att = document.createAttribute('width');
 					target_att.value = "390px";
 					document.querySelector("#myChart").setAttributeNode(target_att);
@@ -306,7 +306,7 @@
 					document.querySelector("#myChart").setAttributeNode(target_h);*/
 				} else {
 					console.log("Checkbox2 is not checked..");
-					document.querySelector("#myChart").setAttribute('style', 'display: none;');
+					//document.querySelector("#myChart").setAttribute('style', 'display: none;');
 					/*let target_att = document.createAttribute('width');
 					target_att.value = "390px";
 					document.querySelector("#myChart").setAttributeNode(target_att);
