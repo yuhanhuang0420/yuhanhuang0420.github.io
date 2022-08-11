@@ -298,9 +298,13 @@
 				if (this.checked) {
 					console.log("Checkbox2 is checked..");
 					document.querySelector("#myChart").setAttribute('style', 'display; position:absolute; bottom:100px; left:0px; background:#ffffff; opacity:0.75;');
+					document.querySelector("#myChart").setAttribute('width', '390px');
+					document.querySelector("#myChart").setAttribute('height', '180px');
 				} else {
 					console.log("Checkbox2 is not checked..");
 					document.querySelector("#myChart").setAttribute('style', 'display: none; position:absolute; bottom:100px; left:0px; background:#ffffff; opacity:0.75;');
+					document.querySelector("#myChart").setAttribute('width', '390px');
+					document.querySelector("#myChart").setAttribute('height', '180px');
 				}
 			});
 			
@@ -364,9 +368,9 @@
 			else if(anchor==12){ volume=[3,3,3,3,3]; }
 			else if(anchor==13){ volume=[3,3,3,3,3]; }
 			console.log(anchor);console.log(volume); //volume[0]
-			var data = [{"Time": "2022–06–10 12:00", "Volume": 1},
+			var data = [{"Time": "2022–06–10 12:00", "Volume": 2},
 				    {"Time": "2020–06–11 12:00", "Volume": 1},
-				    {"Time": "2020–06–12 12:00", "Volume": 2},
+				    {"Time": "2020–06–12 12:00", "Volume": 3},
 				    {"Time": "2020–06–13 12:00", "Volume": 3},
 				    {"Time": "2020–06–14 12:00", "Volume": 3}];
 
