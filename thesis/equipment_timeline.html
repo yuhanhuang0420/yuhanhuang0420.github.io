@@ -21,8 +21,8 @@
 		#myChart{
 			margin: auto;
 			margin-top: 50px;
-			/* background: #f9e498; */
-			display: block;
+			/* background: #f9e498;
+			display: block; */
 		}
 	</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -94,7 +94,7 @@
 		</div>
 	</div>
 
-	<canvas id="myChart" width="390px" height="180px" style="position:absolute; bottom:100px; left:0px; background:#ffffff; opacity:0.75; display:none;"></canvas>
+	<canvas id="myChart" width="390px" height="180px"></canvas>
 	<script type="module">
 		import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
         	//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
@@ -297,22 +297,22 @@
 			checkbox2.addEventListener('change', function() {
 				if (this.checked) {
 					console.log("Checkbox2 is checked..");
-					document.querySelector("#myChart").setAttribute('style', 'display; position:absolute; bottom:100px; left:0px; background:#ffffff; opacity:0.75;');
-					let target_att = document.createAttribute('width');
+					document.querySelector("#myChart").setAttribute('style', 'display: block;');
+					/*let target_att = document.createAttribute('width');
 					target_att.value = "390px";
 					document.querySelector("#myChart").setAttributeNode(target_att);
 					let target_h = document.createAttribute('height');
 					target_h.value = "180px";
-					document.querySelector("#myChart").setAttributeNode(target_h);
+					document.querySelector("#myChart").setAttributeNode(target_h);*/
 				} else {
 					console.log("Checkbox2 is not checked..");
-					document.querySelector("#myChart").setAttribute('style', 'display: none; position:absolute; bottom:100px; left:0px; background:#ffffff; opacity:0.75;');
-					let target_att = document.createAttribute('width');
+					document.querySelector("#myChart").setAttribute('style', 'display: none;');
+					/*let target_att = document.createAttribute('width');
 					target_att.value = "390px";
 					document.querySelector("#myChart").setAttributeNode(target_att);
 					let target_h = document.createAttribute('height');
 					target_h.value = "180px";
-					document.querySelector("#myChart").setAttributeNode(target_h);
+					document.querySelector("#myChart").setAttributeNode(target_h);*/
 				}
 			});
 			
