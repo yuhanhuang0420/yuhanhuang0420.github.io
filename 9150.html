@@ -29,10 +29,33 @@
 						lat[i] = data[i].Lat;
 						lon[i] = data[i].Long;
 					};
-					console.log("data:"+data[0].Name);
 				});
 			});
-			console.log("name:"+name[0]);
+			//新增與DB資料筆數相符數量的entity, text(包含文字內容)
+			function AddEntity(length, data, lat, lon){ //length:新增的數量, data:新增的內容
+				let opacity = 0.5; //(預設開啟)
+				if (showDBdataornot == false){ opacity = 0; };
+				for(let j=0; j<length; j++){
+					let newEntity = document.createElement('a-entity');
+					newEntity.setAttribute('class','CP');
+					newEntity.setAttribute('gltf-model','./assets/pin_yellow.gltf');
+					newEntity.setAttribute('gps-entity-place','latitude:'+lat+'; longitude:'+lon+';');
+					let reference = document.querySelectorAll('a-entity');
+					let referenceNode = reference[reference.length-pointData.length-2];
+					document.querySelector('a-scene').insertBefore(newEntity, referenceNode); //確保entity新增在AR.js環境設定entity之前
+
+					let newText = document.createElement('a-text');
+					newText.setAttribute('class','DB');
+					newText.setAttribute('align', 'center');
+					newText.setAttribute('scale', '1.5 1.5 1.5');
+					newText.setAttribute('color', 'white');
+					newText.setAttribute('opacity', opacity);
+					newText.setAttribute('value', data[j].info);
+					console.log("show: " + data[j].info);
+
+					document.querySelector('a-scene').insertBefore(newText, referenceNode); //確保新增在AR.js環境設定entity之前
+				}
+			}
 		</script>
 			
 	</body>
