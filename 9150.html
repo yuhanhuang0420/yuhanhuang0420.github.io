@@ -42,7 +42,7 @@
 					newEntity.setAttribute('gltf-model','./assets/pin_yellow.gltf');
 					newEntity.setAttribute('gps-entity-place','latitude:'+lat+'; longitude:'+lon+';');
 					let reference = document.querySelectorAll('a-entity');
-					let referenceNode = reference[reference.length-pointData.length-2];
+					let referenceNode = reference[reference.length-2];
 					document.querySelector('a-scene').insertBefore(newEntity, referenceNode); //確保entity新增在AR.js環境設定entity之前
 
 					let newText = document.createElement('a-text');
