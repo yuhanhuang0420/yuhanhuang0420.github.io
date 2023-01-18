@@ -24,11 +24,12 @@
 			jQuery(document).ready(function(){ 
 				$.getJSON( "9150.json", function( data ) {
 					dataLength = data.length;
-					for(i=0; i<dataLength; i++){
+					for(i=0; i<10; i++){//dataLength
 						name[i] = data[i].Name;
 						lat[i] = data[i].Lat;
 						lon[i] = data[i].Long;
 						AddEntity(length, name[i], lat[i], lon[i]);
+						console.log("show: " + name);
 					};
 				});
 			});
