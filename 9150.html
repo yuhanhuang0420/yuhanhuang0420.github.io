@@ -46,11 +46,11 @@
 					document.querySelector('a-scene').insertBefore(newEntity, referenceNode); //確保entity新增在AR.js環境設定entity之前
 
 					let newText = document.createElement('a-text');
-					newText.setAttribute('class','DB');
+					newText.setAttribute('class','CP');
 					newText.setAttribute('align', 'center');
 					newText.setAttribute('scale', '1.5 1.5 1.5');
 					newText.setAttribute('color', 'white');
-					newText.setAttribute('opacity', opacity);
+					newText.setAttribute('opacity', 0.8);
 					newText.setAttribute('value', name);
 					console.log("show: " + name);
 
