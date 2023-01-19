@@ -50,9 +50,10 @@
 					newText.setAttribute('class','CP');
 					newText.setAttribute('align', 'center');
 					newText.setAttribute('scale', '1.5 1.5 1.5');
-					newText.setAttribute('color', 'white');
+					newText.setAttribute('color', 'yellow');
 					newText.setAttribute('opacity', '0.8');
 					newText.setAttribute('value', name);
+					newText.setAttribute('look-at', '[gps-camera]');
 					console.log("show: " + name);
 
 					document.querySelector('a-scene').insertBefore(newText, referenceNode); //確保新增在AR.js環境設定entity之前
