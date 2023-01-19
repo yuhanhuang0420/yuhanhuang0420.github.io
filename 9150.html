@@ -22,9 +22,9 @@
 			var i = 0;
 			var name = [], lat = [], lon = [];
 			jQuery(document).ready(function(){ 
-				$.getJSON( "9150.json", function( data ) {
+				$.getJSON( "9177.json", function( data ) {
 					dataLength = data.length;
-					for(i=0; i<10; i++){//dataLength
+					for(i=0; i<dataLength; i++){//dataLength
 						name[i] = data[i].Name;
 						lat[i] = data[i].Lat;
 						lon[i] = data[i].Long;
