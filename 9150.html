@@ -16,6 +16,10 @@
 			<a-entity scale="1 1 1"	gltf-model="./assets/pin_yellow.gltf" gps-entity-place="latitude: 23.016261; longitude: 120.261303;"></a-entity>-->
 			<a-camera gps-camera rotation-reader> </a-camera>
 		</a-scene>
+		
+		<select id="list" style="position: absolute; top: 0px; left: 0px; z-index: 10;">
+			<option class="drop-down">--Please select--</option>
+		</select>
 
 		<script>
 			jQuery(document).ready(function(){ 
@@ -26,11 +30,15 @@
 						//console.log("show: " + data[i].Name);
 					};
 				});
+				let elem = document.querySelector("#list").addEventListener("change", function () {
+				console.log(this.options[this.selectedIndex].text);
 			});
-			//新增entity, text(包含文字內容)
+			//新增entity, text(包含文字內容)及新增下拉式選項
 			function AddEntity(length, name, lat, lon){ //length:新增的數量, data:新增的內容
 				let reference = document.querySelectorAll('a-entity');
 				let referenceNode = reference[reference.length-2];
+				let reference2 = document.querySelectorAll('a-entity');
+				let referenceNode2 = reference[reference.length-2];
 				
 				let newEntity = document.createElement('a-entity');
 				newEntity.setAttribute('class','CP');
@@ -47,6 +55,11 @@
 				newText.setAttribute('look-at', '[gps-camera]');
 				newText.setAttribute('gps-entity-place','latitude:'+lat+'; longitude:'+lon+';');
 				document.querySelector('a-scene').insertBefore(newText, referenceNode); //確保新增在AR.js環境設定entity之前
+				
+				let newOption = document.createElement('option');
+				newOption.setAttribute('class','drop-down');
+				newOption.textContent = name;
+				document.querySelector('select').appendChild(newOption); //確保新增在AR.js環境設定entity之前
 			}
 		</script>
 			
