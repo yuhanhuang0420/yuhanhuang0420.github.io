@@ -39,8 +39,7 @@
 							let elem = document.querySelector("#list").addEventListener("change", function () {
 								console.log(this.options[this.selectedIndex].text);
 								Guide(theta_rad, position, {"x": data[this.selectedIndex+1].Long,"y": data[this.selectedIndex+1].Lat});
-							}):
-						
+							});
 						});
 					});
 				});
