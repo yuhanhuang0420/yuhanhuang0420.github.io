@@ -37,8 +37,6 @@
 			function AddEntity(length, name, lat, lon){ //length:新增的數量, data:新增的內容
 				let reference = document.querySelectorAll('a-entity');
 				let referenceNode = reference[reference.length-2];
-				let reference2 = document.querySelectorAll('a-entity');
-				let referenceNode2 = reference[reference.length-2];
 				
 				let newEntity = document.createElement('a-entity');
 				newEntity.setAttribute('class','CP');
@@ -62,7 +60,7 @@
 				var newContent = document.createTextNode(name);
 				newOption.appendChild(newContent);
 				document.querySelector('#list').appendChild(newOption);
-			}
+			};
 		</script>
 			
 	</body>
