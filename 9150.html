@@ -22,7 +22,10 @@
 			<option class="drop-down">--Please select--</option>
 		</select>
 
-		<script>
+		<script type="module">
+			import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
+			//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
+			
 			jQuery(document).ready(function(){ 
 				$.getJSON( "9177.json", function( data ) {
 					let dataLength = data.length;
