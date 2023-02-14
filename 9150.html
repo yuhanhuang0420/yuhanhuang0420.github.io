@@ -14,6 +14,7 @@
 		<a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
 			<!--<a-entity scale="1 1 1" gltf-model="./assets/pin_yellow.gltf" gps-entity-place="latitude: 23.021935; longitude: 120.232394;"></a-entity>
 			<a-entity scale="1 1 1"	gltf-model="./assets/pin_yellow.gltf" gps-entity-place="latitude: 23.016261; longitude: 120.261303;"></a-entity>-->
+			<a-entity class="arrow"></a-entity>
 			<a-camera gps-camera rotation-reader> </a-camera>
 		</a-scene>
 		
@@ -27,11 +28,23 @@
 					let dataLength = data.length;
 					for(let i=0; i<dataLength; i++){
 						AddEntity(dataLength, data[i].Name, data[i].Lat, data[i].Long);
-						//console.log("show: " + data[i].Name);
 					};
+					navigator.geolocation.getCurrentPosition(function(position) {
+						window.addEventListener('deviceorientation', function(event) { //get azimuth
+							//處理方位角
+							let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
+							if (head == undefined){ head = 0; } //無羅盤資料則預設朝向正北
+							let theta = -(head-180-90); //N軸轉向手機x軸向(朝右)的逆時針角度
+							let theta_rad = theta * Math.PI /180; //換成弧度
+							let elem = document.querySelector("#list").addEventListener("change", function () {
+								console.log(this.options[this.selectedIndex].text);
+								Guide(theta_rad, position, {"x": data[this.selectedIndex+1].Long,"y": data[this.selectedIndex+1].Lat});
+							}):
+						
+						});
+					});
 				});
-				//let elem = document.querySelector("#list").addEventListener("change", function () {
-				//console.log(this.options[this.selectedIndex].text);
+				
 			});
 			//新增entity, text(包含文字內容)及新增下拉式選項
 			function AddEntity(length, name, lat, lon){ //length:新增的數量, data:新增的內容
@@ -60,6 +73,33 @@
 				let newContent = document.createTextNode(name);
 				newOption.appendChild(newContent);
 				document.querySelector('#list').appendChild(newOption);
+			};
+			
+			//計算指標方向及位置渲染
+			function Guide(degree, position, tarpos){ //degree: NEH系統及xyz系統間平面旋轉角, position: 用戶當前絕對座標, tarpos: 目標位置絕對座標
+				let arrowEntity = document.querySelector('a-entity.arrow');
+				if(tarpos == 0){
+					arrowEntity.removeAttribute("gltf-model");
+				}else if(tarpos != ''){
+					//console.log(typeof tarpos);console.log(tarpos);
+					let user = new LatLon(position.coords.latitude, position.coords.longitude);
+					let E = new LatLon(position.coords.latitude, tarpos.x).distanceTo(user);
+					let N = new LatLon(tarpos.y, position.coords.longitude).distanceTo(user);
+					if (tarpos.x-position.coords.longitude < 0){ E = -E;}
+					if (tarpos.y-position.coords.latitude < 0){ N = -N;}
+					let z = Math.cos(degree)*E + Math.sin(degree)*N;
+					let x = Math.cos(degree)*N - Math.sin(degree)*E; //換算至手機相機局部坐標系中(公尺)
+					let rotation = (Math.atan2(x, z)*180/Math.PI)+270; //求得指向目標位置的手機相機局部坐標系下旋轉角(度)
+					let arrowz = 1.5*Math.cos((rotation-270)*Math.PI /180);
+					let arrowx = 1.5*Math.sin((rotation-270)*Math.PI /180); //沿目標方向向前1.5公尺
+
+					arrowEntity.setAttribute('gltf-model','./assets/arrow/scene.gltf');
+					arrowEntity.setAttribute('scale','1 1 1');
+					arrowEntity.setAttribute('rotation','90 '+rotation+' 0');
+					let target_att = document.createAttribute('position');
+					target_att.value = arrowx+" 0 "+arrowz;
+					arrowEntity.setAttributeNode(target_att);
+				}
 			};
 		</script>
 			
