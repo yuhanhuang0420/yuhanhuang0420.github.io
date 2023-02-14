@@ -58,7 +58,9 @@
 				
 				let newOption = document.createElement('option');
 				newOption.setAttribute('class','drop-down');
-				newOption.textContent = name;
+				//newOption.textContent = name;
+				var newContent = document.createTextNode(name);
+				newOption.appendChild(newContent);
 				document.querySelector('#list').appendChild(newOption);
 			}
 		</script>
