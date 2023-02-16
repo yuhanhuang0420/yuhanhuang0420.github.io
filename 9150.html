@@ -36,13 +36,17 @@
 					navigator.geolocation.getCurrentPosition(function(position) {
 						$.getJSON( "9177.json", function( data ) {
 							let dataLength = data.length;
+							let NameArr[i];
 							for(let i=0; i<dataLength; i++){
 								AddEntity(dataLength, data[i].Name, data[i].Lat, data[i].Long);
+								NameArr[i] = data[i].Name;
 							};
 							let elem = document.querySelector("#list").addEventListener("change", function () {
 								console.log(this.options[this.selectedIndex].text);
 								console.log(data[this.selectedIndex-1].Name);
 								Guide(theta_rad, position, {"x": data[this.selectedIndex-1].Long,"y": data[this.selectedIndex-1].Lat});
+								let tar = linearSearch(NameArr, data[this.selectedIndex-1].Name);
+								console.log(tar);
 							});
 						});
 					});
@@ -104,6 +108,16 @@
 					arrowEntity.setAttributeNode(target_att);
 				}
 			};
+			
+			function linearSearch(arr, target) {
+				const n = arr.length;
+				for (let index = 0; index < n; index++) {
+					if (target === arr[index]) {
+						return index;
+					}
+				}
+				return -1;
+			}
 		</script>
 			
 	</body>
