@@ -27,18 +27,18 @@
 			//用法: const d = new LatLon(22.9987062, 120.2199947).distanceTo(new LatLon(23.9987062, 120.2199947));
 			
 			jQuery(document).ready(function(){ 
-				$.getJSON( "9177.json", function( data ) {
-					let dataLength = data.length;
-					for(let i=0; i<dataLength; i++){
-						AddEntity(dataLength, data[i].Name, data[i].Lat, data[i].Long);
-					};
+				window.addEventListener('deviceorientation', function(event) { //get azimuth	
+					//處理方位角
+					let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
+					if (head == undefined){ head = 0; } //無羅盤資料則預設朝向正北
+					let theta = -(head-180-90); //N軸轉向手機x軸向(朝右)的逆時針角度
+					let theta_rad = theta * Math.PI /180; //換成弧度
 					navigator.geolocation.getCurrentPosition(function(position) {
-						window.addEventListener('deviceorientation', function(event) { //get azimuth
-							//處理方位角
-							let head = event.webkitCompassHeading; //獲取羅盤資料(iOS限定) //手機-z軸向(朝前)相對於N軸向之順時針角度
-							if (head == undefined){ head = 0; } //無羅盤資料則預設朝向正北
-							let theta = -(head-180-90); //N軸轉向手機x軸向(朝右)的逆時針角度
-							let theta_rad = theta * Math.PI /180; //換成弧度
+						$.getJSON( "9177.json", function( data ) {
+							let dataLength = data.length;
+							for(let i=0; i<dataLength; i++){
+								AddEntity(dataLength, data[i].Name, data[i].Lat, data[i].Long);
+							};
 							let elem = document.querySelector("#list").addEventListener("change", function () {
 								console.log(this.options[this.selectedIndex].text);
 								Guide(theta_rad, position, {"x": data[this.selectedIndex+1].Long,"y": data[this.selectedIndex+1].Lat});
