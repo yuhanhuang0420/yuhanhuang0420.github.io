@@ -36,7 +36,7 @@
 					navigator.geolocation.getCurrentPosition(function(position) {
 						$.getJSON( "9177.json", function( data ) {
 							let dataLength = data.length;
-							let NameArr;
+							let NameArr[];
 							for(let i=0; i<dataLength; i++){
 								AddEntity(dataLength, data[i].Name, data[i].Lat, data[i].Long);
 								NameArr[i] = data[i].Name;
