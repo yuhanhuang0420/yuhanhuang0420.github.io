@@ -21,6 +21,8 @@
 		<select id="list" style="position: absolute; top: 0px; left: 0px; z-index: 10;">
 			<option class="drop-down">--Please select--</option>
 		</select>
+		<input id="input" type="text" style="position: absolute; top: 0px; left: 30px; z-index: 10;"></input>
+		<button id="submit" type="button" style="position: absolute; top: 0px; left: 50px; z-index: 10;"></button>
 
 		<script type="module">
 			import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-ellipsoidal-vincenty.js'; //匯入橢球距離的計算工具程式
@@ -45,7 +47,10 @@
 								console.log(this.options[this.selectedIndex].text);
 								console.log(data[this.selectedIndex-1].Name);
 								Guide(theta_rad, position, {"x": data[this.selectedIndex-1].Long,"y": data[this.selectedIndex-1].Lat});
-								let tar = linearSearch(NameArr, data[this.selectedIndex-1].Name);
+							});
+							document.querySelector('#submit').addEventListener('click', function () {
+								let input = document.querySelector('#input');
+								let tar = linearSearch(NameArr, input.value);//data[this.selectedIndex-1].Name);
 								console.log(tar);
 							});
 						});
