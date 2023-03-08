@@ -52,6 +52,7 @@
 								let input = document.querySelector('#input');
 								let tar = linearSearch(NameArr, input.value);//data[this.selectedIndex-1].Name);
 								console.log(tar);
+								Guide(theta_rad, position, {"x": data[tar].Long,"y": data[tar].Lat});
 							});
 						});
 					});
